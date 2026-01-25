@@ -10,28 +10,31 @@
         :root {
             --primary: #ff6b6b;
             --secondary: #4ecdc4;
+            --accent: #667eea;
             --dark: #2d3436;
-            --glass: rgba(255, 255, 255, 0.98);
-            --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --neon-shadow: 0 0 20px rgba(255, 107, 107, 0.3);
+            --light: #f8f9fa;
+            --gray: #6c757d;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --danger: #e74c3c;
+            --shadow: 0 10px 40px rgba(0,0,0,0.1);
+            --radius: 20px;
         }
 
         * { 
             margin: 0; 
             padding: 0; 
             box-sizing: border-box; 
-            font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
         }
 
         body {
-            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-            background-size: 400% 400%;
-            animation: gradient 15s ease infinite;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             display: flex; 
             justify-content: center; 
             align-items: center; 
-            padding: 10px;
+            padding: 20px;
             position: relative;
             overflow: hidden;
         }
@@ -44,61 +47,71 @@
             width: 100%;
             height: 100%;
             background: 
-                radial-gradient(circle at 20% 80%, rgba(255, 107, 107, 0.1) 0%, transparent 40%),
-                radial-gradient(circle at 80% 20%, rgba(78, 205, 196, 0.1) 0%, transparent 40%),
-                radial-gradient(circle at 40% 40%, rgba(102, 126, 234, 0.1) 0%, transparent 40%);
-            pointer-events: none;
+                radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 90% 80%, rgba(0, 0, 0, 0.1) 0%, transparent 50%);
             z-index: -1;
         }
 
-        @keyframes gradient {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-        }
-
-        .container {
-            width: 100%; 
-            max-width: 500px; 
-            height: 92vh;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border-radius: 30px; 
-            display: flex; 
-            flex-direction: column;
+        /* Mobile App Container */
+        .app-container {
+            width: 100%;
+            max-width: 450px;
+            height: 90vh;
+            min-height: 700px;
+            background: white;
+            border-radius: var(--radius);
+            overflow: hidden;
             box-shadow: 
-                0 25px 50px rgba(0,0,0,0.15),
-                inset 0 1px 0 rgba(255,255,255,0.8),
-                var(--neon-shadow);
-            overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.3);
+                0 25px 50px rgba(0,0,0,0.2),
+                0 0 0 1px rgba(255,255,255,0.1);
+            display: flex;
+            flex-direction: column;
             position: relative;
         }
 
-        .header { 
+        /* Status Bar */
+        .status-bar {
+            height: 30px;
+            background: rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            font-size: 0.8rem;
+            color: var(--gray);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .time {
+            font-weight: 600;
+        }
+
+        .status-icons {
+            display: flex;
+            gap: 10px;
+        }
+
+        /* App Header */
+        .app-header {
+            padding: 20px;
             background: linear-gradient(135deg, var(--primary), #ff8e8e);
-            padding: 20px; 
-            text-align: center; 
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: white;
             position: relative;
             overflow: hidden;
-            z-index: 1;
         }
 
-        .header::before {
+        .app-header::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
-            bottom: 0;
+            height: 100%;
             background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
-            animation: shimmer 3s infinite linear;
-            z-index: -1;
+            animation: shimmer 3s infinite;
         }
 
         @keyframes shimmer {
@@ -106,63 +119,111 @@
             100% { transform: translateX(100%); }
         }
 
-        .logo-container {
-            width: 70px;
-            height: 70px;
+        .menu-toggle {
+            width: 45px;
+            height: 45px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .menu-toggle:hover {
+            background: rgba(255,255,255,0.3);
+            transform: scale(1.05);
+        }
+
+        .menu-toggle i {
+            font-size: 1.2rem;
+        }
+
+        .app-info {
+            flex: 1;
+        }
+
+        .app-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 3px;
+        }
+
+        .app-subtitle {
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+
+        .user-avatar {
+            width: 45px;
+            height: 45px;
             background: white;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            animation: float 3s ease-in-out infinite;
-            border: 3px solid var(--secondary);
-        }
-
-        .logo-container img {
-            width: 40px;
-            height: 40px;
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
-        }
-
-        .header h1 {
-            font-size: 1.5rem; 
-            color: white; 
-            margin-bottom: 5px;
             font-weight: 700;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
-            letter-spacing: 0.5px;
+            color: var(--primary);
+            cursor: pointer;
+            border: 2px solid rgba(255,255,255,0.3);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
 
-        .header p {
-            font-size: 0.8rem; 
-            color: rgba(255,255,255,0.9);
-            font-weight: 500;
+        /* Main Content Area - Biger Chat Space */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            background: var(--light);
         }
 
-        .header .badge {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: rgba(255,255,255,0.2);
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 0.7rem;
-            color: white;
-            backdrop-filter: blur(10px);
+        /* Welcome Banner */
+        .welcome-banner {
+            padding: 20px;
+            background: white;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            animation: slideDown 0.5s ease;
         }
 
-        .chat-container { 
-            flex: 1; 
-            overflow-y: auto; 
-            padding: 20px; 
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .welcome-text {
+            font-size: 0.9rem;
+            color: var(--gray);
+            text-align: center;
+            line-height: 1.5;
+        }
+
+        .welcome-text span {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* Chat Container - Made Bigger */
+        .chat-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
             scroll-behavior: smooth;
             background: 
                 linear-gradient(180deg, 
-                    rgba(248, 249, 250, 0.8) 0%, 
-                    rgba(255, 255, 255, 0.9) 100%);
+                    rgba(248, 249, 250, 0.95) 0%, 
+                    rgba(255, 255, 255, 0.98) 100%);
             position: relative;
+            min-height: 400px;
         }
 
         .chat-container::-webkit-scrollbar {
@@ -178,215 +239,91 @@
             border-radius: 10px;
         }
 
-        .message { 
-            margin-bottom: 20px; 
-            display: flex; 
-            flex-direction: column; 
-            animation: slideIn 0.4s cubic-bezier(0.18, 0.89, 0.32, 1.28); 
-            position: relative;
-        }
-
-        @keyframes slideIn {
-            from { 
-                opacity: 0; 
-                transform: translateY(20px) scale(0.95); 
-            }
-            to { 
-                opacity: 1; 
-                transform: translateY(0) scale(1); 
-            }
-        }
-
-        .message::before {
-            content: '';
-            position: absolute;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
+        /* Messages */
+        .message {
+            margin-bottom: 20px;
             display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Font Awesome 6 Free';
-            font-weight: 900;
-            font-size: 0.9rem;
-            color: white;
-            z-index: 2;
+            flex-direction: column;
+            animation: messageAppear 0.4s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+            max-width: 100%;
         }
 
-        .user::before {
-            content: '👤';
-            right: -35px;
-            top: 0;
-            background: var(--primary);
+        @keyframes messageAppear {
+            from {
+                opacity: 0;
+                transform: translateY(20px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
         }
 
-        .assistant::before {
-            content: '🤖';
-            left: -35px;
-            top: 0;
-            background: var(--secondary);
-        }
-
-        .message-content { 
-            padding: 16px 20px; 
-            border-radius: 24px; 
-            max-width: 85%; 
-            font-size: 0.95rem; 
-            line-height: 1.5; 
-            box-shadow: 
-                0 4px 15px rgba(0,0,0,0.08),
-                0 1px 0 rgba(0,0,0,0.02);
+        .message-content {
+            padding: 16px 20px;
+            border-radius: 24px;
+            font-size: 1rem;
+            line-height: 1.5;
+            word-wrap: break-word;
+            max-width: 90%;
             position: relative;
-            backdrop-filter: blur(10px);
-            word-break: break-word;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            min-width: 60px;
         }
 
-        .message-content a { 
-            color: #667eea; 
-            text-decoration: none; 
-            font-weight: 600;
-            border-bottom: 2px dotted #667eea;
-            transition: all 0.3s;
+        /* User Message */
+        .message.user {
+            align-items: flex-end;
         }
 
-        .message-content a:hover {
-            color: #764ba2;
-            border-bottom-style: solid;
-        }
-
-        .message-content code { 
-            background: rgba(0,0,0,0.05); 
-            padding: 2px 8px; 
-            border-radius: 6px; 
-            font-family: 'Courier New', monospace; 
-            font-size: 0.85em;
-            color: #e74c3c;
-            font-weight: 600;
-        }
-
-        .user { align-items: flex-end; }
-        .user .message-content { 
+        .message.user .message-content {
             background: linear-gradient(135deg, var(--primary), #ff8e8e);
-            color: white; 
+            color: white;
             border-bottom-right-radius: 8px;
-            border-top-right-radius: 8px;
             border-top-left-radius: 24px;
-            margin-right: 15px;
-        }
-
-        .assistant { align-items: flex-start; }
-        .assistant .message-content { 
-            background: white; 
-            color: var(--dark); 
-            border-bottom-left-radius: 8px;
-            border-top-left-radius: 8px;
             border-top-right-radius: 24px;
-            margin-left: 15px;
-            border: 1px solid rgba(0,0,0,0.03);
         }
 
-        .app-grid { 
-            display: grid; 
-            grid-template-columns: repeat(4, 1fr); 
-            gap: 15px; 
-            padding: 20px; 
-            background: rgba(255, 255, 255, 0.9);
-            border-top: 1px solid rgba(0,0,0,0.05);
-            backdrop-filter: blur(10px);
-            position: relative;
+        /* Assistant Message */
+        .message.assistant {
+            align-items: flex-start;
         }
 
-        .app-grid::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, 
-                transparent, 
-                var(--primary), 
-                var(--secondary), 
-                transparent);
-        }
-
-        .app-icon { 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            font-size: 0.7rem; 
-            cursor: pointer; 
-            color: #555; 
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
-            padding: 8px 5px;
-            border-radius: 12px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .app-icon::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(248,249,250,0.9));
-            border-radius: 12px;
-            z-index: -1;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-
-        .app-icon:hover { 
-            transform: translateY(-5px) scale(1.05); 
+        .message.assistant .message-content {
+            background: white;
             color: var(--dark);
+            border-bottom-left-radius: 8px;
+            border-top-left-radius: 24px;
+            border-top-right-radius: 24px;
+            border: 1px solid rgba(0,0,0,0.05);
         }
 
-        .app-icon:hover::before {
-            opacity: 1;
+        /* Time Stamp */
+        .message-time {
+            font-size: 0.7rem;
+            color: var(--gray);
+            margin-top: 5px;
+            opacity: 0.7;
         }
 
-        .app-icon i { 
-            width: 50px; 
-            height: 50px; 
-            border-radius: 15px; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            font-size: 1.4rem; 
-            margin-bottom: 6px; 
-            box-shadow: 
-                0 6px 20px rgba(0,0,0,0.1),
-                inset 0 1px 0 rgba(255,255,255,0.5);
-            transition: all 0.3s; 
-            position: relative;
-            overflow: hidden;
+        .message.user .message-time {
+            text-align: right;
+            margin-right: 10px;
         }
 
-        .app-icon i::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, rgba(255,255,255,0.3), transparent);
-            opacity: 0;
-            transition: opacity 0.3s;
+        .message.assistant .message-time {
+            text-align: left;
+            margin-left: 10px;
         }
 
-        .app-icon:hover i::after {
-            opacity: 1;
-        }
-
-        .input-area { 
-            padding: 20px; 
-            background: white; 
-            display: flex; 
-            gap: 12px; 
-            align-items: center; 
+        /* Input Area */
+        .input-area {
+            padding: 20px;
+            background: white;
             border-top: 1px solid rgba(0,0,0,0.05);
+            display: flex;
+            gap: 12px;
+            align-items: center;
             position: relative;
         }
 
@@ -404,241 +341,605 @@
                 transparent);
         }
 
-        input { 
-            flex: 1; 
-            padding: 16px 20px; 
-            border: 2px solid #f0f0f0; 
-            background: #f8f9fa; 
-            border-radius: 25px; 
-            outline: none; 
-            font-size: 0.95rem; 
+        .message-input {
+            flex: 1;
+            padding: 18px 20px;
+            border: 2px solid #e9ecef;
+            background: #f8f9fa;
+            border-radius: 25px;
+            outline: none;
+            font-size: 1rem;
             transition: all 0.3s;
             color: var(--dark);
-            box-shadow: inset 0 2px 8px rgba(0,0,0,0.04);
+            min-height: 56px;
+            max-height: 120px;
+            resize: none;
+            overflow-y: auto;
         }
 
-        input:focus { 
-            border-color: var(--secondary); 
+        .message-input:focus {
+            border-color: var(--secondary);
             background: white;
             box-shadow: 
                 0 0 0 3px rgba(78, 205, 196, 0.1),
-                inset 0 2px 8px rgba(0,0,0,0.04);
+                0 5px 20px rgba(0,0,0,0.05);
         }
 
-        input::placeholder {
-            color: #aaa;
+        .message-input::placeholder {
+            color: #adb5bd;
         }
 
-        .btn-round { 
-            width: 50px; 
-            height: 50px; 
-            border-radius: 50%; 
-            border: none; 
-            cursor: pointer; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
-            box-shadow: 
-                0 6px 20px rgba(0,0,0,0.1),
-                inset 0 1px 0 rgba(255,255,255,0.4);
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .action-btn {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            background: linear-gradient(135deg, var(--secondary), #7ae0d8);
+            color: white;
+            box-shadow: 0 5px 15px rgba(78, 205, 196, 0.3);
+        }
+
+        .action-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(78, 205, 196, 0.4);
+        }
+
+        .action-btn.send {
+            background: linear-gradient(135deg, var(--primary), #ff8e8e);
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+        }
+
+        .action-btn.send:hover {
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
+        }
+
+        .action-btn.mic.listening {
+            background: linear-gradient(135deg, #ff4757, #ff6b81);
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(255, 71, 87, 0.7);
+            }
+            70% {
+                transform: scale(1.05);
+                box-shadow: 0 0 0 10px rgba(255, 71, 87, 0);
+            }
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(255, 71, 87, 0);
+            }
+        }
+
+        .action-btn i {
+            font-size: 1.2rem;
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            display: flex;
+            background: white;
+            border-top: 1px solid rgba(0,0,0,0.05);
+            padding: 10px 0;
             position: relative;
-            overflow: hidden;
         }
 
-        .btn-round::after {
+        .nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: var(--gray);
+            position: relative;
+        }
+
+        .nav-item:hover {
+            color: var(--primary);
+        }
+
+        .nav-item.active {
+            color: var(--primary);
+        }
+
+        .nav-item.active::before {
             content: '';
             position: absolute;
             top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, rgba(255,255,255,0.2), transparent);
-            opacity: 0;
-            transition: opacity 0.3s;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 3px;
+            background: var(--primary);
+            border-radius: 0 0 3px 3px;
         }
 
-        .btn-round:hover::after {
-            opacity: 1;
-        }
-
-        .btn-round:hover {
-            transform: translateY(-2px) scale(1.05);
-            box-shadow: 
-                0 10px 25px rgba(0,0,0,0.15),
-                inset 0 1px 0 rgba(255,255,255,0.4);
-        }
-
-        .btn-round i {
+        .nav-icon {
             font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+
+        .nav-label {
+            font-size: 0.7rem;
+            font-weight: 500;
+        }
+
+        /* Side Menu - Separate Scrollable Part */
+        .side-menu {
+            position: fixed;
+            top: 0;
+            left: -100%;
+            width: 85%;
+            max-width: 350px;
+            height: 100vh;
+            background: white;
+            z-index: 1000;
+            transition: left 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            display: flex;
+            flex-direction: column;
+            box-shadow: 5px 0 30px rgba(0,0,0,0.15);
+            overflow: hidden;
+        }
+
+        .side-menu.active {
+            left: 0;
+        }
+
+        .menu-header {
+            padding: 40px 20px 20px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
             position: relative;
-            z-index: 1;
         }
 
-        .btn-send { 
-            background: linear-gradient(135deg, var(--primary), #ff8e8e); 
-            color: white; 
+        .menu-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1px solid rgba(255,255,255,0.3);
         }
 
-        .btn-mic { 
-            background: linear-gradient(135deg, var(--secondary), #7ae0d8); 
-            color: white; 
+        .menu-close:hover {
+            background: rgba(255,255,255,0.3);
+            transform: rotate(90deg);
         }
 
-        .btn-mic.listening { 
-            background: linear-gradient(135deg, #ff4757, #ff6b81); 
-            animation: pulse 1.5s ease-in-out infinite;
-            box-shadow: 
-                0 0 20px rgba(255, 71, 87, 0.4),
-                0 6px 20px rgba(0,0,0,0.1);
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
         }
 
-        @keyframes pulse { 
-            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 71, 87, 0.7); }
-            70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(255, 71, 87, 0); }
-            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 71, 87, 0); }
+        .profile-avatar {
+            width: 60px;
+            height: 60px;
+            background: white;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--primary);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
         }
 
-        .modal { 
-            display: none; 
-            position: fixed; 
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 100%; 
-            background: rgba(0,0,0,0.5); 
-            justify-content: center; 
-            align-items: center; 
-            z-index: 1000; 
+        .profile-info h3 {
+            font-size: 1.3rem;
+            margin-bottom: 5px;
+        }
+
+        .profile-info p {
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+
+        .menu-stats {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .stat-item {
+            flex: 1;
+            text-align: center;
+            padding: 10px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .stat-value {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 3px;
+        }
+
+        .stat-label {
+            font-size: 0.7rem;
+            opacity: 0.9;
+        }
+
+        /* Scrollable Menu Content */
+        .menu-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            background: var(--light);
+        }
+
+        .menu-section {
+            margin-bottom: 25px;
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            color: var(--dark);
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .section-title i {
+            color: var(--primary);
+            font-size: 1.1rem;
+        }
+
+        /* Quick Actions Grid */
+        .quick-actions-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .quick-action {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 15px 10px;
+            background: var(--light);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1px solid transparent;
+        }
+
+        .quick-action:hover {
+            background: white;
+            border-color: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(255, 107, 107, 0.1);
+        }
+
+        .quick-action i {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, var(--primary), #ff8e8e);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.3rem;
+            margin-bottom: 8px;
+        }
+
+        .quick-action span {
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--dark);
+            text-align: center;
+        }
+
+        /* Search Engines Grid */
+        .search-engines-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        .search-engine {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 15px 10px;
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .search-engine:hover {
+            border-color: var(--accent);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.1);
+        }
+
+        .search-engine i {
+            width: 45px;
+            height: 45px;
+            background: var(--light);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            margin-bottom: 8px;
+            color: var(--dark);
+        }
+
+        .search-engine span {
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: var(--dark);
+            text-align: center;
+        }
+
+        /* Commands List */
+        .commands-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .command-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background: var(--light);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-left: 4px solid transparent;
+        }
+
+        .command-item:hover {
+            background: white;
+            border-left-color: var(--primary);
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .command-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--secondary), #7ae0d8);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            margin-right: 15px;
+        }
+
+        .command-text {
+            flex: 1;
+            font-size: 0.9rem;
+            color: var(--dark);
+        }
+
+        .command-shortcut {
+            font-size: 0.7rem;
+            color: var(--gray);
+            background: rgba(0,0,0,0.05);
+            padding: 3px 8px;
+            border-radius: 10px;
+        }
+
+        /* Search Modal */
+        .search-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
             backdrop-filter: blur(5px);
         }
 
-        .modal-content { 
-            background: white; 
-            padding: 30px; 
-            border-radius: 25px; 
-            width: 90%; 
-            max-width: 400px; 
-            box-shadow: 
-                0 25px 50px rgba(0,0,0,0.3),
-                0 0 0 1px rgba(255,255,255,0.1);
-            animation: modalAppear 0.4s cubic-bezier(0.18, 0.89, 0.32, 1.28);
-            position: relative;
-            overflow: hidden;
+        .search-modal.active {
+            display: flex;
+            animation: fadeIn 0.3s ease;
         }
 
-        .modal-content::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
-        @keyframes modalAppear {
-            from { 
-                opacity: 0; 
-                transform: translateY(-30px) scale(0.9); 
+        .search-box {
+            background: white;
+            width: 100%;
+            max-width: 400px;
+            border-radius: var(--radius);
+            padding: 30px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+            animation: slideUp 0.4s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
             }
-            to { 
-                opacity: 1; 
-                transform: translateY(0) scale(1); 
+            to {
+                opacity: 1;
+                transform: translateY(0);
             }
         }
 
-        .modal-content h2 { 
-            margin-bottom: 20px; 
-            color: var(--dark); 
-            font-weight: 700;
-            font-size: 1.5rem;
+        .search-title {
+            font-size: 1.3rem;
+            color: var(--dark);
+            margin-bottom: 20px;
+            text-align: center;
         }
 
-        .modal-content input { 
-            width: 100%; 
-            padding: 15px; 
-            margin: 10px 0; 
-            border: 2px solid #e0e0e0; 
-            border-radius: 12px; 
+        .search-input {
+            width: 100%;
+            padding: 18px 20px;
+            border: 2px solid var(--secondary);
+            border-radius: 15px;
             font-size: 1rem;
+            margin-bottom: 20px;
             background: #f8f9fa;
             transition: all 0.3s;
         }
 
-        .modal-content input:focus {
-            border-color: var(--secondary);
+        .search-input:focus {
             background: white;
             box-shadow: 0 0 0 3px rgba(78, 205, 196, 0.1);
         }
 
-        .modal-buttons { 
-            display: flex; 
-            gap: 10px; 
-            margin-top: 25px; 
+        .engine-selection {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 25px;
         }
 
-        .modal-buttons button { 
-            flex: 1; 
-            padding: 14px; 
-            border: none; 
-            border-radius: 12px; 
-            cursor: pointer; 
-            font-weight: 600; 
+        .engine-option {
+            padding: 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .engine-option:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        .engine-option.active {
+            border-color: var(--primary);
+            background: rgba(255, 107, 107, 0.05);
+        }
+
+        .engine-icon {
+            width: 35px;
+            height: 35px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.1rem;
+        }
+
+        .engine-name {
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        .search-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 16px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
             transition: all 0.3s;
             font-size: 0.95rem;
-            position: relative;
-            overflow: hidden;
         }
 
-        .modal-buttons button::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, rgba(255,255,255,0.2), transparent);
-            opacity: 0;
-            transition: opacity 0.3s;
+        .btn-cancel {
+            background: #f1f2f6;
+            color: var(--dark);
         }
 
-        .modal-buttons button:hover::after {
-            opacity: 1;
-        }
-
-        .btn-close { 
-            background: #f1f2f6; 
-            color: #333; 
-        }
-
-        .btn-close:hover {
+        .btn-cancel:hover {
             background: #e4e5e9;
             transform: translateY(-2px);
         }
 
-        .btn-ok { 
-            background: linear-gradient(135deg, var(--primary), #ff8e8e); 
-            color: white; 
+        .btn-search {
+            background: linear-gradient(135deg, var(--primary), #ff8e8e);
+            color: white;
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
         }
 
-        .btn-ok:hover {
+        .btn-search:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(255, 107, 107, 0.3);
+            box-shadow: 0 10px 25px rgba(255, 107, 107, 0.4);
         }
 
+        /* Overlay */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+            display: none;
+            backdrop-filter: blur(5px);
+        }
+
+        .overlay.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        /* Typing Indicator */
         .typing-indicator {
             display: flex;
+            gap: 8px;
             padding: 15px 20px;
-            gap: 6px;
             background: white;
             border-radius: 24px;
             width: fit-content;
-            margin-left: 15px;
-            box-shadow: 
-                0 4px 15px rgba(0,0,0,0.08),
-                0 1px 0 rgba(0,0,0,0.02);
-            border: 1px solid rgba(0,0,0,0.03);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border: 1px solid rgba(0,0,0,0.05);
         }
 
         .typing-dot {
@@ -646,507 +947,1193 @@
             height: 10px;
             border-radius: 50%;
             background: var(--dark);
-            opacity: 0.4;
+            opacity: 0.3;
             animation: typingBounce 1.4s infinite;
         }
 
-        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
-        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
-        
+        .typing-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        .typing-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
         @keyframes typingBounce {
-            0%, 60%, 100% { 
-                opacity: 0.4; 
-                transform: translateY(0); 
+            0%, 60%, 100% {
+                opacity: 0.3;
+                transform: translateY(0);
             }
-            30% { 
-                opacity: 1; 
-                transform: translateY(-8px); 
-            }
-        }
-
-        .command-tip {
-            font-size: 0.75rem;
-            color: #666;
-            text-align: center;
-            padding: 12px 20px;
-            background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(248,249,250,0.9));
-            border-radius: 15px;
-            margin: 10px 20px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(0,0,0,0.05);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            animation: tipSlide 0.5s ease-out;
-            line-height: 1.4;
-        }
-
-        @keyframes tipSlide {
-            from { 
-                opacity: 0; 
-                transform: translateY(-10px); 
-            }
-            to { 
-                opacity: 1; 
-                transform: translateY(0); 
+            30% {
+                opacity: 1;
+                transform: translateY(-8px);
             }
         }
 
-        .time-stamp {
-            font-size: 0.7rem;
-            color: #999;
-            margin-top: 5px;
-            text-align: center;
-            opacity: 0.7;
-        }
-
-        .user .time-stamp {
-            text-align: right;
-            margin-right: 15px;
-        }
-
-        .assistant .time-stamp {
-            text-align: left;
-            margin-left: 15px;
-        }
-
-        .quick-actions {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin-top: 15px;
-        }
-
-        .quick-action-btn {
-            padding: 8px 16px;
-            background: rgba(255, 255, 255, 0.9);
-            border: 1px solid rgba(0,0,0,0.1);
-            border-radius: 20px;
-            font-size: 0.8rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            color: #555;
-        }
-
-        .quick-action-btn:hover {
-            background: var(--primary);
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
-        }
-
-        .welcome-container {
-            text-align: center;
-            padding: 30px 20px;
-            animation: welcomeAppear 0.8s ease-out;
-        }
-
-        @keyframes welcomeAppear {
-            from { 
-                opacity: 0; 
-                transform: translateY(20px) scale(0.95); 
+        /* Responsive */
+        @media (max-width: 480px) {
+            .app-container {
+                height: 100vh;
+                border-radius: 0;
             }
-            to { 
-                opacity: 1; 
-                transform: translateY(0) scale(1); 
+            
+            .side-menu {
+                width: 85%;
+            }
+            
+            .quick-actions-grid,
+            .search-engines-grid,
+            .engine-selection {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .message-content {
+                font-size: 0.95rem;
+                padding: 14px 18px;
+            }
+            
+            .message-input {
+                font-size: 0.95rem;
+                padding: 16px;
             }
         }
 
-        .welcome-icon {
-            font-size: 3rem;
-            margin-bottom: 20px;
-            display: block;
-            animation: float 3s ease-in-out infinite;
-        }
-
-        .status-indicator {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: #2ecc71;
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            box-shadow: 0 0 10px #2ecc71;
-            animation: pulse 2s infinite;
-        }
-
-        .ai-response {
-            border-left: 4px solid var(--secondary);
-            padding-left: 15px;
-            margin: 5px 0 5px 15px;
+        @media (max-width: 360px) {
+            .quick-actions-grid,
+            .search-engines-grid,
+            .engine-selection {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .app-header {
+                padding: 15px;
+            }
+            
+            .chat-container {
+                padding: 15px;
+            }
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <div class="header">
-        <div class="logo-container">
-            <img src="https://cdn-icons-png.flaticon.com/512/4712/4712035.png" alt="Logo">
+<!-- Overlay -->
+<div class="overlay" id="overlay" onclick="closeMenu()"></div>
+
+<!-- Side Menu -->
+<div class="side-menu" id="sideMenu">
+    <div class="menu-header">
+        <div class="menu-close" onclick="closeMenu()">
+            <i class="fas fa-times"></i>
         </div>
-        <h1>✨ Shizuka AI Pro</h1>
-        <p>Developer: Abu Tanim | Version 2.1</p>
-        <div class="badge">AI Assistant</div>
+        
+        <div class="user-profile">
+            <div class="profile-avatar" id="userAvatar">
+                <i class="fas fa-user"></i>
+            </div>
+            <div class="profile-info">
+                <h3 id="userNameDisplay">Guest User</h3>
+                <p>Shizuka AI Assistant</p>
+            </div>
+        </div>
+        
+        <div class="menu-stats">
+            <div class="stat-item">
+                <div class="stat-value" id="messageCount">0</div>
+                <div class="stat-label">Messages</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="commandCount">0</div>
+                <div class="stat-label">Commands</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">2.2</div>
+                <div class="stat-label">Version</div>
+            </div>
+        </div>
     </div>
-
-    <div class="command-tip">
-        ✨ Try saying: "tell me a joke", "sing a song", or "play tic-tac-toe"
-    </div>
-
-    <div class="chat-container" id="chat"></div>
-
-    <div class="app-grid" id="gridContainer"></div>
-
-    <div class="input-area">
-        <button class="btn-round btn-mic" id="mic" onclick="toggleVoice()" title="Voice Input">
-            <i class="fas fa-microphone"></i>
-        </button>
-        <input type="text" id="msgInput" placeholder="Type or say something..." autocomplete="off">
-        <button class="btn-round btn-send" onclick="sendMsg()" title="Send">
-            <i class="fas fa-paper-plane"></i>
-        </button>
+    
+    <div class="menu-content">
+        <!-- Quick Actions -->
+        <div class="menu-section">
+            <div class="section-title">
+                <i class="fas fa-bolt"></i>
+                <span>Quick Actions</span>
+            </div>
+            <div class="quick-actions-grid">
+                <div class="quick-action" onclick="handleQuickAction('joke')">
+                    <i class="fas fa-laugh"></i>
+                    <span>Joke</span>
+                </div>
+                <div class="quick-action" onclick="handleQuickAction('time')">
+                    <i class="fas fa-clock"></i>
+                    <span>Time</span>
+                </div>
+                <div class="quick-action" onclick="handleQuickAction('game')">
+                    <i class="fas fa-gamepad"></i>
+                    <span>Game</span>
+                </div>
+                <div class="quick-action" onclick="handleQuickAction('fact')">
+                    <i class="fas fa-lightbulb"></i>
+                    <span>Fact</span>
+                </div>
+                <div class="quick-action" onclick="handleQuickAction('weather')">
+                    <i class="fas fa-cloud"></i>
+                    <span>Weather</span>
+                </div>
+                <div class="quick-action" onclick="handleQuickAction('music')">
+                    <i class="fas fa-music"></i>
+                    <span>Music</span>
+                </div>
+                <div class="quick-action" onclick="handleQuickAction('calc')">
+                    <i class="fas fa-calculator"></i>
+                    <span>Calculator</span>
+                </div>
+                <div class="quick-action" onclick="handleQuickAction('story')">
+                    <i class="fas fa-book"></i>
+                    <span>Story</span>
+                </div>
+                <div class="quick-action" onclick="handleQuickAction('quote')">
+                    <i class="fas fa-quote-right"></i>
+                    <span>Quote</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Search Engines -->
+        <div class="menu-section">
+            <div class="section-title">
+                <i class="fas fa-search"></i>
+                <span>Search Engines</span>
+            </div>
+            <div class="search-engines-grid">
+                <div class="search-engine" onclick="openSearchModal('google')">
+                    <i class="fab fa-google" style="background: #4285F4; color: white;"></i>
+                    <span>Google</span>
+                </div>
+                <div class="search-engine" onclick="openSearchModal('youtube')">
+                    <i class="fab fa-youtube" style="background: #FF0000; color: white;"></i>
+                    <span>YouTube</span>
+                </div>
+                <div class="search-engine" onclick="openSearchModal('github')">
+                    <i class="fab fa-github" style="background: #333; color: white;"></i>
+                    <span>GitHub</span>
+                </div>
+                <div class="search-engine" onclick="openSearchModal('wikipedia')">
+                    <i class="fab fa-wikipedia-w" style="background: #636466; color: white;"></i>
+                    <span>Wikipedia</span>
+                </div>
+                <div class="search-engine" onclick="openSearchModal('maps')">
+                    <i class="fas fa-map" style="background: #34A853; color: white;"></i>
+                    <span>Maps</span>
+                </div>
+                <div class="search-engine" onclick="openSearchModal('translate')">
+                    <i class="fas fa-language" style="background: #4285F4; color: white;"></i>
+                    <span>Translate</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Voice Commands -->
+        <div class="menu-section">
+            <div class="section-title">
+                <i class="fas fa-microphone"></i>
+                <span>Voice Commands</span>
+            </div>
+            <div class="commands-list">
+                <div class="command-item" onclick="handleVoiceCommand('time')">
+                    <div class="command-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="command-text">"What time is it?"</div>
+                    <div class="command-shortcut">Try saying</div>
+                </div>
+                <div class="command-item" onclick="handleVoiceCommand('joke')">
+                    <div class="command-icon">
+                        <i class="fas fa-laugh"></i>
+                    </div>
+                    <div class="command-text">"Tell me a joke"</div>
+                    <div class="command-shortcut">Try saying</div>
+                </div>
+                <div class="command-item" onclick="handleVoiceCommand('weather')">
+                    <div class="command-icon">
+                        <i class="fas fa-cloud"></i>
+                    </div>
+                    <div class="command-text">"What's the weather?"</div>
+                    <div class="command-shortcut">Try saying</div>
+                </div>
+                <div class="command-item" onclick="handleVoiceCommand('game')">
+                    <div class="command-icon">
+                        <i class="fas fa-gamepad"></i>
+                    </div>
+                    <div class="command-text">"Play tic tac toe"</div>
+                    <div class="command-shortcut">Try saying</div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
-<div id="modal" class="modal">
-    <div class="modal-content">
-        <h2 id="modalTitle">Enter Name</h2>
-        <input type="text" id="modalInput" placeholder="Enter here..." autocomplete="off">
-        <div class="modal-buttons">
-            <button class="btn-close" onclick="closeModal()">Cancel</button>
-            <button class="btn-ok" onclick="submitModal()">OK</button>
+<!-- Search Modal -->
+<div class="search-modal" id="searchModal">
+    <div class="search-box">
+        <h2 class="search-title" id="searchTitle">Search on Google</h2>
+        
+        <div class="engine-selection" id="engineSelection"></div>
+        
+        <input type="text" class="search-input" id="searchInput" placeholder="Type your search query...">
+        
+        <div class="search-actions">
+            <button class="btn btn-cancel" onclick="closeSearchModal()">Cancel</button>
+            <button class="btn btn-search" onclick="performSearch()">
+                <i class="fas fa-search"></i> Search Now
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Mobile App Container -->
+<div class="app-container">
+    <!-- Status Bar -->
+    <div class="status-bar">
+        <div class="time" id="currentTime">12:00 PM</div>
+        <div class="status-icons">
+            <i class="fas fa-signal"></i>
+            <i class="fas fa-wifi"></i>
+            <i class="fas fa-battery-full"></i>
+        </div>
+    </div>
+    
+    <!-- App Header -->
+    <div class="app-header">
+        <div class="menu-toggle" onclick="toggleMenu()">
+            <i class="fas fa-bars"></i>
+        </div>
+        <div class="app-info">
+            <div class="app-title">Shizuka AI Pro</div>
+            <div class="app-subtitle">Intelligent Assistant</div>
+        </div>
+        <div class="user-avatar" onclick="showProfile()" id="avatarInitial">
+            <i class="fas fa-user"></i>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Welcome Banner -->
+        <div class="welcome-banner">
+            <div class="welcome-text">
+                👋 Hello! I'm <span>Shizuka</span>, your AI assistant. Ask me anything or try quick actions!
+            </div>
+        </div>
+        
+        <!-- Chat Area (Bigger Space) -->
+        <div class="chat-container" id="chatContainer">
+            <!-- Messages will appear here -->
+        </div>
+        
+        <!-- Input Area -->
+        <div class="input-area">
+            <div class="action-buttons">
+                <button class="action-btn mic" id="micBtn" onclick="toggleVoice()" title="Voice Input">
+                    <i class="fas fa-microphone"></i>
+                </button>
+            </div>
+            
+            <textarea 
+                class="message-input" 
+                id="messageInput" 
+                placeholder="Type your message here..."
+                rows="1"
+                oninput="autoResize(this)"
+            ></textarea>
+            
+            <div class="action-buttons">
+                <button class="action-btn send" onclick="sendMessage()" title="Send Message">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Bottom Navigation -->
+        <div class="bottom-nav">
+            <div class="nav-item active" onclick="switchTab('chat')">
+                <div class="nav-icon">
+                    <i class="fas fa-comment-dots"></i>
+                </div>
+                <div class="nav-label">Chat</div>
+            </div>
+            <div class="nav-item" onclick="switchTab('commands')">
+                <div class="nav-icon">
+                    <i class="fas fa-code"></i>
+                </div>
+                <div class="nav-label">Commands</div>
+            </div>
+            <div class="nav-item" onclick="switchTab('tools')">
+                <div class="nav-icon">
+                    <i class="fas fa-tools"></i>
+                </div>
+                <div class="nav-label">Tools</div>
+            </div>
+            <div class="nav-item" onclick="switchTab('settings')">
+                <div class="nav-icon">
+                    <i class="fas fa-cog"></i>
+                </div>
+                <div class="nav-label">Settings</div>
+            </div>
         </div>
     </div>
 </div>
 
 <script>
+    // Configuration
     const API_URL = 'https://shizuka-ai-assistant.onrender.com';
-    const chat = document.getElementById('chat');
-    const input = document.getElementById('msgInput');
+    const chatContainer = document.getElementById('chatContainer');
+    const messageInput = document.getElementById('messageInput');
+    const currentTime = document.getElementById('currentTime');
+    const userNameDisplay = document.getElementById('userNameDisplay');
+    const userAvatar = document.getElementById('userAvatar');
+    const avatarInitial = document.getElementById('avatarInitial');
+    const messageCount = document.getElementById('messageCount');
+    const commandCount = document.getElementById('commandCount');
     
-    let userName = sessionStorage.getItem('shizuka_user_name') || '';
+    // State variables
+    let userName = localStorage.getItem('shizuka_user_name') || 'Guest';
     let selectedVoice = null;
-    let modalCallback = null;
     let isListening = false;
     let recognition = null;
-    let hasGreeted = false; // FIX: Prevent double greeting
-
-    // Game state variables
-    let ticTacToeBoard = ['','','','','','','','',''];
-    let currentPlayer = 'X';
-
-    // Initialize voices
+    let messageCounter = 0;
+    let commandCounter = 0;
+    let currentSearchEngine = 'google';
+    
+    // Search engines configuration
+    const searchEngines = {
+        google: {
+            name: "Google",
+            icon: "fab fa-google",
+            color: "#4285F4",
+            url: "https://www.google.com/search?q="
+        },
+        youtube: {
+            name: "YouTube",
+            icon: "fab fa-youtube",
+            color: "#FF0000",
+            url: "https://www.youtube.com/results?search_query="
+        },
+        github: {
+            name: "GitHub",
+            icon: "fab fa-github",
+            color: "#333",
+            url: "https://github.com/search?q="
+        },
+        wikipedia: {
+            name: "Wikipedia",
+            icon: "fab fa-wikipedia-w",
+            color: "#636466",
+            url: "https://en.wikipedia.org/wiki/"
+        },
+        maps: {
+            name: "Google Maps",
+            icon: "fas fa-map",
+            color: "#34A853",
+            url: "https://www.google.com/maps/search/"
+        },
+        translate: {
+            name: "Google Translate",
+            icon: "fas fa-language",
+            color: "#4285F4",
+            url: "https://translate.google.com/?sl=auto&tl=en&text="
+        }
+    };
+    
+    // Initialize app
+    function initApp() {
+        updateTime();
+        setInterval(updateTime, 60000);
+        
+        loadVoices();
+        updateUserProfile();
+        showWelcomeMessage();
+        
+        // Auto-resize textarea
+        messageInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+        
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            if (e.key === '/' && e.ctrlKey) {
+                e.preventDefault();
+                messageInput.focus();
+            }
+            if (e.key === 'Escape') {
+                closeMenu();
+                closeSearchModal();
+            }
+        });
+        
+        // Initialize stats
+        updateStats();
+    }
+    
+    // Update time
+    function updateTime() {
+        const now = new Date();
+        const time = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        currentTime.textContent = time;
+    }
+    
+    // Load voices for speech synthesis
     function loadVoices() {
         const synth = window.speechSynthesis;
         let voices = synth.getVoices();
         
-        // Try to find a female voice
         selectedVoice = voices.find(v => 
             v.name.toLowerCase().includes('female') || 
-            v.name.includes('Google UK English Female') ||
-            v.name.includes('Microsoft Zira') ||
-            v.name.includes('Samantha')
-        );
-        
-        if (!selectedVoice) {
-            selectedVoice = voices.find(v => v.lang.includes('en'));
-        }
-        
-        if (!selectedVoice && voices.length > 0) {
-            selectedVoice = voices[0];
-        }
-        
-        if (chat.innerHTML === "" && !hasGreeted) {
-            setTimeout(initGreeting, 500);
-        }
+            v.name.includes('Microsoft Zira')
+        ) || voices[0];
     }
-
+    
     if (speechSynthesis.onvoiceschanged !== undefined) {
         speechSynthesis.onvoiceschanged = loadVoices;
     }
-    loadVoices();
-
-    // Text-to-speech function
-    function speak(text) {
-        const synth = window.speechSynthesis;
-        if (synth.speaking) synth.cancel();
+    
+    // Update user profile
+    function updateUserProfile() {
+        const displayName = userName === 'Guest' ? 'Guest User' : userName;
+        userNameDisplay.textContent = displayName;
         
-        const cleanText = text.replace(/[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F700}-\u{1F77F}\u{1F780}-\u{1F7FF}\u{1F800}-\u{1F8FF}\u{1F900}-\u{1F9FF}\u{1FA00}-\u{1FA6F}\u{1FA70}-\u{1FAFF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu, '');
-        const utter = new SpeechSynthesisUtterance(cleanText);
+        // Set avatar initial
+        const initial = userName === 'Guest' ? 'G' : userName.charAt(0).toUpperCase();
+        avatarInitial.innerHTML = `<i class="fas fa-user"></i>`;
         
-        if (selectedVoice) utter.voice = selectedVoice;
-        
-        utter.pitch = 1.1;
-        utter.rate = 0.95;
-        utter.volume = 1;
-        synth.speak(utter);
+        // Update menu avatar
+        userAvatar.innerHTML = `<span style="font-size: 1.5rem; font-weight: 700;">${initial}</span>`;
     }
-
-    // Enhanced apps with unique features
-    const apps = [
-        { id: 'whatsapp', icon: 'fab fa-whatsapp', bg: 'linear-gradient(135deg, #25D366, #128C7E)', color: 'white', label: 'WA' },
-        { id: 'facebook', icon: 'fab fa-facebook', bg: 'linear-gradient(135deg, #1877F2, #0D5C9E)', color: 'white', label: 'FB' },
-        { id: 'youtube', icon: 'fab fa-youtube', bg: 'linear-gradient(135deg, #FF0000, #CC0000)', color: 'white', label: 'YT' },
-        { id: 'github', icon: 'fab fa-github', bg: 'linear-gradient(135deg, #333, #000)', color: 'white', label: 'Git' },
-        { id: 'google', icon: 'fab fa-google', bg: 'linear-gradient(135deg, #4285F4, #34A853, #FBBC05, #EA4335)', color: 'white', label: 'Ggl' },
-        { id: 'gmail', icon: 'fas fa-envelope', bg: 'linear-gradient(135deg, #EA4335, #D14836)', color: 'white', label: 'Mail' },
-        { id: 'linkedin', icon: 'fab fa-linkedin', bg: 'linear-gradient(135deg, #0077b5, #005582)', color: 'white', label: 'In' },
-        { id: 'browser', icon: 'fas fa-globe', bg: 'linear-gradient(135deg, #f39c12, #e67e22)', color: 'white', label: 'Web' },
-        { id: 'calculator', icon: 'fas fa-calculator', bg: 'linear-gradient(135deg, #e74c3c, #c0392b)', color: 'white', label: 'Calc' },
-        { id: 'weather', icon: 'fas fa-cloud', bg: 'linear-gradient(135deg, #3498db, #2980b9)', color: 'white', label: 'Weather' },
-        { id: 'game', icon: 'fas fa-gamepad', bg: 'linear-gradient(135deg, #2ecc71, #27ae60)', color: 'white', label: 'Game' },
-        { id: 'music', icon: 'fas fa-music', bg: 'linear-gradient(135deg, #9b59b6, #8e44ad)', color: 'white', label: 'Music' }
-    ];
-
-    const grid = document.getElementById('gridContainer');
-    apps.forEach(app => {
-        grid.innerHTML += `<div class="app-icon" onclick="handleSystemCmd('${app.id}')">
-            <i class="${app.icon}" style="background: ${app.bg}; color: ${app.color};"></i>${app.label}
-        </div>`;
-    });
-
-    // FIX: Prevent double greeting
-    function initGreeting() {
-        if (hasGreeted) return;
-        hasGreeted = true;
-        
-        if (!userName) {
-            showWelcomeMessage();
-        } else {
-            addMsg(`Welcome back, ${userName}! I'm Shizuka, your AI assistant. 🌸 How can I help you today?`, false);
-        }
-    }
-
+    
+    // Show welcome message
     function showWelcomeMessage() {
-        const welcomeHTML = `
-            <div class="welcome-container">
-                <span class="welcome-icon">🌸</span>
-                <h3 style="color: var(--dark); margin-bottom: 10px;">Hello! I'm Shizuka</h3>
-                <p style="color: #666; margin-bottom: 20px; font-size: 0.9rem;">
-                    Your intelligent AI assistant ready to help with tasks, games, and more!
-                </p>
-                <p style="color: var(--primary); font-weight: 600; margin-bottom: 20px;">
-                    May I know your name?
-                </p>
-                <div class="quick-actions" style="justify-content: center;">
-                    <button class="quick-action-btn" onclick="showNameModal()">Enter Name</button>
-                    <button class="quick-action-btn" onclick="skipName()">Skip for now</button>
+        const welcomeMsg = `
+            <div class="message assistant">
+                <div class="message-content">
+                    👋 Hello ${userName}! I'm <b>Shizuka</b>, your AI assistant. 🌸<br><br>
+                    I can help you with:
+                    • Answering questions<br>
+                    • Telling jokes & stories<br>
+                    • Playing games<br>
+                    • Searching the web<br>
+                    • Much more!
                 </div>
+                <div class="message-time">Just now</div>
             </div>
         `;
-        chat.innerHTML = welcomeHTML;
+        chatContainer.innerHTML = welcomeMsg;
+        messageCounter = 1;
+        updateStats();
     }
-
-    function showNameModal() {
-        showModal("What's your name?", (name) => {
-            if (name && name.trim()) {
-                userName = name.trim();
-                sessionStorage.setItem('shizuka_user_name', userName);
-                addMsg(`Nice to meet you, ${userName}! 😊 How can I help you today?`, false);
-                addQuickActions();
-            }
-        });
+    
+    // Update statistics
+    function updateStats() {
+        messageCount.textContent = messageCounter;
+        commandCount.textContent = commandCounter;
     }
-
-    function skipName() {
-        userName = "Guest";
-        sessionStorage.setItem('shizuka_user_name', userName);
-        addMsg(`Hello Guest! I'm Shizuka. 😊 Feel free to ask me anything!`, false);
-        addQuickActions();
+    
+    // Auto-resize textarea
+    function autoResize(textarea) {
+        textarea.style.height = 'auto';
+        textarea.style.height = Math.min(textarea.scrollHeight, 120) + 'px';
     }
-
-    function addQuickActions() {
-        const actions = [
-            { text: "Tell me a joke", cmd: "joke" },
-            { text: "Play game", cmd: "game" },
-            { text: "What time is it?", cmd: "time" },
-            { text: "Show commands", cmd: "help" }
-        ];
+    
+    // Toggle side menu
+    function toggleMenu() {
+        const menu = document.getElementById('sideMenu');
+        const overlay = document.getElementById('overlay');
+        menu.classList.toggle('active');
+        overlay.classList.toggle('active');
+    }
+    
+    function closeMenu() {
+        const menu = document.getElementById('sideMenu');
+        const overlay = document.getElementById('overlay');
+        menu.classList.remove('active');
+        overlay.classList.remove('active');
+    }
+    
+    // Handle quick actions
+    function handleQuickAction(action) {
+        closeMenu();
         
-        const actionsHTML = `
-            <div class="quick-actions">
-                ${actions.map(action => 
-                    `<button class="quick-action-btn" onclick="handleQuickAction('${action.cmd}')">${action.text}</button>`
-                ).join('')}
-            </div>
-        `;
-        
-        const div = document.createElement('div');
-        div.className = 'message assistant';
-        div.innerHTML = `<div class="message-content">${actionsHTML}</div>`;
-        chat.appendChild(div);
-        chat.scrollTop = chat.scrollHeight;
-    }
-
-    function handleQuickAction(cmd) {
-        switch(cmd) {
-            case 'joke': 
-                handleUniqueCommands("tell me a joke");
-                break;
-            case 'game':
-                startTicTacToe();
+        switch(action) {
+            case 'joke':
+                handleCommand('Tell me a joke');
                 break;
             case 'time':
-                handleTimeCommand();
+                handleCommand('What time is it?');
                 break;
-            case 'help':
-                showHelp();
+            case 'game':
+                handleCommand('Play tic tac toe');
+                break;
+            case 'fact':
+                handleCommand('Tell me a fact');
+                break;
+            case 'weather':
+                handleCommand('What is the weather today?');
+                break;
+            case 'music':
+                openSearchModal('youtube');
+                break;
+            case 'calc':
+                showCalculator();
+                break;
+            case 'story':
+                handleCommand('Tell me a story');
+                break;
+            case 'quote':
+                handleCommand('Give me an inspirational quote');
                 break;
         }
     }
-
-    function showModal(title, callback, defaultValue = '') {
-        document.getElementById('modalTitle').innerText = title;
-        document.getElementById('modalInput').value = defaultValue;
-        document.getElementById('modal').style.display = 'flex';
-        modalCallback = callback;
-        document.getElementById('modalInput').focus();
+    
+    // Handle voice commands
+    function handleVoiceCommand(command) {
+        closeMenu();
+        handleCommand(command);
     }
-
-    function closeModal() {
-        document.getElementById('modal').style.display = 'none';
+    
+    // Show calculator
+    function showCalculator() {
+        const calcHtml = `
+            <div class="message assistant">
+                <div class="message-content">
+                    <div style="text-align: center; margin: 10px 0;">
+                        <h3 style="color: var(--primary); margin-bottom: 15px;">🧮 Calculator</h3>
+                        <input type="text" id="calcInput" placeholder="Enter expression (e.g., 5+5*2)" 
+                               style="width: 100%; padding: 12px; border: 2px solid var(--secondary); 
+                                      border-radius: 10px; margin-bottom: 15px; font-size: 1rem;">
+                        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;">
+                            ${['7','8','9','/','4','5','6','*','1','2','3','-','0','.','=','+'].map(btn => `
+                                <button onclick="handleCalcButton('${btn}')" 
+                                        style="padding: 12px; border: 1px solid #ddd; border-radius: 8px; 
+                                               background: ${btn === '=' ? 'var(--primary)' : 'white'}; 
+                                               color: ${btn === '=' ? 'white' : 'var(--dark)'}; 
+                                               cursor: pointer; font-size: 1.1rem;">
+                                    ${btn}
+                                </button>
+                            `).join('')}
+                        </div>
+                        <button onclick="calculate()" 
+                                style="width: 100%; padding: 12px; margin-top: 15px; 
+                                       background: var(--secondary); color: white; 
+                                       border: none; border-radius: 10px; cursor: pointer;">
+                            Calculate
+                        </button>
+                    </div>
+                </div>
+                <div class="message-time">Just now</div>
+            </div>
+        `;
+        addMessage(calcHtml, false);
     }
-
-    function submitModal() {
-        const value = document.getElementById('modalInput').value.trim();
-        if (value && modalCallback) {
-            modalCallback(value);
+    
+    function handleCalcButton(btn) {
+        const input = document.getElementById('calcInput');
+        if (btn === '=') {
+            calculate();
+        } else {
+            input.value += btn;
         }
-        closeModal();
     }
-
-    // UNIQUE COMMANDS HANDLER
-    function handleUniqueCommands(text) {
-        const lowText = text.toLowerCase();
+    
+    function calculate() {
+        const input = document.getElementById('calcInput');
+        try {
+            const result = Function('"use strict"; return (' + input.value + ')')();
+            addMessage(`Calculation: ${input.value} = ${result}`, true);
+            addMessage(`✅ Result: ${result}`, false);
+        } catch(e) {
+            addMessage(`❌ Invalid expression!`, false);
+        }
+    }
+    
+    // Search modal functions
+    function openSearchModal(engine) {
+        currentSearchEngine = engine;
+        const engineData = searchEngines[engine];
+        
+        document.getElementById('searchTitle').textContent = `Search on ${engineData.name}`;
+        document.getElementById('searchTitle').style.color = engineData.color;
+        
+        // Update engine selection
+        const selection = document.getElementById('engineSelection');
+        selection.innerHTML = '';
+        
+        Object.entries(searchEngines).forEach(([key, data]) => {
+            const isActive = key === currentSearchEngine;
+            selection.innerHTML += `
+                <div class="engine-option ${isActive ? 'active' : ''}" onclick="selectSearchEngine('${key}')">
+                    <div class="engine-icon" style="background: ${data.color}">
+                        <i class="${data.icon}"></i>
+                    </div>
+                    <div class="engine-name">${data.name}</div>
+                </div>
+            `;
+        });
+        
+        document.getElementById('searchInput').value = '';
+        document.getElementById('searchInput').focus();
+        
+        document.getElementById('searchModal').classList.add('active');
+    }
+    
+    function selectSearchEngine(engine) {
+        currentSearchEngine = engine;
+        const engineData = searchEngines[engine];
+        
+        document.getElementById('searchTitle').textContent = `Search on ${engineData.name}`;
+        document.getElementById('searchTitle').style.color = engineData.color;
+        
+        // Update active class
+        document.querySelectorAll('.engine-option').forEach(option => {
+            option.classList.remove('active');
+        });
+        event.currentTarget.classList.add('active');
+        
+        document.getElementById('searchInput').focus();
+    }
+    
+    function closeSearchModal() {
+        document.getElementById('searchModal').classList.remove('active');
+    }
+    
+    function performSearch() {
+        const query = document.getElementById('searchInput').value.trim();
+        if (!query) {
+            showToast('Please enter a search query!');
+            return;
+        }
+        
+        const engine = searchEngines[currentSearchEngine];
+        const searchUrl = engine.url + encodeURIComponent(query);
+        
+        addMessage(`Searching for "${query}" on ${engine.name}...`, true);
+        
+        window.open(searchUrl, '_blank');
+        closeSearchModal();
+    }
+    
+    // Switch tabs
+    function switchTab(tab) {
+        // Update active nav item
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.classList.remove('active');
+        });
+        event.currentTarget.classList.add('active');
+        
+        // Show different content based on tab
+        switch(tab) {
+            case 'chat':
+                // Already showing chat
+                break;
+            case 'commands':
+                showCommandsList();
+                break;
+            case 'tools':
+                showTools();
+                break;
+            case 'settings':
+                showSettings();
+                break;
+        }
+    }
+    
+    function showCommandsList() {
+        const commandsHtml = `
+            <div class="message assistant">
+                <div class="message-content">
+                    <h3 style="color: var(--primary); margin-bottom: 15px;">📋 Available Commands</h3>
+                    <div style="display: grid; grid-template-columns: 1fr; gap: 10px;">
+                        <div style="background: var(--light); padding: 12px; border-radius: 10px;">
+                            <b>🎮 Games & Fun:</b><br>
+                            • "play tic tac toe"<br>
+                            • "tell me a joke"<br>
+                            • "sing a song"<br>
+                            • "riddle me"
+                        </div>
+                        <div style="background: var(--light); padding: 12px; border-radius: 10px;">
+                            <b>🔍 Search:</b><br>
+                            • "search google [query]"<br>
+                            • "search youtube [query]"<br>
+                            • "search github [query]"<br>
+                            • "search wikipedia [query]"
+                        </div>
+                        <div style="background: var(--light); padding: 12px; border-radius: 10px;">
+                            <b>ℹ️ Information:</b><br>
+                            • "what time is it"<br>
+                            • "what's the date"<br>
+                            • "tell me a fact"<br>
+                            • "weather in [city]"
+                        </div>
+                    </div>
+                </div>
+                <div class="message-time">Just now</div>
+            </div>
+        `;
+        addMessage(commandsHtml, false);
+    }
+    
+    function showTools() {
+        const toolsHtml = `
+            <div class="message assistant">
+                <div class="message-content">
+                    <h3 style="color: var(--primary); margin-bottom: 15px;">🛠️ Tools</h3>
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;">
+                        <button onclick="showCalculator()" style="padding: 15px; border: 2px solid var(--secondary); border-radius: 12px; background: white; cursor: pointer;">
+                            <i class="fas fa-calculator" style="font-size: 1.5rem; color: var(--secondary); margin-bottom: 8px;"></i><br>
+                            <span style="font-size: 0.9rem;">Calculator</span>
+                        </button>
+                        <button onclick="openSearchModal('translate')" style="padding: 15px; border: 2px solid var(--accent); border-radius: 12px; background: white; cursor: pointer;">
+                            <i class="fas fa-language" style="font-size: 1.5rem; color: var(--accent); margin-bottom: 8px;"></i><br>
+                            <span style="font-size: 0.9rem;">Translate</span>
+                        </button>
+                        <button onclick="handleCommand('Convert 100 USD to BDT')" style="padding: 15px; border: 2px solid var(--success); border-radius: 12px; background: white; cursor: pointer;">
+                            <i class="fas fa-money-bill-wave" style="font-size: 1.5rem; color: var(--success); margin-bottom: 8px;"></i><br>
+                            <span style="font-size: 0.9rem;">Currency</span>
+                        </button>
+                        <button onclick="openSearchModal('maps')" style="padding: 15px; border: 2px solid var(--warning); border-radius: 12px; background: white; cursor: pointer;">
+                            <i class="fas fa-map" style="font-size: 1.5rem; color: var(--warning); margin-bottom: 8px;"></i><br>
+                            <span style="font-size: 0.9rem;">Maps</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="message-time">Just now</div>
+            </div>
+        `;
+        addMessage(toolsHtml, false);
+    }
+    
+    function showSettings() {
+        const settingsHtml = `
+            <div class="message assistant">
+                <div class="message-content">
+                    <h3 style="color: var(--primary); margin-bottom: 15px;">⚙️ Settings</h3>
+                    <div style="display: grid; grid-template-columns: 1fr; gap: 12px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background: var(--light); border-radius: 10px;">
+                            <span>Theme</span>
+                            <select onchange="changeTheme(this.value)" style="padding: 8px; border-radius: 8px; border: 1px solid #ddd;">
+                                <option value="default">Default</option>
+                                <option value="dark">Dark</option>
+                                <option value="blue">Blue</option>
+                                <option value="purple">Purple</option>
+                            </select>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background: var(--light); border-radius: 10px;">
+                            <span>Voice Assistant</span>
+                            <button onclick="toggleVoice()" style="padding: 8px 16px; background: var(--primary); color: white; border: none; border-radius: 8px; cursor: pointer;">
+                                ${isListening ? 'Stop' : 'Start'}
+                            </button>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background: var(--light); border-radius: 10px;">
+                            <span>Clear Chat History</span>
+                            <button onclick="clearChat()" style="padding: 8px 16px; background: var(--danger); color: white; border: none; border-radius: 8px; cursor: pointer;">
+                                Clear
+                            </button>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background: var(--light); border-radius: 10px;">
+                            <span>Change Name</span>
+                            <button onclick="changeName()" style="padding: 8px 16px; background: var(--secondary); color: white; border: none; border-radius: 8px; cursor: pointer;">
+                                Change
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="message-time">Just now</div>
+            </div>
+        `;
+        addMessage(settingsHtml, false);
+    }
+    
+    // Settings functions
+    function changeTheme(theme) {
+        let primaryColor = '#ff6b6b';
+        
+        switch(theme) {
+            case 'dark':
+                primaryColor = '#2d3436';
+                break;
+            case 'blue':
+                primaryColor = '#3498db';
+                break;
+            case 'purple':
+                primaryColor = '#9b59b6';
+                break;
+        }
+        
+        document.documentElement.style.setProperty('--primary', primaryColor);
+        showToast(`Theme changed to ${theme}`);
+    }
+    
+    function changeName() {
+        const newName = prompt('Enter your name:', userName);
+        if (newName && newName.trim()) {
+            userName = newName.trim();
+            localStorage.setItem('shizuka_user_name', userName);
+            updateUserProfile();
+            addMessage(`✅ Name updated to ${userName}!`, false);
+        }
+    }
+    
+    function clearChat() {
+        if (confirm('Are you sure you want to clear all chat messages?')) {
+            chatContainer.innerHTML = '';
+            messageCounter = 0;
+            updateStats();
+            showWelcomeMessage();
+        }
+    }
+    
+    function showProfile() {
+        const profileHtml = `
+            <div class="message assistant">
+                <div class="message-content">
+                    <div style="text-align: center;">
+                        <div style="width: 80px; height: 80px; background: var(--primary); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 15px; color: white; font-size: 2rem; font-weight: bold;">
+                            ${userName.charAt(0).toUpperCase()}
+                        </div>
+                        <h3 style="color: var(--primary); margin-bottom: 5px;">${userName}</h3>
+                        <p style="color: var(--gray); margin-bottom: 20px;">Shizuka AI User</p>
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px;">
+                            <div style="text-align: center;">
+                                <div style="font-size: 1.2rem; font-weight: bold; color: var(--primary);">${messageCounter}</div>
+                                <div style="font-size: 0.8rem; color: var(--gray);">Messages</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="font-size: 1.2rem; font-weight: bold; color: var(--primary);">${commandCounter}</div>
+                                <div style="font-size: 0.8rem; color: var(--gray);">Commands</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="font-size: 1.2rem; font-weight: bold; color: var(--primary);">2.2</div>
+                                <div style="font-size: 0.8rem; color: var(--gray);">Version</div>
+                            </div>
+                        </div>
+                        <button onclick="changeName()" style="width: 100%; padding: 12px; background: var(--primary); color: white; border: none; border-radius: 10px; cursor: pointer; margin-bottom: 10px;">
+                            Change Name
+                        </button>
+                        <button onclick="clearChat()" style="width: 100%; padding: 12px; background: var(--light); color: var(--dark); border: 1px solid #ddd; border-radius: 10px; cursor: pointer;">
+                            Clear Chat
+                        </button>
+                    </div>
+                </div>
+                <div class="message-time">Just now</div>
+            </div>
+        `;
+        addMessage(profileHtml, false);
+    }
+    
+    // Toast notification
+    function showToast(message) {
+        const toast = document.createElement('div');
+        toast.style.cssText = `
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--dark);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            z-index: 3000;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            animation: slideUp 0.3s ease;
+        `;
+        toast.textContent = message;
+        document.body.appendChild(toast);
+        
+        setTimeout(() => {
+            toast.style.animation = 'slideDown 0.3s ease';
+            setTimeout(() => document.body.removeChild(toast), 300);
+        }, 3000);
+    }
+    
+    // Add message to chat
+    function addMessage(content, isUser) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `message ${isUser ? 'user' : 'assistant'}`;
+        messageDiv.innerHTML = content;
+        
+        chatContainer.appendChild(messageDiv);
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+        
+        if (isUser) {
+            messageCounter++;
+        }
+        updateStats();
+    }
+    
+    // Handle command
+    function handleCommand(command) {
+        addMessage(`
+            <div class="message-content">${command}</div>
+            <div class="message-time">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+        `, true);
+        
+        processCommand(command);
+        messageInput.value = '';
+        messageInput.style.height = 'auto';
+    }
+    
+    // Send message
+    function sendMessage() {
+        const message = messageInput.value.trim();
+        if (!message) return;
+        
+        handleCommand(message);
+    }
+    
+    // Voice recognition
+    function toggleVoice() {
+        const micBtn = document.getElementById('micBtn');
+        
+        if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+            showToast('Voice recognition not supported');
+            return;
+        }
+        
+        if (isListening) {
+            stopListening();
+            micBtn.classList.remove('listening');
+            isListening = false;
+        } else {
+            startListening();
+            micBtn.classList.add('listening');
+            isListening = true;
+        }
+    }
+    
+    function startListening() {
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        recognition = new SpeechRecognition();
+        
+        recognition.lang = 'en-US';
+        recognition.continuous = false;
+        recognition.interimResults = false;
+        
+        recognition.onstart = () => {
+            addMessage(`
+                <div class="message-content">🎤 Listening... Speak now!</div>
+                <div class="message-time">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+            `, true);
+        };
+        
+        recognition.onresult = (event) => {
+            const transcript = event.results[0][0].transcript;
+            messageInput.value = transcript;
+            setTimeout(() => sendMessage(), 500);
+        };
+        
+        recognition.onerror = (event) => {
+            if (event.error !== 'aborted') {
+                showToast('Sorry, I couldn\'t hear that');
+            }
+        };
+        
+        recognition.onend = () => {
+            const micBtn = document.getElementById('micBtn');
+            micBtn.classList.remove('listening');
+            isListening = false;
+        };
+        
+        try {
+            recognition.start();
+        } catch(e) {
+            console.error('Voice recognition error:', e);
+        }
+    }
+    
+    function stopListening() {
+        if (recognition) {
+            try {
+                recognition.stop();
+            } catch(e) {
+                console.error('Stop recognition error:', e);
+            }
+        }
+    }
+    
+    // Process command
+    async function processCommand(command) {
+        const lowerCommand = command.toLowerCase();
+        commandCounter++;
+        updateStats();
+        
+        // Show typing indicator
+        const typingDiv = document.createElement('div');
+        typingDiv.className = 'message assistant';
+        typingDiv.innerHTML = `
+            <div class="typing-indicator">
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+            </div>
+        `;
+        chatContainer.appendChild(typingDiv);
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+        
+        // Check for special commands
+        let handled = false;
+        
+        // Time command
+        if (lowerCommand.includes('time') && (lowerCommand.includes('what') || lowerCommand.includes('current'))) {
+            const time = new Date().toLocaleTimeString('en-US', { timeZone: 'Asia/Dhaka', hour: '2-digit', minute: '2-digit', hour12: true });
+            setTimeout(() => {
+                chatContainer.removeChild(typingDiv);
+                addMessage(`
+                    <div class="message-content">⏰ The current time in Bangladesh is ${time}</div>
+                    <div class="message-time">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+                `, false);
+            }, 1000);
+            handled = true;
+        }
+        
+        // Date command
+        else if (lowerCommand.includes('date')) {
+            const date = new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+            setTimeout(() => {
+                chatContainer.removeChild(typingDiv);
+                addMessage(`
+                    <div class="message-content">📅 Today is ${date}</div>
+                    <div class="message-time">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+                `, false);
+            }, 1000);
+            handled = true;
+        }
         
         // Joke command
-        if (lowText.includes('joke') || lowText.includes('funny') || lowText.includes('laugh')) {
+        else if (lowerCommand.includes('joke') || lowerCommand.includes('funny')) {
             const jokes = [
-                "Why don't scientists trust atoms? Because they make up everything! 🤓",
-                "Why did the chicken go to the séance? To talk to the other side! 🐔",
-                "What do you call a fake noodle? An impasta! 🍝",
-                "Why did the math book look so sad? Because it had too many problems. 📚",
-                "What do you call a bear with no teeth? A gummy bear! 🐻"
+                "Why don't scientists trust atoms? Because they make up everything!",
+                "Why did the chicken go to the séance? To talk to the other side!",
+                "What do you call a fake noodle? An impasta!",
+                "Why did the math book look so sad? Because it had too many problems.",
+                "What do you call a bear with no teeth? A gummy bear!"
             ];
             const joke = jokes[Math.floor(Math.random() * jokes.length)];
-            addMsg(joke, false);
-            return true;
+            setTimeout(() => {
+                chatContainer.removeChild(typingDiv);
+                addMessage(`
+                    <div class="message-content">${joke}</div>
+                    <div class="message-time">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+                `, false);
+            }, 1000);
+            handled = true;
         }
         
-        // Sing command
-        if (lowText.includes('sing') || lowText.includes('song') || lowText.includes('music')) {
-            const songs = [
-                "🎵 Twinkle, twinkle, little star... How I wonder what you are! 🎵",
-                "🎶 You are my sunshine, my only sunshine... 🎶",
-                "🎤 Never gonna give you up, never gonna let you down... 🎤",
-                "🎹 Happy birthday to you, happy birthday to you... 🎹"
-            ];
-            const song = songs[Math.floor(Math.random() * songs.length)];
-            addMsg(song, false);
-            return true;
+        // Game command
+        else if (lowerCommand.includes('tic tac toe') || lowerCommand.includes('game')) {
+            setTimeout(() => {
+                chatContainer.removeChild(typingDiv);
+                startTicTacToe();
+            }, 1000);
+            handled = true;
         }
         
-        // Tic Tac Toe game
-        if (lowText.includes('tic tac toe') || lowText.includes('play game') || lowText.includes('game')) {
-            startTicTacToe();
-            return true;
+        // Search commands
+        else if (lowerCommand.startsWith('search ')) {
+            const query = command.substring(7).trim();
+            const engine = lowerCommand.includes('youtube') ? 'youtube' : 
+                          lowerCommand.includes('github') ? 'github' :
+                          lowerCommand.includes('wikipedia') ? 'wikipedia' : 'google';
+            
+            const engineData = searchEngines[engine];
+            const searchUrl = engineData.url + encodeURIComponent(query.replace(engine, '').trim());
+            
+            setTimeout(() => {
+                chatContainer.removeChild(typingDiv);
+                addMessage(`
+                    <div class="message-content">🔍 Searching ${engineData.name} for "${query}"...</div>
+                    <div class="message-time">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+                `, false);
+                
+                window.open(searchUrl, '_blank');
+            }, 1000);
+            handled = true;
         }
         
-        // Story command
-        if (lowText.includes('story') || lowText.includes('tell me a story') || lowText.includes('fairy tale')) {
-            const stories = [
-                "Once upon a time, in a digital kingdom, there lived a friendly AI named Shizuka who helped everyone with their tasks...",
-                "In a world of code and circuits, a special assistant was born to make humans smile and help them achieve their dreams...",
-                "There was a magical forest where every tree was a computer and every flower was a beautiful interface..."
-            ];
-            const story = stories[Math.floor(Math.random() * stories.length)];
-            addMsg(story, false);
-            return true;
+        // If not handled by special commands, use AI
+        if (!handled) {
+            try {
+                const response = await fetch(`${API_URL}/api/query`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ query: command })
+                });
+                
+                const data = await response.json();
+                
+                chatContainer.removeChild(typingDiv);
+                addMessage(`
+                    <div class="message-content">${data.text || 'I understand! 😊'}</div>
+                    <div class="message-time">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+                `, false);
+            } catch (error) {
+                chatContainer.removeChild(typingDiv);
+                const fallback = [
+                    "I'm not sure about that. Could you rephrase?",
+                    "That's interesting! Tell me more.",
+                    "I'm still learning. Try asking something else! 😊"
+                ];
+                const randomResponse = fallback[Math.floor(Math.random() * fallback.length)];
+                
+                addMessage(`
+                    <div class="message-content">${randomResponse}</div>
+                    <div class="message-time">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+                `, false);
+            }
         }
-        
-        // Fact command
-        if (lowText.includes('fact') || lowText.includes('interesting fact') || lowText.includes('did you know')) {
-            const facts = [
-                "Did you know? Honey never spoils. Archaeologists have found pots of honey in ancient Egyptian tombs that are over 3,000 years old! 🍯",
-                "Octopuses have three hearts. Two pump blood to the gills, while the third pumps it to the rest of the body. 🐙",
-                "Bananas are berries, but strawberries aren't! 🍓❌ 🍌✅"
-            ];
-            const fact = facts[Math.floor(Math.random() * facts.length)];
-            addMsg(fact, false);
-            return true;
-        }
-        
-        // Riddle command
-        if (lowText.includes('riddle') || lowText.includes('puzzle') || lowText.includes('brain teaser')) {
-            const riddles = [
-                { q: "What has keys but can't open locks?", a: "A piano! 🎹" },
-                { q: "What comes once in a minute, twice in a moment, but never in a thousand years?", a: "The letter 'M'! 🔤" },
-                { q: "I speak without a mouth and hear without ears. I have no body, but I come alive with wind. What am I?", a: "An echo! 🔊" }
-            ];
-            const riddle = riddles[Math.floor(Math.random() * riddles.length)];
-            addMsg(`🤔 ${riddle.q}`, false);
-            setTimeout(() => addMsg(`💡 Answer: ${riddle.a}`, false), 3000);
-            return true;
-        }
-        
-        // Quote command
-        if (lowText.includes('quote') || lowText.includes('inspiration') || lowText.includes('motivation')) {
-            const quotes = [
-                "✨ The only way to do great work is to love what you do. - Steve Jobs",
-                "🌟 Innovation distinguishes between a leader and a follower. - Steve Jobs",
-                "💫 The future belongs to those who believe in the beauty of their dreams. - Eleanor Roosevelt"
-            ];
-            const quote = quotes[Math.floor(Math.random() * quotes.length)];
-            addMsg(quote, false);
-            return true;
-        }
-        
-        // Compliment command
-        if (lowText.includes('compliment') || lowText.includes('flatter') || lowText.includes('nice thing')) {
-            const compliments = [
-                "You're doing amazing! Keep shining! ✨",
-                "Your smile could light up the darkest room! 😊",
-                "You have a wonderful way of looking at the world! 🌍"
-            ];
-            const compliment = compliments[Math.floor(Math.random() * compliments.length)];
-            addMsg(compliment, false);
-            return true;
-        }
-        
-        return false;
     }
-
-    // Tic Tac Toe Game Functions
+    
+    // Tic Tac Toe game
+    let ticTacToeBoard = ['','','','','','','','',''];
+    let currentPlayer = 'X';
+    
     function startTicTacToe() {
         ticTacToeBoard = ['','','','','','','','',''];
         currentPlayer = 'X';
-        const boardHTML = `
-            <div style="text-align: center; margin: 10px 0;">
-                <h3 style="color: var(--primary); margin-bottom: 15px;">🎮 Tic Tac Toe</h3>
-                <div style="display: grid; grid-template-columns: repeat(3, 70px); gap: 8px; margin: 15px auto; width: 226px;">
-                    ${ticTacToeBoard.map((cell, index) => `
-                        <button onclick="makeMove(${index})" 
-                                style="width: 70px; height: 70px; border: 2px solid var(--secondary); 
-                                       border-radius: 10px; font-size: 28px; font-weight: bold; 
-                                       background: white; cursor: pointer; transition: 0.3s;
-                                       box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
-                            ${cell || ' '}
+        
+        const gameHtml = `
+            <div class="message assistant">
+                <div class="message-content">
+                    <div style="text-align: center;">
+                        <h3 style="color: var(--primary); margin-bottom: 15px;">🎮 Tic Tac Toe</h3>
+                        <div id="gameBoard" style="display: grid; grid-template-columns: repeat(3, 80px); gap: 10px; margin: 0 auto 20px; width: 260px;">
+                            ${ticTacToeBoard.map((cell, index) => `
+                                <button onclick="makeMove(${index})" 
+                                        style="width: 80px; height: 80px; border: 2px solid var(--secondary); 
+                                               border-radius: 15px; font-size: 32px; font-weight: bold; 
+                                               background: white; cursor: pointer; transition: all 0.3s;">
+                                    ${cell || ''}
+                                </button>
+                            `).join('')}
+                        </div>
+                        <p id="gameStatus" style="color: var(--dark); font-weight: 600; margin-bottom: 15px;">
+                            Player <span style="color: var(--primary);">${currentPlayer}</span>'s turn
+                        </p>
+                        <button onclick="resetGame()" 
+                                style="padding: 10px 25px; background: var(--primary); color: white; 
+                                       border: none; border-radius: 25px; cursor: pointer; font-weight: 600;">
+                            🔄 New Game
                         </button>
-                    `).join('')}
+                    </div>
                 </div>
-                <p style="color: var(--dark); font-weight: 600; margin: 10px 0;">
-                    Player <span style="color: var(--primary);">${currentPlayer}</span>'s turn
-                </p>
-                <button onclick="resetGame()" 
-                        style="padding: 10px 20px; background: var(--primary); color: white; 
-                               border: none; border-radius: 25px; cursor: pointer; 
-                               font-weight: 600; margin-top: 10px; transition: 0.3s;">
-                    🔄 Reset Game
-                </button>
+                <div class="message-time">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
             </div>
         `;
-        addMsg(boardHTML, false);
+        
+        addMessage(gameHtml, false);
     }
-
+    
     function makeMove(index) {
         if (ticTacToeBoard[index] || checkWinner()) return;
         
@@ -1154,15 +2141,17 @@
         updateGameDisplay();
         
         if (checkWinner()) {
-            addMsg(`🎉 Player ${currentPlayer} wins! Congratulations! 🏆`, false);
+            document.getElementById('gameStatus').innerHTML = 
+                `🎉 Player <span style="color: var(--primary);">${currentPlayer}</span> wins! 🏆`;
         } else if (ticTacToeBoard.every(cell => cell)) {
-            addMsg("🤝 It's a tie! Well played both! 🤜🤛", false);
+            document.getElementById('gameStatus').innerHTML = "🤝 It's a tie!";
         } else {
             currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
-            updateGameDisplay();
+            document.getElementById('gameStatus').innerHTML = 
+                `Player <span style="color: var(--primary);">${currentPlayer}</span>'s turn`;
         }
     }
-
+    
     function checkWinner() {
         const winPatterns = [
             [0,1,2], [3,4,5], [6,7,8],
@@ -1177,357 +2166,27 @@
                    ticTacToeBoard[a] === ticTacToeBoard[c];
         });
     }
-
+    
     function updateGameDisplay() {
-        const gameElements = chat.querySelectorAll('[style*="grid-template-columns: repeat(3, 70px)"]');
-        if (gameElements.length > 0) {
-            const gameContainer = gameElements[0].parentElement;
-            gameContainer.innerHTML = `
-                <h3 style="color: var(--primary); margin-bottom: 15px;">🎮 Tic Tac Toe</h3>
-                <div style="display: grid; grid-template-columns: repeat(3, 70px); gap: 8px; margin: 15px auto; width: 226px;">
-                    ${ticTacToeBoard.map((cell, index) => `
-                        <button onclick="makeMove(${index})" 
-                                style="width: 70px; height: 70px; border: 2px solid var(--secondary); 
-                                       border-radius: 10px; font-size: 28px; font-weight: bold; 
-                                       background: white; cursor: pointer; transition: 0.3s;
-                                       box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
-                            ${cell || ' '}
-                        </button>
-                    `).join('')}
-                </div>
-                <p style="color: var(--dark); font-weight: 600; margin: 10px 0;">
-                    Player <span style="color: var(--primary);">${currentPlayer}</span>'s turn
-                </p>
-                <button onclick="resetGame()" 
-                        style="padding: 10px 20px; background: var(--primary); color: white; 
-                               border: none; border-radius: 25px; cursor: pointer; 
-                               font-weight: 600; margin-top: 10px; transition: 0.3s;">
-                    🔄 Reset Game
+        const board = document.getElementById('gameBoard');
+        if (board) {
+            board.innerHTML = ticTacToeBoard.map((cell, index) => `
+                <button onclick="makeMove(${index})" 
+                        style="width: 80px; height: 80px; border: 2px solid var(--secondary); 
+                               border-radius: 15px; font-size: 32px; font-weight: bold; 
+                               background: white; cursor: pointer; transition: all 0.3s;">
+                    ${cell || ''}
                 </button>
-            `;
+            `).join('');
         }
     }
-
+    
     function resetGame() {
         startTicTacToe();
     }
-
-    // System command handler
-    function handleSystemCmd(cmd) {
-        if (cmd === 'game') {
-            startTicTacToe();
-            return;
-        }
-        
-        if(cmd === 'music') {
-            showModal("Search Music", (query) => {
-                window.open(`https://www.youtube.com/results?search_query=${encodeURIComponent(query)}+song`, '_blank');
-            }, "Enter song name");
-            return;
-        }
-        
-        if(cmd === 'browser') {
-            showModal("Enter Website URL", (url) => {
-                window.open(url.includes("http") ? url : "https://" + url, '_blank');
-            });
-            return;
-        }
-        
-        if(cmd === 'calculator') {
-            showModal("Enter Math Expression", (expr) => {
-                try {
-                    const result = Function('"use strict"; return (' + expr + ')')();
-                    addMsg(`${expr} = ${result}`, true);
-                    addMsg(`🎯 Result: ${result}`, false);
-                } catch(e) {
-                    addMsg(`❌ Invalid calculation! Please check your expression.`, false);
-                }
-            });
-            return;
-        }
-
-        if(cmd === 'weather') {
-            showModal("Enter City Name", (city) => {
-                addMsg(`Fetching weather for ${city}...`, true);
-                addMsg(`☁️ Weather in ${city}: You can check detailed forecast at weather.com`, false);
-                setTimeout(() => {
-                    window.open(`https://www.weather.com/weather/today/l/${encodeURIComponent(city)}`, '_blank');
-                }, 1500);
-            });
-            return;
-        }
-
-        const urls = { 
-            whatsapp: 'https://wa.me/', 
-            facebook: 'https://facebook.com', 
-            youtube: 'https://youtube.com', 
-            github: 'https://github.com/mrtan-official', 
-            google: 'https://google.com', 
-            gmail: 'https://mail.google.com',
-            linkedin: 'https://linkedin.com'
-        };
-        if(urls[cmd]) window.open(urls[cmd], '_blank');
-    }
-
-    function handleTimeCommand() {
-        const t = new Date().toLocaleTimeString('en-US', { timeZone: 'Asia/Dhaka', hour: '2-digit', minute: '2-digit', hour12: true });
-        addMsg(`⏰ The current time in Bangladesh is ${t}`, false);
-    }
-
-    function showHelp() {
-        const helpMsg = `
-            <div style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1)); padding: 20px; border-radius: 20px; margin: 10px 0; border: 1px solid rgba(102, 126, 234, 0.2);">
-                <b style="color: var(--primary); font-size: 1.1rem;">🤖 Shizuka Commands Guide:</b><br><br>
-                
-                <div style="display: grid; grid-template-columns: 1fr; gap: 10px;">
-                    <div style="background: white; padding: 12px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
-                        <b>🎮 Games & Fun:</b><br>
-                        • "play tic tac toe"<br>
-                        • "tell me a joke"<br>
-                        • "sing a song"<br>
-                        • "give me a riddle"
-                    </div>
-                    
-                    <div style="background: white; padding: 12px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
-                        <b>📚 Learning:</b><br>
-                        • "tell me a story"<br>
-                        • "give me a fact"<br>
-                        • "inspire me"<br>
-                        • "compliment me"
-                    </div>
-                    
-                    <div style="background: white; padding: 12px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
-                        <b>🛠️ Utilities:</b><br>
-                        • "what time is it"<br>
-                        • "what's the date"<br>
-                        • "what's my name"<br>
-                        • "change my name to [name]"
-                    </div>
-                </div>
-                
-                <p style="margin-top: 15px; color: #666; font-size: 0.9rem;">
-                    💡 <b>Tip:</b> Click on app icons below for quick actions!
-                </p>
-            </div>
-        `;
-        addMsg(helpMsg, false);
-    }
-
-    // Main message handler
-    async function sendMsg() {
-        const text = input.value.trim();
-        if(!text) return;
-        
-        addMsg(text, true);
-        input.value = '';
-        const lowText = text.toLowerCase();
-
-        // User name handling
-        if (!userName || userName === "Guest") {
-            userName = text;
-            sessionStorage.setItem('shizuka_user_name', userName);
-            addMsg(`Nice to meet you, ${userName}! I'm Shizuka. 😊 Try asking me to tell a joke or play tic-tac-toe!`, false);
-            addQuickActions();
-            return;
-        }
-
-        // Change name command
-        if(lowText.includes("change my name to")) {
-            let n = text.replace(/change my name to/i, "").trim();
-            if(n) { 
-                userName = n; 
-                sessionStorage.setItem('shizuka_user_name', userName); 
-                addMsg(`✅ Updated! I'll call you ${userName} from now on. ✨`, false); 
-            }
-            return;
-        }
-
-        // Check unique commands first
-        if (handleUniqueCommands(text)) {
-            return;
-        }
-
-        // Basic commands
-        if(lowText.includes("time") && (lowText.includes("what") || lowText.includes("current"))) {
-            handleTimeCommand();
-        }
-        else if(lowText.includes("date")) {
-            const d = new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-            addMsg(`📅 Today is ${d}`, false);
-        }
-        else if(lowText.includes("my name")) {
-            addMsg(`👤 Your name is ${userName}. 😊`, false);
-        }
-        else if(lowText.includes("hello") || lowText.includes("hi") || lowText.includes("hey")) {
-            const greetings = [
-                `Hi ${userName}! How can I help you today? 👋`,
-                `Hello ${userName}! Ready to assist! 🌟`,
-                `Hey there ${userName}! What's on your mind? 😊`,
-                `Greetings ${userName}! How may I assist you? ✨`
-            ];
-            addMsg(greetings[Math.floor(Math.random() * greetings.length)], false);
-        }
-        else if(lowText.includes("tanim") || lowText.includes("developer") || lowText.includes("creator")) {
-            const devInfo = `
-                <div class="ai-response">
-                    <b style="color: var(--primary);">👨‍💻 Abu Tanim</b> - My Creator<br><br>
-                    🎓 <b>Education:</b> BSc in CSE at Premier University<br>
-                    📍 <b>Location:</b> Chittagong, Bangladesh<br>
-                    🐍 <b>Expertise:</b> Python Expert & Full Stack Developer<br>
-                    🎂 <b>Birthday:</b> September 20<br><br>
-                    🔗 <b>GitHub:</b> <a href="https://github.com/mrtan-official" target="_blank">github.com/mrtan-official</a><br>
-                    📧 <b>Email:</b> <a href="mailto:abu.tanim.official@gmail.com">abu.tanim.official@gmail.com</a>
-                </div>`;
-            addMsg(devInfo, false);
-        }
-        else if(lowText.includes("help") || lowText.includes("commands")) {
-            showHelp();
-        }
-        else if(lowText.includes("thank") || lowText.includes("thanks")) {
-            const responses = [
-                `You're welcome, ${userName}! 😊 Always happy to help!`,
-                `My pleasure, ${userName}! 🌸`,
-                `Anytime, ${userName}! Feel free to ask more! ✨`
-            ];
-            addMsg(responses[Math.floor(Math.random() * responses.length)], false);
-        }
-        else if(lowText.includes("bye") || lowText.includes("goodbye")) {
-            addMsg(`Goodbye ${userName}! Have a wonderful day! 👋🌸`, false);
-        }
-        else if(lowText.includes("open ")) {
-            const app = lowText.replace("open ", "").trim();
-            handleSystemCmd(app);
-        }
-        else {
-            // Show typing indicator
-            const typingDiv = document.createElement('div');
-            typingDiv.className = 'message assistant';
-            typingDiv.innerHTML = `<div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>`;
-            chat.appendChild(typingDiv);
-            chat.scrollTop = chat.scrollHeight;
-            
-            try {
-                const res = await fetch(`${API_URL}/api/query`, { 
-                    method: 'POST', 
-                    headers: {'Content-Type': 'application/json'}, 
-                    body: JSON.stringify({ query: text }) 
-                });
-                const data = await res.json();
-                
-                // Remove typing indicator
-                chat.removeChild(typingDiv);
-                
-                addMsg(data.text || "I understand! 😊", false);
-            } catch(e) {
-                // Remove typing indicator
-                chat.removeChild(typingDiv);
-                
-                // Fallback response
-                const fallbackResponses = [
-                    `I'm not sure about that, ${userName}. Try asking me something else! 😊`,
-                    `That's interesting, ${userName}! Could you rephrase that? 🌸`,
-                    `I'm still learning, ${userName}! Maybe try one of my special commands? ✨`
-                ];
-                addMsg(fallbackResponses[Math.floor(Math.random() * fallbackResponses.length)], false);
-            }
-        }
-    }
-
-    // Add message to chat
-    function addMsg(text, isUser) {
-        const div = document.createElement('div');
-        div.className = `message ${isUser ? 'user' : 'assistant'}`;
-        
-        const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        div.innerHTML = `
-            <div class="message-content">${text}</div>
-            <div class="time-stamp">${time}</div>
-        `;
-        chat.appendChild(div);
-        chat.scrollTop = chat.scrollHeight;
-        
-        if(!isUser && !text.includes('<button') && !text.includes('<input')) {
-            speak(div.innerText.replace(/\n/g, ' '));
-        }
-    }
-
-    // Voice recognition
-    function toggleVoice() {
-        const micBtn = document.getElementById('mic');
-        
-        if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
-            addMsg("Voice recognition is not supported in your browser. 😔", false);
-            return;
-        }
-
-        if (isListening) {
-            stopListening();
-            micBtn.classList.remove('listening');
-            isListening = false;
-        } else {
-            startListening();
-            micBtn.classList.add('listening');
-            isListening = true;
-        }
-    }
-
-    function startListening() {
-        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-        recognition = new SpeechRecognition();
-        
-        recognition.lang = 'en-US';
-        recognition.continuous = false;
-        recognition.interimResults = false;
-        
-        recognition.onstart = () => {
-            addMsg("🎤 Listening... Speak now!", true);
-        };
-        
-        recognition.onresult = (event) => {
-            const transcript = event.results[0][0].transcript;
-            input.value = transcript;
-            setTimeout(() => sendMsg(), 500);
-        };
-        
-        recognition.onerror = (event) => {
-            console.error('Speech recognition error', event.error);
-            if (event.error !== 'aborted') {
-                addMsg("Sorry, I couldn't hear that clearly. 🎧", false);
-            }
-        };
-        
-        recognition.onend = () => {
-            const micBtn = document.getElementById('mic');
-            micBtn.classList.remove('listening');
-            isListening = false;
-        };
-        
-        try {
-            recognition.start();
-        } catch(e) {
-            console.error('Recognition start error:', e);
-        }
-    }
-
-    function stopListening() {
-        if (recognition) {
-            try {
-                recognition.stop();
-            } catch(e) {
-                console.error('Recognition stop error:', e);
-            }
-        }
-    }
-
-    // Event listeners
-    input.addEventListener('keypress', (e) => { 
-        if(e.key === 'Enter') sendMsg(); 
-    });
     
-    // Initialize on load
-    window.addEventListener('load', () => {
-        // No need to call initGreeting here - it's called from loadVoices
-    });
+    // Initialize app
+    window.onload = initApp;
 </script>
 </body>
 </html>
