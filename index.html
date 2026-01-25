@@ -105,7 +105,7 @@
 <div id="modal" class="modal">
     <div class="modal-content">
         <h2 id="modalTitle">Enter Name</h2>
-        <input type="text" id="modalInput" placeholder="Your name">
+        <input type="text" id="modalInput" placeholder="Enter here..." autocomplete="off">
         <div class="modal-buttons">
             <button class="btn-close" onclick="closeModal()">Cancel</button>
             <button class="btn-ok" onclick="submitModal()">OK</button>
@@ -117,16 +117,16 @@
     const API_URL = 'https://shizuka-ai-assistant.onrender.com';
     const chat = document.getElementById('chat');
     const input = document.getElementById('msgInput');
-    let userName = localStorage.getItem('shizuka_user_name') || '';
+    let userName = sessionStorage.getItem('shizuka_user_name') || '';
     let selectedVoice = null;
     let modalCallback = null;
 
-    // ভয়েস ইনিশিয়ালাইজ করা
+    // Load voices
     function loadVoices() {
         const synth = window.speechSynthesis;
         let voices = synth.getVoices();
         
-        // ফিমেল ভয়েস সার্চ করা
+        // Search for female voice
         selectedVoice = voices.find(v => 
             (v.name.includes('Female') || v.name.includes('female') || 
              v.name.includes('Google US English Female') || 
@@ -134,7 +134,7 @@
             v.lang.includes('en')
         );
         
-        // ফিমেল না পেলে অন্য ভয়েস ব্যবহার করা
+        // Use alternative voice if female not found
         if (!selectedVoice) {
             selectedVoice = voices.find(v => v.lang.includes('en'));
         }
@@ -160,8 +160,8 @@
         
         if (selectedVoice) utter.voice = selectedVoice;
         
-        utter.pitch = 1.2;  // ফিমেল ভয়েসের জন্য
-        utter.rate = 0.95;  // একটু ধীর গতিতে
+        utter.pitch = 1.2;
+        utter.rate = 0.95;
         synth.speak(utter);
     }
 
@@ -220,20 +220,23 @@
         }
         
         if(cmd === 'calculator') {
-            showModal("Enter Calculation", (expr) => {
+            showModal("Enter Math (e.g., 5+5)", (expr) => {
                 try {
-                    const result = eval(expr);
-                    addMsg(`Result: ${result}`, true);
-                    addMsg(`${expr} = ${result}`, false);
+                    const result = Function('"use strict"; return (' + expr + ')')();
+                    addMsg(`${expr} = ${result}`, true);
+                    addMsg(`Result is ${result}`, false);
                 } catch(e) {
-                    addMsg(`Invalid calculation!`, false);
+                    addMsg(`Sorry, invalid calculation!`, false);
                 }
             });
             return;
         }
 
         if(cmd === 'weather') {
-            addMsg("Please tell me your city name", false);
+            showModal("Enter Your City Name", (city) => {
+                addMsg(`Weather for ${city}`, true);
+                addMsg(`Please check weather.com for detailed forecast in ${city}`, false);
+            });
             return;
         }
 
@@ -258,7 +261,7 @@
 
         if (!userName) {
             userName = text;
-            localStorage.setItem('shizuka_user_name', userName);
+            sessionStorage.setItem('shizuka_user_name', userName);
             addMsg(`Nice to meet you, ${userName}! How can I help? 😊`, false);
             return;
         }
@@ -267,7 +270,7 @@
             let n = text.replace(/change my name to/i, "").trim();
             if(n) { 
                 userName = n; 
-                localStorage.setItem('shizuka_user_name', userName); 
+                sessionStorage.setItem('shizuka_user_name', userName); 
                 addMsg(`Updated! I'll call you ${userName} from now on. ✨`, false); 
             }
             return;
