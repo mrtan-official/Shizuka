@@ -1,0 +1,2 @@
+# Shizuka
+Shizuka-smart-ai
