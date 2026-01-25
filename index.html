@@ -100,13 +100,17 @@
     let userName = localStorage.getItem('shizuka_user_name');
     let selectedVoice = null;
 
-    // --- Voice Logic (Locked for Consistency) ---
+    // --- Emoji Filter Logic ---
+    function removeEmojis(text) {
+        return text.replace(/[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F700}-\u{1F77F}\u{1F780}-\u{1F7FF}\u{1F800}-\u{1F8FF}\u{1F900}-\u{1F9FF}\u{1FA00}-\u{1FA6F}\u{1FA70}-\u{1FAFF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu, '');
+    }
+
+    // --- Voice Logic (Locked and Deeper) ---
     function loadVoices() {
         const synth = window.speechSynthesis;
         let voices = synth.getVoices();
-        // Priority: Google US English Female -> Microsoft Zira -> Any Female -> First available
+        // Priority: US English Female -> Any Female -> Zira -> First available
         selectedVoice = voices.find(v => v.name.includes('Google US English') && v.name.includes('Female')) || 
-                        voices.find(v => v.name.includes('Google US English')) ||
                         voices.find(v => v.name.includes('Female')) ||
                         voices.find(v => v.name.includes('Zira')) ||
                         voices[0];
@@ -120,12 +124,15 @@
 
     function speak(text) {
         const synth = window.speechSynthesis;
-        if (synth.speaking) synth.cancel(); // আগের কথা থামিয়ে নতুনটা শুরু করবে
+        if (synth.speaking) synth.cancel(); 
         
-        const utter = new SpeechSynthesisUtterance(text);
+        const cleanText = removeEmojis(text); // ইমোজি রিমুভ করা হলো
+        const utter = new SpeechSynthesisUtterance(cleanText);
+        
         if (selectedVoice) utter.voice = selectedVoice;
-        utter.pitch = 1.3; 
-        utter.rate = 1.0;
+        
+        utter.pitch = 0.85; // ভয়েস মোটা করার জন্য ১ এর নিচে রাখা হয়েছে
+        utter.rate = 1.0;   // স্বাভাবিক গতি
         synth.speak(utter);
     }
 
@@ -155,7 +162,7 @@
 
     function handleSystemCmd(cmd) {
         if(cmd === 'browser') {
-            let u = prompt("Enter Website (e.g. google.com):");
+            let u = prompt("Enter Website:");
             if(u) window.open(u.includes("http") ? u : "https://" + u, '_blank');
             return;
         }
@@ -177,13 +184,13 @@
         if (!userName) {
             userName = text;
             localStorage.setItem('shizuka_user_name', userName);
-            addMsg(`Nice to meet you, ${userName}! How can I help you today?`, false);
+            addMsg(`Nice to meet you, ${userName}! How can I help?`, false);
             return;
         }
 
         if(lowText.includes("change my name to")) {
             let n = text.replace(/change my name to/i, "").trim();
-            if(n) { userName = n; localStorage.setItem('shizuka_user_name', userName); addMsg(`Got it! I'll call you ${userName} from now on.`, false); }
+            if(n) { userName = n; localStorage.setItem('shizuka_user_name', userName); addMsg(`Updated! I'll call you ${userName}.`, false); }
             return;
         }
 
@@ -214,7 +221,7 @@
                 const data = await res.json();
                 addMsg(data.text || "I see!", false);
             } catch(e) {
-                addMsg(`Sorry ${userName}, I'm having trouble connecting to my server. Ask me the time instead!`, false);
+                addMsg(`Sorry ${userName}, connection error.`, false);
             }
         }
     }
@@ -225,7 +232,7 @@
         div.innerHTML = `<div class="message-content">${text}</div>`;
         chat.appendChild(div);
         chat.scrollTop = chat.scrollHeight;
-        if(!isUser) speak(div.innerText);
+        if(!isUser) speak(div.innerText); // শিজুকা যখন রিপ্লাই দেবে তখন কথা বলবে
     }
 
     function startVoice() {
@@ -241,4 +248,3 @@
 </script>
 </body>
 </html>
-
