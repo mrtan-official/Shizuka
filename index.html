@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shizuka AI Assistant Pro | Abu Tanim</title>
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/4712/4712035.png" type="image/png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
@@ -37,7 +38,8 @@
             border: 1px solid rgba(255,255,255,0.4);
         }
 
-        .header { background: white; padding: 15px; text-align: center; border-bottom: 1px solid #eee; }
+        .header { background: white; padding: 15px; text-align: center; border-bottom: 1px solid #eee; position: relative; }
+        .header img { width: 40px; margin-bottom: 5px; } /* Logo style */
         .header h1 { font-size: 1.4rem; color: var(--dark); }
         .header p { font-size: 0.75rem; color: #ff6b6b; font-weight: bold; }
 
@@ -47,6 +49,7 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } }
 
         .message-content { padding: 12px 18px; border-radius: 18px; max-width: 85%; font-size: 0.9rem; line-height: 1.4; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .message-content a { color: #23a6d5; text-decoration: none; font-weight: bold; }
 
         .user { align-items: flex-end; }
         .user .message-content { background: var(--primary); color: white; border-bottom-right-radius: 2px; }
@@ -74,6 +77,7 @@
 
 <div class="container">
     <div class="header">
+        <img src="https://cdn-icons-png.flaticon.com/512/4712/4712035.png" alt="Logo">
         <h1>✨ Shizuka AI Pro</h1>
         <p>Developer: Abu Tanim</p>
     </div>
@@ -96,7 +100,6 @@
     
     let userName = localStorage.getItem('shizuka_user_name');
 
-    // --- Dynamic Icons Setup ---
     const apps = [
         { id: 'whatsapp', icon: 'fab fa-whatsapp', bg: '#e8f9ee', color: '#25D366', label: 'WA' },
         { id: 'facebook', icon: 'fab fa-facebook', bg: '#e7f0ff', color: '#1877F2', label: 'FB' },
@@ -113,7 +116,6 @@
         grid.innerHTML += `<div class="app-icon" onclick="handleSystemCmd('${app.id}')"><i class="${app.icon}" style="background: ${app.bg}; color: ${app.color};"></i>${app.label}</div>`;
     });
 
-    // --- Original Shizuka Lady Voice ---
     function speak(text) {
         const synth = window.speechSynthesis;
         const utter = new SpeechSynthesisUtterance(text);
@@ -159,7 +161,6 @@
         input.value = '';
         const lowText = text.toLowerCase();
 
-        // --- Name Setup Fix ---
         if (!userName) {
             if(lowText === 'hi' || lowText === 'hello') {
                 addMsg("Hello! But first, please tell me your name. 🌸", false);
@@ -171,7 +172,6 @@
             return;
         }
 
-        // --- Command: Name Change ---
         if(lowText.includes("change my name to")) {
             let newName = text.replace(/change my name to/i, "").trim();
             if(newName) {
@@ -182,7 +182,6 @@
             return;
         }
 
-        // --- Command: Time (Bangladesh Zone) ---
         if(lowText.includes("time")) {
             const timeString = new Date().toLocaleTimeString('en-US', { 
                 timeZone: 'Asia/Dhaka', hour: '2-digit', minute: '2-digit', hour12: true 
@@ -192,8 +191,10 @@
         else if(lowText.includes("my name")) {
             addMsg(`Your name is ${userName}.`, false);
         }
+        // Updated Developer Response with GitHub Link
         else if(lowText.includes("tanim") || lowText.includes("developer")) {
-            addMsg("Abu Tanim is my creator. He is a software developer from Chittagong, currently studying BSc in CSE at Premier University. His birthday is Sep 20 and he is a Python expert!", false);
+            addMsg(`Abu Tanim is my creator. He is a software developer from Chittagong, currently studying BSc in CSE at Premier University. His birthday is Sep 20 and he is a Python expert! 
+            Check out his profile: <a href="https://github.com/mrtan-official" target="_blank">github.com/mrtan-official</a>`, false);
         }
         else if(lowText.includes("open ")) {
             handleSystemCmd(lowText.replace("open ", "").trim());
@@ -235,4 +236,3 @@
 </script>
 </body>
 </html>
-
