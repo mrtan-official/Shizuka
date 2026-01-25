@@ -54,10 +54,40 @@
         .assistant { align-items: flex-start; }
         .assistant .message-content { background: #f1f2f6; color: var(--dark); border-bottom-left-radius: 2px; border: 1px solid #ddd; }
 
-        .app-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; padding: 15px; background: #fff; border-top: 1px solid #eee; }
-        .app-icon { display: flex; flex-direction: column; align-items: center; font-size: 0.65rem; cursor: pointer; color: #555; }
-        .app-icon i { width: 42px; height: 42px; background: #f8f9fa; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; margin-bottom: 4px; transition: 0.3s; }
-        .app-icon:hover i { background: var(--secondary); color: white; transform: translateY(-3px); }
+        /* --- Stylish App Grid --- */
+        .app-grid { 
+            display: grid; 
+            grid-template-columns: repeat(4, 1fr); 
+            gap: 15px; 
+            padding: 20px; 
+            background: #fff; 
+            border-top: 1px solid #eee;
+        }
+
+        .app-icon { 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            font-size: 0.7rem; 
+            cursor: pointer; 
+            color: #555;
+            transition: 0.3s;
+        }
+
+        .app-icon i { 
+            width: 50px; 
+            height: 50px; 
+            border-radius: 15px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-size: 1.5rem; 
+            margin-bottom: 5px; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transition: 0.3s;
+        }
+
+        .app-icon:hover i { transform: scale(1.1) translateY(-5px); box-shadow: 0 8px 15px rgba(0,0,0,0.15); }
 
         .input-area { padding: 15px; background: white; display: flex; gap: 8px; align-items: center; }
         input { flex: 1; padding: 12px 18px; border: none; background: #f1f2f6; border-radius: 25px; outline: none; font-size: 0.9rem; }
@@ -81,20 +111,36 @@
     <div class="chat-container" id="chat">
         <div class="message assistant">
             <div class="message-content">
-                Hello Tanim! I am Shizuka. I know you are from Chittagong and a Python expert. How can I assist you today? 🌸
+                Hello Tanim! I am Shizuka. I'm ready to assist you. 🌸
             </div>
         </div>
     </div>
 
     <div class="app-grid">
-        <div class="app-icon" onclick="handleSystemCmd('whatsapp')"><i class="fab fa-whatsapp" style="color: #25D366;"></i>WA</div>
-        <div class="app-icon" onclick="handleSystemCmd('facebook')"><i class="fab fa-facebook" style="color: #1877F2;"></i>FB</div>
-        <div class="app-icon" onclick="handleSystemCmd('youtube')"><i class="fab fa-youtube" style="color: #FF0000;"></i>YT</div>
-        <div class="app-icon" onclick="handleSystemCmd('github')"><i class="fab fa-github" style="color: #333;"></i>GitHub</div>
-        <div class="app-icon" onclick="handleSystemCmd('google')"><i class="fab fa-google" style="color: #4285F4;"></i>Google</div>
-        <div class="app-icon" onclick="handleSystemCmd('gmail')"><i class="fas fa-envelope" style="color: #EA4335;"></i>Gmail</div>
-        <div class="app-icon" onclick="handleSystemCmd('linkedin')"><i class="fab fa-linkedin" style="color: #0077b5;"></i>LinkedIn</div>
-        <div class="app-icon" onclick="handleSystemCmd('chatgpt')"><i class="fas fa-robot" style="color: #10a37f;"></i>GPT</div>
+        <div class="app-icon" onclick="handleSystemCmd('whatsapp')">
+            <i class="fab fa-whatsapp" style="background: #e8f9ee; color: #25D366;"></i>WhatsApp
+        </div>
+        <div class="app-icon" onclick="handleSystemCmd('facebook')">
+            <i class="fab fa-facebook" style="background: #e7f0ff; color: #1877F2;"></i>Facebook
+        </div>
+        <div class="app-icon" onclick="handleSystemCmd('youtube')">
+            <i class="fab fa-youtube" style="background: #fff0f0; color: #FF0000;"></i>YouTube
+        </div>
+        <div class="app-icon" onclick="handleSystemCmd('github')">
+            <i class="fab fa-github" style="background: #f1f1f1; color: #333;"></i>GitHub
+        </div>
+        <div class="app-icon" onclick="handleSystemCmd('google')">
+            <i class="fab fa-google" style="background: #f2f6ff; color: #4285F4;"></i>Google
+        </div>
+        <div class="app-icon" onclick="handleSystemCmd('gmail')">
+            <i class="fas fa-envelope" style="background: #fff2f2; color: #EA4335;"></i>Gmail
+        </div>
+        <div class="app-icon" onclick="handleSystemCmd('linkedin')">
+            <i class="fab fa-linkedin" style="background: #eef7fd; color: #0077b5;"></i>LinkedIn
+        </div>
+        <div class="app-icon" onclick="handleSystemCmd('chatgpt')">
+            <i class="fas fa-robot" style="background: #f0fbf9; color: #10a37f;"></i>ChatGPT
+        </div>
     </div>
 
     <div class="input-area">
@@ -114,64 +160,66 @@
         const synth = window.speechSynthesis;
         const utter = new SpeechSynthesisUtterance(text);
         
-        // Browser voices refresh
         let voices = synth.getVoices();
         let ladyVoice = voices.find(v => v.name.includes('Google US English') || v.name.includes('Female') || v.name.includes('Zira') || v.name.includes('Samantha'));
         
         if (ladyVoice) utter.voice = ladyVoice;
-        utter.pitch = 1.3; // Cute Pitch
+        utter.pitch = 1.3; 
         utter.rate = 1.0;
         synth.speak(utter);
     }
 
-    // Force voices to load
     window.speechSynthesis.onvoiceschanged = () => { window.speechSynthesis.getVoices(); };
 
-    // --- Handle App Grid & Website Open ---
+    // --- Core Handler for System Commands ---
     function handleSystemCmd(cmd) {
         let url = "";
-        let msg = `Opening ${cmd}...`;
+        let msg = `Opening ${cmd} for you, Tanim!`;
 
-        switch(cmd) {
-            case 'whatsapp': url = 'https://wa.me/'; break;
-            case 'facebook': url = 'https://facebook.com'; break;
-            case 'youtube': url = 'https://youtube.com'; break;
-            case 'github': url = 'https://github.com/mrtan-official'; break;
-            case 'google': url = 'https://google.com'; break;
-            case 'gmail': url = 'https://mail.google.com'; break;
-            case 'linkedin': url = 'https://linkedin.com'; break;
-            case 'chatgpt': url = 'https://chat.openai.com'; break;
-        }
+        const urls = {
+            'whatsapp': 'https://wa.me/',
+            'facebook': 'https://facebook.com',
+            'youtube': 'https://youtube.com',
+            'github': 'https://github.com/mrtan-official',
+            'google': 'https://google.com',
+            'gmail': 'https://mail.google.com',
+            'linkedin': 'https://linkedin.com',
+            'chatgpt': 'https://chat.openai.com'
+        };
+
+        url = urls[cmd];
 
         if(url) {
             addMsg(msg, false);
-            speak(msg);
-            setTimeout(() => { window.open(url, '_blank'); }, 1000);
+            setTimeout(() => { window.open(url, '_blank'); }, 800);
         }
     }
 
-    // --- Main Chat Logic ---
+    // --- Cleaned Up Chat Logic ---
     async function sendMsg() {
         const text = input.value.trim();
         if(!text) return;
 
         addMsg(text, true);
         input.value = '';
-
         const lowText = text.toLowerCase();
 
-        // 1. Personal Identity Response
-        if(lowText.includes("tanim") || lowText.includes("developer") || lowText.includes("creator") || lowText.includes("who are you")) {
-            const bio = "Abu Tanim is my creator. He is a software developer from Chittagong. He completed his BSc in CSE from Premier University. His birthday is September 20, and he is a Python expert!";
-            addMsg(bio, false);
+        // 1. Check for Developer Info
+        if(lowText.includes("tanim") || lowText.includes("developer") || lowText.includes("who made you")) {
+            addMsg("Abu Tanim is my creator. He is a software developer from Chittagong, currently studying BSc in CSE at Premier University. His birthday is Sep 20 and he is a Python expert!", false);
             return;
         }
 
-        // 2. Quick Command Logic
-        if(lowText.includes("open facebook")) { handleSystemCmd('facebook'); return; }
-        if(lowText.includes("open youtube")) { handleSystemCmd('youtube'); return; }
+        // 2. Check for App Opening (Voice Command)
+        const apps = ['facebook', 'youtube', 'whatsapp', 'github', 'google', 'gmail', 'linkedin', 'chatgpt'];
+        let matchedApp = apps.find(app => lowText.includes(`open ${app}`));
+        
+        if(matchedApp) {
+            handleSystemCmd(matchedApp);
+            return;
+        }
 
-        // 3. AI Server Call
+        // 3. AI Server Call (Fallback)
         try {
             const res = await fetch(`${API_URL}/api/query`, {
                 method: 'POST',
@@ -179,9 +227,9 @@
                 body: JSON.stringify({ query: text })
             });
             const data = await res.json();
-            addMsg(data.text || "I'm listening, Tanim!", false);
+            addMsg(data.text || "I'm not sure how to answer that, Tanim.", false);
         } catch(e) {
-            addMsg("I am currently in local mode. Ask me about Tanim!", false);
+            addMsg("I'm currently in local mode. You can ask me to open websites or about Abu Tanim!", false);
         }
     }
 
@@ -194,13 +242,9 @@
         if(!isUser) speak(text);
     }
 
-    // --- Voice Recognition Fix ---
     function startVoice() {
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-        if (!SpeechRecognition) {
-            alert("Voice not supported in this browser.");
-            return;
-        }
+        if (!SpeechRecognition) return alert("Voice not supported.");
         const recognition = new SpeechRecognition();
         recognition.onstart = () => document.getElementById('mic').classList.add('listening');
         recognition.onend = () => document.getElementById('mic').classList.remove('listening');
@@ -211,7 +255,6 @@
         recognition.start();
     }
 
-    // Listen for Enter Key
     input.addEventListener('keypress', (e) => { if(e.key === 'Enter') sendMsg(); });
 </script>
 
