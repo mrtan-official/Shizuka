@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shizuka AI Assistant Pro</title>
+    <title>Shizuka AI Assistant Pro | Abu Tanim</title>
     <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/4712/4712035.png" type="image/png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -105,15 +105,15 @@
         return text.replace(/[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F700}-\u{1F77F}\u{1F780}-\u{1F7FF}\u{1F800}-\u{1F8FF}\u{1F900}-\u{1F9FF}\u{1FA00}-\u{1FA6F}\u{1FA70}-\u{1FAFF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu, '');
     }
 
-    // --- Voice Logic (Locked and Deeper) ---
+    // --- Voice Logic (Enhanced Female Selection) ---
     function loadVoices() {
         const synth = window.speechSynthesis;
         let voices = synth.getVoices();
-        // Priority: US English Female -> Any Female -> Zira -> First available
-        selectedVoice = voices.find(v => v.name.includes('Google US English') && v.name.includes('Female')) || 
-                        voices.find(v => v.name.includes('Female')) ||
-                        voices.find(v => v.name.includes('Zira')) ||
-                        voices[0];
+        
+        // ফিমেল ভয়েস খুঁজে বের করার চেষ্টা
+        selectedVoice = voices.find(v => (v.name.includes('Female') || v.name.includes('Google US English') || v.name.includes('Zira')) && v.lang.includes('en'));
+        
+        if (!selectedVoice) selectedVoice = voices[0];
         
         if (chat.innerHTML === "") initGreeting();
     }
@@ -126,13 +126,15 @@
         const synth = window.speechSynthesis;
         if (synth.speaking) synth.cancel(); 
         
-        const cleanText = removeEmojis(text); // ইমোজি রিমুভ করা হলো
+        const cleanText = removeEmojis(text);
         const utter = new SpeechSynthesisUtterance(cleanText);
         
         if (selectedVoice) utter.voice = selectedVoice;
         
-        utter.pitch = 0.1; // ভয়েস মোটা করার জন্য ১ এর নিচে রাখা হয়েছে
-        utter.rate = 1.0;   // স্বাভাবিক গতি
+        // পিচ ০.৯ করলে ভয়েসটি একটু ম্যাচিউর এবং ফিমেল শোনাবে।
+        // ০.১ করলে এটি রোবটের মতো শোনাবে, যা ঠিক নয়।
+        utter.pitch = 0.9; 
+        utter.rate = 1.0;  
         synth.speak(utter);
     }
 
@@ -221,7 +223,7 @@
                 const data = await res.json();
                 addMsg(data.text || "I see!", false);
             } catch(e) {
-                addMsg(`Sorry ${userName}, connection error.`, false);
+                addMsg(`Sorry ${userName}, system busy.`, false);
             }
         }
     }
@@ -232,7 +234,7 @@
         div.innerHTML = `<div class="message-content">${text}</div>`;
         chat.appendChild(div);
         chat.scrollTop = chat.scrollHeight;
-        if(!isUser) speak(div.innerText); // শিজুকা যখন রিপ্লাই দেবে তখন কথা বলবে
+        if(!isUser) speak(div.innerText);
     }
 
     function startVoice() {
@@ -248,4 +250,3 @@
 </script>
 </body>
 </html>
-
