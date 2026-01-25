@@ -3,515 +3,249 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shizuka AI Assistant</title>
+    <title>Shizuka AI Assistant Pro</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
+        :root {
+            --primary: #ff6b6b;
+            --secondary: #4ecdc4;
+            --dark: #2d3436;
+            --glass: rgba(255, 255, 255, 0.9);
+        }
+
         * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+            margin: 0; padding: 0; box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
             min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 900px;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            overflow: hidden;
-        }
-
-        .header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 30px;
-            text-align: center;
-        }
-
-        .header h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-        }
-
-        .header p {
-            opacity: 0.9;
-            font-size: 1.1em;
-        }
-
-        .status {
-            background: #f8f9fa;
-            padding: 15px 30px;
-            border-bottom: 1px solid #dee2e6;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .status-indicator {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .pulse {
-            width: 12px;
-            height: 12px;
-            background: #28a745;
-            border-radius: 50%;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-
-        .chat-container {
-            height: 500px;
-            overflow-y: auto;
-            padding: 30px;
-            background: #f8f9fa;
-        }
-
-        .message {
-            margin-bottom: 20px;
-            animation: slideIn 0.3s ease-out;
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .message.user {
-            text-align: right;
-        }
-
-        .message-content {
-            display: inline-block;
-            padding: 15px 20px;
-            border-radius: 20px;
-            max-width: 70%;
-            word-wrap: break-word;
-        }
-
-        .message.user .message-content {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border-bottom-right-radius: 5px;
-        }
-
-        .message.assistant .message-content {
-            background: white;
-            color: #333;
-            border: 1px solid #dee2e6;
-            border-bottom-left-radius: 5px;
-        }
-
-        .timestamp {
-            font-size: 0.8em;
-            opacity: 0.6;
-            margin-top: 5px;
-        }
-
-        .input-container {
-            padding: 20px 30px;
-            background: white;
-            border-top: 1px solid #dee2e6;
-        }
-
-        .input-wrapper {
-            display: flex;
-            gap: 10px;
-        }
-
-        #userInput {
-            flex: 1;
-            padding: 15px 20px;
-            border: 2px solid #dee2e6;
-            border-radius: 25px;
-            font-size: 1em;
-            outline: none;
-            transition: border-color 0.3s;
-        }
-
-        #userInput:focus {
-            border-color: #667eea;
-        }
-
-        .btn {
-            padding: 15px 30px;
-            border: none;
-            border-radius: 25px;
-            font-size: 1em;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-weight: 600;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-        }
-
-        .btn-voice {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background: #28a745;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5em;
-        }
-
-        .btn-voice.listening {
-            background: #dc3545;
-            animation: pulse-voice 1s infinite;
-        }
-
-        @keyframes pulse-voice {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-        }
-
-        .features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 10px;
-            padding: 20px 30px;
-            background: #f8f9fa;
-            border-top: 1px solid #dee2e6;
-        }
-
-        .feature-btn {
-            padding: 12px;
-            background: white;
-            border: 1px solid #dee2e6;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s;
-            text-align: center;
-            font-size: 0.9em;
-        }
-
-        .feature-btn:hover {
-            background: #667eea;
-            color: white;
-            transform: translateY(-2px);
-        }
-
-        .loading {
-            display: none;
-            text-align: center;
+            display: flex; justify-content: center; align-items: center;
             padding: 10px;
         }
 
-        .loading.active {
-            display: block;
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
-        .loader {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid #f3f3f3;
-            border-top: 3px solid #667eea;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
+        .container {
+            width: 100%; max-width: 500px;
+            height: 90vh;
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            display: flex; flex-direction: column;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+            overflow: hidden; border: 1px solid rgba(255,255,255,0.3);
         }
 
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        .header {
+            background: white; padding: 20px;
+            text-align: center; border-bottom: 1px solid #eee;
+            position: relative;
         }
 
-        .image-preview {
-            max-width: 100%;
-            border-radius: 10px;
-            margin-top: 10px;
+        .header h1 { font-size: 1.5rem; color: var(--dark); }
+        .header p { font-size: 0.8rem; color: #666; }
+
+        .chat-container {
+            flex: 1; overflow-y: auto; padding: 20px;
+            scroll-behavior: smooth;
         }
 
-        @media (max-width: 768px) {
-            .header h1 {
-                font-size: 1.8em;
-            }
-            
-            .chat-container {
-                height: 400px;
-            }
-            
-            .features {
-                grid-template-columns: repeat(2, 1fr);
-            }
+        .message {
+            margin-bottom: 15px; display: flex;
+            flex-direction: column; animation: fadeIn 0.3s ease;
         }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } }
+
+        .message-content {
+            padding: 12px 18px; border-radius: 18px;
+            max-width: 85%; font-size: 0.95rem; line-height: 1.4;
+        }
+
+        .user { align-items: flex-end; }
+        .user .message-content {
+            background: var(--primary); color: white;
+            border-bottom-right-radius: 2px;
+        }
+
+        .assistant { align-items: flex-start; }
+        .assistant .message-content {
+            background: #f1f2f6; color: var(--dark);
+            border-bottom-left-radius: 2px;
+        }
+
+        .app-grid {
+            display: grid; grid-template-columns: repeat(4, 1fr);
+            gap: 10px; padding: 15px; background: white;
+            border-top: 1px solid #eee;
+        }
+
+        .app-icon {
+            display: flex; flex-direction: column; align-items: center;
+            font-size: 0.7rem; cursor: pointer; transition: 0.3s;
+        }
+
+        .app-icon i {
+            width: 45px; height: 45px; background: #f8f9fa;
+            border-radius: 12px; display: flex; align-items: center;
+            justify-content: center; font-size: 1.2rem; margin-bottom: 5px;
+        }
+
+        .app-icon:hover i { background: var(--secondary); color: white; }
+
+        .input-area {
+            padding: 15px; background: white; display: flex; gap: 10px;
+            align-items: center;
+        }
+
+        input {
+            flex: 1; padding: 12px 20px; border: none;
+            background: #f1f2f6; border-radius: 25px; outline: none;
+        }
+
+        .btn-round {
+            width: 45px; height: 45px; border-radius: 50%;
+            border: none; cursor: pointer; display: flex;
+            align-items: center; justify-content: center;
+            transition: 0.3s;
+        }
+
+        .btn-send { background: var(--primary); color: white; }
+        .btn-mic { background: var(--secondary); color: white; }
+        .btn-mic.listening { background: #ff4757; animation: pulse 1s infinite; }
+
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>🤖 Shizuka AI</h1>
-            <p>Your Personal AI Assistant</p>
-            <p style="font-size: 0.9em; margin-top: 5px;">Developed by Abu Tanim</p>
-        </div>
 
-        <div class="status">
-            <div class="status-indicator">
-                <div class="pulse"></div>
-                <span id="statusText">Online & Ready</span>
+<div class="container">
+    <div class="header">
+        <h1>✨ Shizuka AI</h1>
+        <p>Active Now | Developed by Abu Tanim</p>
+    </div>
+
+    <div class="chat-container" id="chat">
+        <div class="message assistant">
+            <div class="message-content">
+                Hello! I am Shizuka. How can I assist you today? 🌸
             </div>
-            <div id="dateTime"></div>
-        </div>
-
-        <div class="chat-container" id="chatContainer">
-            <div class="message assistant">
-                <div class="message-content">
-                    Hello! I am Shizuka, your personal AI assistant. How can I help you today?
-                </div>
-                <div class="timestamp" id="initialTime"></div>
-            </div>
-        </div>
-
-        <div class="loading" id="loading">
-            <div class="loader"></div>
-            <span style="margin-left: 10px;">Thinking...</span>
-        </div>
-
-        <div class="input-container">
-            <div class="input-wrapper">
-                <input type="text" id="userInput" placeholder="Type your message or use voice..." />
-                <button class="btn btn-primary" onclick="sendMessage()">Send</button>
-                <button class="btn btn-voice" id="voiceBtn" onclick="toggleVoice()">🎤</button>
-            </div>
-        </div>
-
-        <div class="features">
-            <div class="feature-btn" onclick="quickCommand('what time is it')">⏰ Time</div>
-            <div class="feature-btn" onclick="quickCommand('what is the date today')">📅 Date</div>
-            <div class="feature-btn" onclick="quickCommand('tell me a joke')">😄 Joke</div>
-            <div class="feature-btn" onclick="quickCommand('fun fact')">💡 Fun Fact</div>
-            <div class="feature-btn" onclick="quickCommand('motivate me')">🚀 Motivation</div>
-            <div class="feature-btn" onclick="quickCommand('system info')">💻 System Info</div>
         </div>
     </div>
 
-    <script>
-        const API_URL = 'https://shizuka-ai-assistant.onrender.com';
-        let isListening = false;
-        let recognition;
+    <div class="app-grid">
+        <div class="app-icon" onclick="handleSystemCmd('whatsapp')">
+            <i class="fab fa-whatsapp" style="color: #25D366;"></i>WhatsApp
+        </div>
+        <div class="app-icon" onclick="handleSystemCmd('facebook')">
+            <i class="fab fa-facebook" style="color: #1877F2;"></i>Facebook
+        </div>
+        <div class="app-icon" onclick="handleSystemCmd('youtube')">
+            <i class="fab fa-youtube" style="color: #FF0000;"></i>YouTube
+        </div>
+        <div class="app-icon" onclick="handleSystemCmd('camera')">
+            <i class="fas fa-camera" style="color: #636e72;"></i>Camera
+        </div>
+    </div>
 
-        // Initialize speech recognition
-        if ('webkitSpeechRecognition' in window) {
-            recognition = new webkitSpeechRecognition();
-            recognition.continuous = false;
-            recognition.interimResults = false;
-            recognition.lang = 'en-US';
+    <div class="input-area">
+        <button class="btn-round btn-mic" id="mic" onclick="startVoice()"><i class="fas fa-microphone"></i></button>
+        <input type="text" id="msgInput" placeholder="Ask Shizuka anything...">
+        <button class="btn-round btn-send" onclick="sendMsg()"><i class="fas fa-paper-plane"></i></button>
+    </div>
+</div>
 
-            recognition.onresult = function(event) {
-                const transcript = event.results[0][0].transcript;
-                document.getElementById('userInput').value = transcript;
-                sendMessage();
-            };
+<script>
+    const API_URL = 'https://shizuka-ai-assistant.onrender.com';
+    const chat = document.getElementById('chat');
+    const input = document.getElementById('msgInput');
 
-            recognition.onend = function() {
-                isListening = false;
-                document.getElementById('voiceBtn').classList.remove('listening');
-            };
+    // System Commands Handling
+    function handleSystemCmd(cmd) {
+        addMsg(`Opening ${cmd}...`, true);
+        
+        switch(cmd) {
+            case 'whatsapp': window.open('https://wa.me/', '_blank'); break;
+            case 'facebook': window.open('https://facebook.com', '_blank'); break;
+            case 'youtube': window.open('https://youtube.com', '_blank'); break;
+            case 'camera': 
+                if (navigator.mediaDevices) {
+                    addMsg("Accessing camera...", false);
+                    navigator.mediaDevices.getUserMedia({video: true}).then(s => s.getTracks().forEach(t => t.stop()));
+                } break;
         }
+        
+        speak(`Opening ${cmd} for you.`);
+    }
 
-        // Text to Speech Function with Female Voice
-        function speak(text) {
-            if ('speechSynthesis' in window) {
-                // Cancel any ongoing speech
-                speechSynthesis.cancel();
-                
-                const utterance = new SpeechSynthesisUtterance(text);
-                
-                // Get available voices
-                const voices = speechSynthesis.getVoices();
-                
-                // Try to find a female English voice
-                const femaleVoice = voices.find(voice => 
-                    (voice.name.includes('Female') || 
-                     voice.name.includes('female') ||
-                     voice.name.includes('Zira') ||
-                     voice.name.includes('Google UK English Female') ||
-                     voice.name.includes('Microsoft Zira') ||
-                     voice.name.includes('Samantha')) && 
-                    voice.lang.startsWith('en')
-                );
-                
-                // If no specific female voice found, use any female-sounding voice
-                const backupFemaleVoice = voices.find(voice => 
-                    voice.lang.startsWith('en') && 
-                    (voice.name.includes('Google') || voice.name.includes('Microsoft'))
-                );
-                
-                // Set the voice
-                if (femaleVoice) {
-                    utterance.voice = femaleVoice;
-                } else if (backupFemaleVoice) {
-                    utterance.voice = backupFemaleVoice;
-                }
-                
-                // Voice settings for more natural female voice
-                utterance.rate = 0.95;  // Slightly slower
-                utterance.pitch = 1.2;  // Higher pitch for female voice
-                utterance.volume = 1.0;
-                
-                speechSynthesis.speak(utterance);
-            }
+    async function sendMsg() {
+        const text = input.value.trim();
+        if(!text) return;
+
+        // Smart Commands logic
+        const lowText = text.toLowerCase();
+        if(lowText.includes("open whatsapp")) { handleSystemCmd('whatsapp'); input.value=''; return; }
+        if(lowText.includes("open facebook")) { handleSystemCmd('facebook'); input.value=''; return; }
+        if(lowText.includes("open camera")) { handleSystemCmd('camera'); input.value=''; return; }
+
+        addMsg(text, true);
+        input.value = '';
+
+        try {
+            const res = await fetch(`${API_URL}/api/query`, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ query: text })
+            });
+            const data = await res.json();
+            addMsg(data.text, false, data.data?.url ? API_URL + data.data.url : null);
+        } catch(e) {
+            addMsg("I'm having trouble connecting to my brain. Please check the server.", false);
         }
+    }
 
-        // Load voices when they become available
-        if ('speechSynthesis' in window) {
-            speechSynthesis.onvoiceschanged = function() {
-                const voices = speechSynthesis.getVoices();
-                console.log('Available voices:', voices.map(v => v.name));
-            };
-        }
+    function addMsg(text, isUser, img = null) {
+        const div = document.createElement('div');
+        div.className = `message ${isUser ? 'user' : 'assistant'}`;
+        div.innerHTML = `
+            <div class="message-content">
+                ${text}
+                ${img ? `<img src="${img}" style="width:100%; border-radius:10px; margin-top:10px;">` : ''}
+            </div>
+        `;
+        chat.appendChild(div);
+        chat.scrollTop = chat.scrollHeight;
+        if(!isUser) speak(text);
+    }
 
-        // Update date/time
-        function updateDateTime() {
-            const now = new Date();
-            const options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
-            document.getElementById('dateTime').textContent = now.toLocaleDateString('en-US', options);
-            document.getElementById('initialTime').textContent = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
-        }
-        updateDateTime();
-        setInterval(updateDateTime, 1000);
+    function speak(text) {
+        const synth = window.speechSynthesis;
+        const utter = new SpeechSynthesisUtterance(text);
+        utter.pitch = 1.2; utter.rate = 1;
+        synth.speak(utter);
+    }
 
-        // Toggle voice recognition
-        function toggleVoice() {
-            if (!recognition) {
-                alert('Voice recognition not supported in your browser');
-                return;
-            }
+    function startVoice() {
+        const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+        recognition.onstart = () => document.getElementById('mic').classList.add('listening');
+        recognition.onend = () => document.getElementById('mic').classList.remove('listening');
+        recognition.onresult = (e) => {
+            input.value = e.results[0][0].transcript;
+            sendMsg();
+        };
+        recognition.start();
+    }
 
-            if (isListening) {
-                recognition.stop();
-                isListening = false;
-                document.getElementById('voiceBtn').classList.remove('listening');
-            } else {
-                recognition.start();
-                isListening = true;
-                document.getElementById('voiceBtn').classList.add('listening');
-            }
-        }
+    input.addEventListener('keypress', (e) => e.key === 'Enter' && sendMsg());
+</script>
 
-        // Add message to chat
-        function addMessage(text, isUser, imageUrl = null) {
-            const chatContainer = document.getElementById('chatContainer');
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `message ${isUser ? 'user' : 'assistant'}`;
-            
-            const now = new Date();
-            const timeStr = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
-            
-            let content = `
-                <div class="message-content">
-                    ${text}
-                    ${imageUrl ? `<br><img src="${imageUrl}" class="image-preview" alt="Generated Image">` : ''}
-                </div>
-                <div class="timestamp">${timeStr}</div>
-            `;
-            
-            messageDiv.innerHTML = content;
-            chatContainer.appendChild(messageDiv);
-            chatContainer.scrollTop = chatContainer.scrollHeight;
-
-            // Text to speech for assistant messages with female voice
-            if (!isUser) {
-                speak(text);
-            }
-        }
-
-        // Send message
-        async function sendMessage() {
-            const input = document.getElementById('userInput');
-            const message = input.value.trim();
-            
-            if (!message) return;
-            
-            addMessage(message, true);
-            input.value = '';
-            
-            document.getElementById('loading').classList.add('active');
-            document.getElementById('statusText').textContent = 'Processing...';
-            
-            try {
-                const response = await fetch(`${API_URL}/api/query`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ query: message })
-                });
-                
-                const data = await response.json();
-                
-                if (data.birthday_message) {
-                    addMessage(data.birthday_message, false);
-                }
-                
-                let imageUrl = null;
-                if (data.data && data.data.url) {
-                    imageUrl = API_URL + data.data.url;
-                }
-                
-                addMessage(data.text, false, imageUrl);
-                
-            } catch (error) {
-                addMessage('Sorry, I encountered an error. Please make sure the backend server is running.', false);
-                console.error('Error:', error);
-            } finally {
-                document.getElementById('loading').classList.remove('active');
-                document.getElementById('statusText').textContent = 'Online & Ready';
-            }
-        }
-
-        // Quick command
-        function quickCommand(command) {
-            document.getElementById('userInput').value = command;
-            sendMessage();
-        }
-
-        // Enter key to send
-        document.getElementById('userInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                sendMessage();
-            }
-        });
-
-        // Initial greeting with female voice
-        window.addEventListener('load', function() {
-            setTimeout(() => {
-                speak('Hello! I am Shizuka, your personal AI assistant. How can I help you today?');
-            }, 500);
-        });
-    </script>
 </body>
-
 </html>
