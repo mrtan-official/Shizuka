@@ -38,21 +38,15 @@
             border: 1px solid rgba(255,255,255,0.4);
         }
 
-        .header { 
-            background: white; padding: 15px; text-align: center; border-bottom: 1px solid #eee; 
-            position: relative; display: flex; justify-content: space-between; align-items: center;
-        }
-        .header-center { flex: 1; }
+        .header { background: white; padding: 15px; text-align: center; border-bottom: 1px solid #eee; position: relative; }
         .header img { width: 40px; margin-bottom: 5px; }
         .header h1 { font-size: 1.4rem; color: var(--dark); }
         .header p { font-size: 0.75rem; color: #ff6b6b; font-weight: bold; }
-        .header-btn { cursor: pointer; font-size: 1.2rem; color: var(--dark); transition: 0.3s; }
-        .header-btn:hover { transform: scale(1.2); }
 
         .chat-container { flex: 1; overflow-y: auto; padding: 20px; scroll-behavior: smooth; }
 
         .message { margin-bottom: 15px; display: flex; flex-direction: column; animation: fadeIn 0.3s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; } }
 
         .message-content { padding: 12px 18px; border-radius: 18px; max-width: 85%; font-size: 0.9rem; line-height: 1.4; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
         .message-content a { color: #23a6d5; text-decoration: none; font-weight: bold; }
@@ -63,7 +57,7 @@
         .assistant { align-items: flex-start; }
         .assistant .message-content { background: #f1f2f6; color: var(--dark); border-bottom-left-radius: 2px; border: 1px solid #ddd; }
 
-        .app-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; padding: 15px; background: #fff; border-top: 1px solid #eee; max-height: 120px; overflow-y: auto; }
+        .app-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; padding: 15px; background: #fff; border-top: 1px solid #eee; overflow-y: auto; max-height: 100px; }
         .app-icon { display: flex; flex-direction: column; align-items: center; font-size: 0.65rem; cursor: pointer; color: #555; transition: 0.3s; }
         .app-icon i { width: 45px; height: 45px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; margin-bottom: 4px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); transition: 0.3s; }
         .app-icon:hover i { transform: translateY(-3px); }
@@ -78,30 +72,23 @@
 
         @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } }
 
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; }
-        .modal.active { display: flex; }
-        .modal-content { background: white; padding: 25px; border-radius: 20px; width: 90%; max-width: 450px; max-height: 80vh; overflow-y: auto; box-shadow: 0 10px 40px rgba(0,0,0,0.3); }
-        .modal-header { font-size: 1.3rem; font-weight: bold; color: var(--dark); margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; }
-        .close-btn { cursor: pointer; font-size: 1.5rem; color: #999; }
-        .modal-item { padding: 12px; margin: 8px 0; background: #f5f5f5; border-radius: 10px; cursor: pointer; transition: 0.3s; }
-        .modal-item:hover { background: #e0e0e0; transform: translateX(5px); }
-
-        .timer-display { font-size: 1.2rem; font-weight: bold; color: var(--primary); text-align: center; padding: 10px; background: #fff9f9; border-radius: 10px; margin-bottom: 10px; }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 1000; }
+        .modal-content { background: white; padding: 30px; border-radius: 20px; width: 90%; max-width: 400px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); }
+        .modal-content h2 { margin-bottom: 15px; color: var(--dark); }
+        .modal-content input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; }
+        .modal-buttons { display: flex; gap: 10px; margin-top: 20px; }
+        .modal-buttons button { flex: 1; padding: 10px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
+        .btn-close { background: #ddd; color: #333; }
+        .btn-ok { background: var(--primary); color: white; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <div class="header">
-        <div></div>
-        <div class="header-center">
-            <img src="https://cdn-icons-png.flaticon.com/512/4712/4712035.png" alt="Logo">
-            <h1>✨ Shizuka AI Pro</h1>
-            <p>Developer: Abu Tanim</p>
-        </div>
-        <div>
-            <span class="header-btn" onclick="openSettings()" title="Settings">⚙️</span>
-        </div>
+        <img src="https://cdn-icons-png.flaticon.com/512/4712/4712035.png" alt="Logo">
+        <h1>✨ Shizuka AI Pro</h1>
+        <p>Developer: Abu Tanim</p>
     </div>
 
     <div class="chat-container" id="chat"></div>
@@ -115,73 +102,66 @@
     </div>
 </div>
 
-<!-- Settings Modal -->
-<div class="modal" id="settingsModal">
+<div id="modal" class="modal">
     <div class="modal-content">
-        <div class="modal-header">
-            Settings
-            <span class="close-btn" onclick="closeSettings()">✕</span>
+        <h2 id="modalTitle">Enter Name</h2>
+        <input type="text" id="modalInput" placeholder="Your name">
+        <div class="modal-buttons">
+            <button class="btn-close" onclick="closeModal()">Cancel</button>
+            <button class="btn-ok" onclick="submitModal()">OK</button>
         </div>
-        <div style="margin: 15px 0;">
-            <label style="font-weight: bold; margin-bottom: 5px; display: block;">🎤 Voice Speed</label>
-            <input type="range" id="voiceSpeed" min="0.5" max="2" step="0.1" value="1.1" style="width: 100%; cursor: pointer;">
-        </div>
-        <div style="margin: 15px 0;">
-            <label style="font-weight: bold; margin-bottom: 5px; display: block;">🎵 Voice Pitch</label>
-            <input type="range" id="voicePitch" min="0.5" max="2" step="0.1" value="1" style="width: 100%; cursor: pointer;">
-        </div>
-        <button onclick="clearHistory()" style="width: 100%; padding: 12px; background: #ff6b6b; color: white; border: none; border-radius: 10px; cursor: pointer; margin-top: 15px; font-weight: bold;">🗑️ Clear Chat History</button>
-        <button onclick="resetUserName()" style="width: 100%; padding: 12px; background: #4ecdc4; color: white; border: none; border-radius: 10px; cursor: pointer; margin-top: 10px; font-weight: bold;">👤 Reset Name</button>
-    </div>
-</div>
-
-<!-- Timer Modal -->
-<div class="modal" id="timerModal">
-    <div class="modal-content">
-        <div class="modal-header">
-            ⏱️ Timer
-            <span class="close-btn" onclick="closeTimer()">✕</span>
-        </div>
-        <div class="timer-display" id="timerDisplay">00:00</div>
-        <input type="number" id="timerSeconds" placeholder="Seconds" min="1" style="width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 10px;">
-        <input type="number" id="timerMinutes" placeholder="Minutes" min="0" style="width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 10px;">
-        <button onclick="startTimer()" style="width: 100%; padding: 12px; background: #4ecdc4; color: white; border: none; border-radius: 10px; cursor: pointer; margin-top: 15px; font-weight: bold;">Start Timer</button>
-        <button onclick="stopTimer()" style="width: 100%; padding: 12px; background: #ff6b6b; color: white; border: none; border-radius: 10px; cursor: pointer; margin-top: 10px; font-weight: bold;">Stop Timer</button>
     </div>
 </div>
 
 <script>
+    const API_URL = 'https://shizuka-ai-assistant.onrender.com';
     const chat = document.getElementById('chat');
     const input = document.getElementById('msgInput');
-    let userName = localStorage.getItem('shizuka_user_name');
+    let userName = localStorage.getItem('shizuka_user_name') || '';
     let selectedVoice = null;
-    let timerInterval = null;
-    let timerSeconds = 0;
+    let modalCallback = null;
 
-    function removeEmojis(text) {
-        return text.replace(/[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F700}-\u{1F77F}\u{1F780}-\u{1F7FF}\u{1F800}-\u{1F8FF}\u{1F900}-\u{1F9FF}\u{1FA00}-\u{1FA6F}\u{1FA70}-\u{1FAFF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu, '');
-    }
-
+    // ভয়েস ইনিশিয়ালাইজ করা
     function loadVoices() {
         const synth = window.speechSynthesis;
         let voices = synth.getVoices();
-        selectedVoice = voices.find(v => (v.name.includes('Female') || v.name.includes('Google US English') || v.name.includes('Zira')) && v.lang.includes('en'));
-        if (!selectedVoice) selectedVoice = voices[0];
+        
+        // ফিমেল ভয়েস সার্চ করা
+        selectedVoice = voices.find(v => 
+            (v.name.includes('Female') || v.name.includes('female') || 
+             v.name.includes('Google US English Female') || 
+             v.name.includes('Zira') || v.name.includes('Microsoft Zira')) && 
+            v.lang.includes('en')
+        );
+        
+        // ফিমেল না পেলে অন্য ভয়েস ব্যবহার করা
+        if (!selectedVoice) {
+            selectedVoice = voices.find(v => v.lang.includes('en'));
+        }
+        
+        if (!selectedVoice && voices.length > 0) {
+            selectedVoice = voices[0];
+        }
+        
         if (chat.innerHTML === "") initGreeting();
     }
 
     if (speechSynthesis.onvoiceschanged !== undefined) {
         speechSynthesis.onvoiceschanged = loadVoices;
     }
+    loadVoices();
 
     function speak(text) {
         const synth = window.speechSynthesis;
         if (synth.speaking) synth.cancel(); 
-        const cleanText = removeEmojis(text);
+        
+        const cleanText = text.replace(/[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F700}-\u{1F77F}\u{1F780}-\u{1F7FF}\u{1F800}-\u{1F8FF}\u{1F900}-\u{1F9FF}\u{1FA00}-\u{1FA6F}\u{1FA70}-\u{1FAFF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu, '');
         const utter = new SpeechSynthesisUtterance(cleanText);
+        
         if (selectedVoice) utter.voice = selectedVoice;
-        utter.pitch = parseFloat(document.getElementById('voicePitch').value);
-        utter.rate = parseFloat(document.getElementById('voiceSpeed').value);
+        
+        utter.pitch = 1.2;  // ফিমেল ভয়েসের জন্য
+        utter.rate = 0.95;  // একটু ধীর গতিতে
         synth.speak(utter);
     }
 
@@ -193,11 +173,9 @@
         { id: 'google', icon: 'fab fa-google', bg: '#f2f6ff', color: '#4285F4', label: 'Ggl' },
         { id: 'gmail', icon: 'fas fa-envelope', bg: '#fff2f2', color: '#EA4335', label: 'Mail' },
         { id: 'linkedin', icon: 'fab fa-linkedin', bg: '#eef7fd', color: '#0077b5', label: 'In' },
-        { id: 'calculator', icon: 'fas fa-calculator', bg: '#fff9e6', color: '#f39c12', label: 'Calc' },
-        { id: 'timer', icon: 'fas fa-hourglass-end', bg: '#f0f0f0', color: '#e74c3c', label: 'Timer' },
-        { id: 'weather', icon: 'fas fa-cloud-sun', bg: '#e6f3ff', color: '#3498db', label: 'Weather' },
-        { id: 'notes', icon: 'fas fa-sticky-note', bg: '#fff9e6', color: '#f1c40f', label: 'Notes' },
-        { id: 'browser', icon: 'fas fa-globe', bg: '#fff4e5', color: '#f39c12', label: 'URL' }
+        { id: 'browser', icon: 'fas fa-globe', bg: '#fff4e5', color: '#f39c12', label: 'URL' },
+        { id: 'calculator', icon: 'fas fa-calculator', bg: '#ffe8e8', color: '#e74c3c', label: 'Calc' },
+        { id: 'weather', icon: 'fas fa-cloud', bg: '#e8f4f8', color: '#3498db', label: 'Weather' }
     ];
 
     const grid = document.getElementById('gridContainer');
@@ -209,95 +187,66 @@
         if (!userName) {
             addMsg("Hello! I am Shizuka. 🌸 May I know your name?", false);
         } else {
-            addMsg(`Hello ${userName}! I am Shizuka. I'm ready to assist you. 🌸`, false);
+            addMsg(`Welcome back, ${userName}! I'm Shizuka, ready to help. 🌸`, false);
         }
+    }
+
+    function showModal(title, callback) {
+        document.getElementById('modalTitle').innerText = title;
+        document.getElementById('modalInput').value = '';
+        document.getElementById('modal').style.display = 'flex';
+        modalCallback = callback;
+        document.getElementById('modalInput').focus();
+    }
+
+    function closeModal() {
+        document.getElementById('modal').style.display = 'none';
+    }
+
+    function submitModal() {
+        const value = document.getElementById('modalInput').value.trim();
+        if (value && modalCallback) {
+            modalCallback(value);
+        }
+        closeModal();
     }
 
     function handleSystemCmd(cmd) {
         if(cmd === 'browser') {
-            let u = prompt("Enter Website:");
-            if(u) window.open(u.includes("http") ? u : "https://" + u, '_blank');
-        } else if(cmd === 'timer') {
-            openTimer();
-        } else if(cmd === 'calculator') {
-            addMsg("📊 Calculator: Try 'calculate 5 + 3' or 'solve 10 * 20'", false);
-        } else if(cmd === 'weather') {
-            addMsg("🌤️ Weather: Try 'weather in dhaka' or 'weather new york'", false);
-        } else if(cmd === 'notes') {
-            addMsg("📝 Notes: Type your note and I'll remember it!", false);
-        } else {
-            const urls = { 
-                whatsapp: 'https://wa.me/', facebook: 'https://facebook.com', youtube: 'https://youtube.com', 
-                github: 'https://github.com/mrtan-official', google: 'https://google.com', gmail: 'https://mail.google.com',
-                linkedin: 'https://linkedin.com'
-            };
-            if(urls[cmd]) window.open(urls[cmd], '_blank');
+            showModal("Enter Website URL", (url) => {
+                window.open(url.includes("http") ? url : "https://" + url, '_blank');
+            });
+            return;
         }
-    }
-
-    function openSettings() {
-        document.getElementById('settingsModal').classList.add('active');
-    }
-
-    function closeSettings() {
-        document.getElementById('settingsModal').classList.remove('active');
-    }
-
-    function openTimer() {
-        document.getElementById('timerModal').classList.add('active');
-    }
-
-    function closeTimer() {
-        document.getElementById('timerModal').classList.remove('active');
-    }
-
-    function startTimer() {
-        const mins = parseInt(document.getElementById('timerMinutes').value) || 0;
-        const secs = parseInt(document.getElementById('timerSeconds').value) || 0;
-        timerSeconds = mins * 60 + secs;
         
-        if(timerSeconds <= 0) {
-            alert("Please enter valid time");
+        if(cmd === 'calculator') {
+            showModal("Enter Calculation", (expr) => {
+                try {
+                    const result = eval(expr);
+                    addMsg(`Result: ${result}`, true);
+                    addMsg(`${expr} = ${result}`, false);
+                } catch(e) {
+                    addMsg(`Invalid calculation!`, false);
+                }
+            });
             return;
         }
 
-        if(timerInterval) clearInterval(timerInterval);
-        
-        timerInterval = setInterval(() => {
-            timerSeconds--;
-            const m = Math.floor(timerSeconds / 60);
-            const s = timerSeconds % 60;
-            document.getElementById('timerDisplay').textContent = 
-                String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
-            
-            if(timerSeconds <= 0) {
-                clearInterval(timerInterval);
-                addMsg(`⏰ Timer finished! ${userName}`, false);
-                closeTimer();
-            }
-        }, 1000);
-    }
-
-    function stopTimer() {
-        if(timerInterval) clearInterval(timerInterval);
-        document.getElementById('timerDisplay').textContent = '00:00';
-    }
-
-    function clearHistory() {
-        if(confirm("Clear all chat history?")) {
-            chat.innerHTML = '';
-            initGreeting();
+        if(cmd === 'weather') {
+            addMsg("Please tell me your city name", false);
+            return;
         }
-    }
 
-    function resetUserName() {
-        if(confirm("Reset your name?")) {
-            userName = null;
-            localStorage.removeItem('shizuka_user_name');
-            chat.innerHTML = '';
-            initGreeting();
-            closeSettings();
-        }
+        const urls = { 
+            whatsapp: 'https://wa.me/', 
+            facebook: 'https://facebook.com', 
+            youtube: 'https://youtube.com', 
+            github: 'https://github.com/mrtan-official', 
+            google: 'https://google.com', 
+            gmail: 'https://mail.google.com',
+            linkedin: 'https://linkedin.com'
+        };
+        if(urls[cmd]) window.open(urls[cmd], '_blank');
     }
 
     async function sendMsg() {
@@ -310,33 +259,33 @@
         if (!userName) {
             userName = text;
             localStorage.setItem('shizuka_user_name', userName);
-            addMsg(`Nice to meet you, ${userName}! How can I help?`, false);
+            addMsg(`Nice to meet you, ${userName}! How can I help? 😊`, false);
             return;
         }
 
-        if(lowText.includes("calculate ") || lowText.includes("solve ")) {
-            try {
-                const expr = text.replace(/calculate|solve/i, "").trim();
-                const result = eval(expr.replace(/x/g, "*"));
-                addMsg(`📊 ${expr} = ${result}`, false);
-            } catch(e) {
-                addMsg("❌ Invalid calculation", false);
-            }
-        }
-        else if(lowText.includes("change my name to")) {
+        if(lowText.includes("change my name to")) {
             let n = text.replace(/change my name to/i, "").trim();
-            if(n) { userName = n; localStorage.setItem('shizuka_user_name', userName); addMsg(`Updated! I'll call you ${userName}.`, false); }
+            if(n) { 
+                userName = n; 
+                localStorage.setItem('shizuka_user_name', userName); 
+                addMsg(`Updated! I'll call you ${userName} from now on. ✨`, false); 
+            }
+            return;
         }
-        else if(lowText.includes("time")) {
+
+        if(lowText.includes("time")) {
             const t = new Date().toLocaleTimeString('en-US', { timeZone: 'Asia/Dhaka', hour: '2-digit', minute: '2-digit', hour12: true });
-            addMsg(`🕐 The current time in Bangladesh is ${t}`, false);
+            addMsg(`The current time in Bangladesh is ${t}`, false);
         }
         else if(lowText.includes("date")) {
             const d = new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-            addMsg(`📅 Today is ${d}`, false);
+            addMsg(`Today's date is ${d}`, false);
         }
         else if(lowText.includes("my name")) {
-            addMsg(`Your name is ${userName}. 👤`, false);
+            addMsg(`Your name is ${userName}. 😊`, false);
+        }
+        else if(lowText.includes("hello") || lowText.includes("hi")) {
+            addMsg(`Hi ${userName}! How are you doing today? 👋`, false);
         }
         else if(lowText.includes("tanim") || lowText.includes("developer")) {
             const devInfo = `
@@ -349,8 +298,20 @@
                 </div>`;
             addMsg(devInfo, false);
         }
+        else if(lowText.includes("weather")) {
+            addMsg(`Please specify a city name to get weather information.`, false);
+        }
+        else if(lowText.includes("open ")) {
+            handleSystemCmd(lowText.replace("open ", "").trim());
+        }
         else {
-            addMsg(`Thanks for the message, ${userName}! That sounds interesting. 😊`, false);
+            try {
+                const res = await fetch(`${API_URL}/api/query`, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ query: text }) });
+                const data = await res.json();
+                addMsg(data.text || "I see!", false);
+            } catch(e) {
+                addMsg(`Sorry ${userName}, system is busy. Try again later.`, false);
+            }
         }
     }
 
@@ -372,9 +333,8 @@
         rec.onresult = (e) => { input.value = e.results[0][0].transcript; sendMsg(); };
         rec.start();
     }
-
+    
     input.addEventListener('keypress', (e) => { if(e.key === 'Enter') sendMsg(); });
-    loadVoices();
 </script>
 </body>
 </html>
