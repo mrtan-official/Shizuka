@@ -118,8 +118,6 @@
         const synth = window.speechSynthesis;
         const utter = new SpeechSynthesisUtterance(text);
         let voices = synth.getVoices();
-        
-        // Target high-quality female voices
         let ladyVoice = voices.find(v => v.name.includes('Google US English') || v.name.includes('Female') || v.name.includes('Zira') || v.name.includes('Samantha'));
         
         if (ladyVoice) utter.voice = ladyVoice;
@@ -136,7 +134,6 @@
         }
     }
     
-    // Voices load asynchronously
     window.speechSynthesis.onvoiceschanged = () => {
         if(chat.innerHTML === "") initGreeting();
     };
@@ -162,32 +159,41 @@
         input.value = '';
         const lowText = text.toLowerCase();
 
-        // Initial Name Setup
+        // --- Name Setup Fix ---
         if (!userName) {
-            userName = text;
-            localStorage.setItem('shizuka_user_name', userName);
-            addMsg(`Nice to meet you, ${userName}! How can I help you today?`, false);
+            if(lowText === 'hi' || lowText === 'hello') {
+                addMsg("Hello! But first, please tell me your name. 🌸", false);
+            } else {
+                userName = text;
+                localStorage.setItem('shizuka_user_name', userName);
+                addMsg(`Nice to meet you, ${userName}! How can I help you today?`, false);
+            }
             return;
         }
 
-        // --- Commands ---
+        // --- Command: Name Change ---
         if(lowText.includes("change my name to")) {
-            let newName = text.split("to")[1].trim();
-            userName = newName;
-            localStorage.setItem('shizuka_user_name', userName);
-            addMsg(`Got it! I will call you ${userName} from now on.`, false);
+            let newName = text.replace(/change my name to/i, "").trim();
+            if(newName) {
+                userName = newName;
+                localStorage.setItem('shizuka_user_name', userName);
+                addMsg(`Got it! I will call you ${userName} from now on.`, false);
+            }
+            return;
         }
-        else if(lowText.includes("time")) {
+
+        // --- Command: Time (Bangladesh Zone) ---
+        if(lowText.includes("time")) {
             const timeString = new Date().toLocaleTimeString('en-US', { 
                 timeZone: 'Asia/Dhaka', hour: '2-digit', minute: '2-digit', hour12: true 
             });
-            addMsg(`The time in Bangladesh is ${timeString}, ${userName}.`, false);
+            addMsg(`The current time in Bangladesh is ${timeString}, ${userName}.`, false);
         }
         else if(lowText.includes("my name")) {
             addMsg(`Your name is ${userName}.`, false);
         }
         else if(lowText.includes("tanim") || lowText.includes("developer")) {
-            addMsg("Abu Tanim is my creator. He is a software developer from Chittagong!", false);
+            addMsg("Abu Tanim is my developer. He is a Python and Web specialist!", false);
         }
         else if(lowText.includes("open ")) {
             handleSystemCmd(lowText.replace("open ", "").trim());
@@ -200,9 +206,9 @@
                     body: JSON.stringify({ query: text })
                 });
                 const data = await res.json();
-                addMsg(data.text || "I understand!", false);
+                addMsg(data.text || "I see!", false);
             } catch(e) {
-                addMsg(`Sorry ${userName}, I'm in local mode. You can ask for time or to open apps!`, false);
+                addMsg(`Sorry ${userName}, the server is busy. Ask me the time instead!`, false);
             }
         }
     }
