@@ -38,48 +38,232 @@
             border: 1px solid rgba(255,255,255,0.4);
         }
 
-        .header { background: white; padding: 15px; text-align: center; border-bottom: 1px solid #eee; position: relative; }
-        .header img { width: 40px; margin-bottom: 5px; }
-        .header h1 { font-size: 1.4rem; color: var(--dark); }
-        .header p { font-size: 0.75rem; color: #ff6b6b; font-weight: bold; }
+        .header { 
+            background: linear-gradient(135deg, var(--primary), var(--secondary)); 
+            padding: 15px; text-align: center; 
+            border-bottom: 1px solid rgba(255,255,255,0.2); 
+            position: relative; 
+            color: white;
+        }
+        .header img { width: 40px; margin-bottom: 5px; filter: brightness(0) invert(1); }
+        .header h1 { font-size: 1.4rem; margin-bottom: 3px; }
+        .header p { font-size: 0.75rem; opacity: 0.9; }
 
-        .chat-container { flex: 1; overflow-y: auto; padding: 20px; scroll-behavior: smooth; }
+        .chat-container { 
+            flex: 1; 
+            overflow-y: auto; 
+            padding: 20px; 
+            scroll-behavior: smooth;
+            background: linear-gradient(180deg, rgba(255,255,255,0.7) 0%, rgba(248,249,250,0.7) 100%);
+        }
 
-        .message { margin-bottom: 15px; display: flex; flex-direction: column; animation: fadeIn 0.3s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; } }
+        .message { 
+            margin-bottom: 15px; 
+            display: flex; 
+            flex-direction: column; 
+            animation: fadeIn 0.3s ease; 
+        }
+        @keyframes fadeIn { 
+            from { opacity: 0; transform: translateY(10px); } 
+            to { opacity: 1; transform: translateY(0); } 
+        }
 
-        .message-content { padding: 12px 18px; border-radius: 18px; max-width: 85%; font-size: 0.9rem; line-height: 1.4; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .message-content { 
+            padding: 12px 18px; 
+            border-radius: 18px; 
+            max-width: 85%; 
+            font-size: 0.9rem; 
+            line-height: 1.4; 
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08); 
+            word-wrap: break-word;
+        }
         .message-content a { color: #23a6d5; text-decoration: none; font-weight: bold; }
+        .message-content code { 
+            background: rgba(0,0,0,0.05); 
+            padding: 2px 6px; 
+            border-radius: 4px; 
+            font-family: monospace; 
+            font-size: 0.85em;
+        }
 
         .user { align-items: flex-end; }
-        .user .message-content { background: var(--primary); color: white; border-bottom-right-radius: 2px; }
+        .user .message-content { 
+            background: linear-gradient(135deg, var(--primary), #ff8e8e); 
+            color: white; 
+            border-bottom-right-radius: 2px; 
+        }
 
         .assistant { align-items: flex-start; }
-        .assistant .message-content { background: #f1f2f6; color: var(--dark); border-bottom-left-radius: 2px; border: 1px solid #ddd; }
+        .assistant .message-content { 
+            background: white; 
+            color: var(--dark); 
+            border-bottom-left-radius: 2px; 
+            border: 1px solid rgba(0,0,0,0.05); 
+        }
 
-        .app-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; padding: 15px; background: #fff; border-top: 1px solid #eee; overflow-y: auto; max-height: 100px; }
-        .app-icon { display: flex; flex-direction: column; align-items: center; font-size: 0.65rem; cursor: pointer; color: #555; transition: 0.3s; }
-        .app-icon i { width: 45px; height: 45px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; margin-bottom: 4px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); transition: 0.3s; }
-        .app-icon:hover i { transform: translateY(-3px); }
+        .app-grid { 
+            display: grid; 
+            grid-template-columns: repeat(4, 1fr); 
+            gap: 12px; 
+            padding: 15px; 
+            background: white; 
+            border-top: 1px solid rgba(0,0,0,0.1); 
+            overflow-y: auto; 
+            max-height: 120px; 
+        }
+        .app-icon { 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            font-size: 0.65rem; 
+            cursor: pointer; 
+            color: #555; 
+            transition: all 0.3s; 
+            padding: 5px;
+            border-radius: 10px;
+        }
+        .app-icon:hover { 
+            transform: translateY(-3px); 
+            background: rgba(0,0,0,0.03);
+        }
+        .app-icon i { 
+            width: 45px; 
+            height: 45px; 
+            border-radius: 12px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-size: 1.3rem; 
+            margin-bottom: 4px; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1); 
+            transition: 0.3s; 
+        }
 
-        .input-area { padding: 15px; background: white; display: flex; gap: 8px; align-items: center; }
-        input { flex: 1; padding: 12px 18px; border: none; background: #f1f2f6; border-radius: 25px; outline: none; font-size: 0.9rem; }
+        .input-area { 
+            padding: 15px; 
+            background: white; 
+            display: flex; 
+            gap: 8px; 
+            align-items: center; 
+            border-top: 1px solid rgba(0,0,0,0.1);
+        }
+        input { 
+            flex: 1; 
+            padding: 12px 18px; 
+            border: 2px solid #f1f2f6; 
+            background: #f8f9fa; 
+            border-radius: 25px; 
+            outline: none; 
+            font-size: 0.9rem; 
+            transition: 0.3s;
+        }
+        input:focus { 
+            border-color: var(--secondary); 
+            background: white;
+        }
 
-        .btn-round { width: 45px; height: 45px; border-radius: 50%; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.3s; }
-        .btn-send { background: var(--primary); color: white; }
-        .btn-mic { background: var(--secondary); color: white; }
-        .btn-mic.listening { background: #ff4757; animation: pulse 1s infinite; }
+        .btn-round { 
+            width: 45px; 
+            height: 45px; 
+            border-radius: 50%; 
+            border: none; 
+            cursor: pointer; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            transition: 0.3s; 
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .btn-send { background: linear-gradient(135deg, var(--primary), #ff8e8e); color: white; }
+        .btn-mic { background: linear-gradient(135deg, var(--secondary), #7ae0d8); color: white; }
+        .btn-mic.listening { 
+            background: linear-gradient(135deg, #ff4757, #ff6b81); 
+            animation: pulse 1s infinite; 
+        }
 
-        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } }
+        @keyframes pulse { 
+            0% { transform: scale(1); } 
+            50% { transform: scale(1.1); } 
+            100% { transform: scale(1); }
+        }
 
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 1000; }
-        .modal-content { background: white; padding: 30px; border-radius: 20px; width: 90%; max-width: 400px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); }
+        .modal { 
+            display: none; 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background: rgba(0,0,0,0.5); 
+            justify-content: center; 
+            align-items: center; 
+            z-index: 1000; 
+        }
+        .modal-content { 
+            background: white; 
+            padding: 30px; 
+            border-radius: 20px; 
+            width: 90%; 
+            max-width: 400px; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            animation: modalSlide 0.3s ease;
+        }
+        @keyframes modalSlide {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
         .modal-content h2 { margin-bottom: 15px; color: var(--dark); }
-        .modal-content input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; }
+        .modal-content input { 
+            width: 100%; 
+            padding: 12px; 
+            margin: 10px 0; 
+            border: 2px solid #ddd; 
+            border-radius: 10px; 
+            font-size: 1rem;
+        }
         .modal-buttons { display: flex; gap: 10px; margin-top: 20px; }
-        .modal-buttons button { flex: 1; padding: 10px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
-        .btn-close { background: #ddd; color: #333; }
-        .btn-ok { background: var(--primary); color: white; }
+        .modal-buttons button { 
+            flex: 1; 
+            padding: 12px; 
+            border: none; 
+            border-radius: 10px; 
+            cursor: pointer; 
+            font-weight: bold; 
+            transition: 0.3s;
+        }
+        .btn-close { background: #f1f2f6; color: #333; }
+        .btn-ok { background: linear-gradient(135deg, var(--primary), #ff8e8e); color: white; }
+
+        .typing-indicator {
+            display: flex;
+            padding: 10px 15px;
+            gap: 5px;
+        }
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--dark);
+            opacity: 0.3;
+            animation: typing 1.4s infinite;
+        }
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+        
+        @keyframes typing {
+            0%, 60%, 100% { opacity: 0.3; transform: translateY(0); }
+            30% { opacity: 1; transform: translateY(-5px); }
+        }
+
+        .command-tip {
+            font-size: 0.7rem;
+            color: #666;
+            text-align: center;
+            padding: 5px;
+            background: rgba(0,0,0,0.03);
+            border-radius: 10px;
+            margin: 5px 15px;
+        }
     </style>
 </head>
 <body>
@@ -88,17 +272,23 @@
     <div class="header">
         <img src="https://cdn-icons-png.flaticon.com/512/4712/4712035.png" alt="Logo">
         <h1>✨ Shizuka AI Pro</h1>
-        <p>Developer: Abu Tanim</p>
+        <p>Developer: Abu Tanim | Version 2.1</p>
     </div>
+
+    <div class="command-tip">Try: "tell me a joke", "sing a song", or "play tic-tac-toe"</div>
 
     <div class="chat-container" id="chat"></div>
 
     <div class="app-grid" id="gridContainer"></div>
 
     <div class="input-area">
-        <button class="btn-round btn-mic" id="mic" onclick="startVoice()"><i class="fas fa-microphone"></i></button>
-        <input type="text" id="msgInput" placeholder="Type or say something...">
-        <button class="btn-round btn-send" onclick="sendMsg()"><i class="fas fa-paper-plane"></i></button>
+        <button class="btn-round btn-mic" id="mic" onclick="toggleVoice()" title="Voice Input">
+            <i class="fas fa-microphone"></i>
+        </button>
+        <input type="text" id="msgInput" placeholder="Type or say something..." autocomplete="off">
+        <button class="btn-round btn-send" onclick="sendMsg()" title="Send">
+            <i class="fas fa-paper-plane"></i>
+        </button>
     </div>
 </div>
 
@@ -120,21 +310,26 @@
     let userName = sessionStorage.getItem('shizuka_user_name') || '';
     let selectedVoice = null;
     let modalCallback = null;
+    let isListening = false;
+    let recognition = null;
 
-    // Load voices
+    // Game state variables
+    let ticTacToeBoard = ['','','','','','','','',''];
+    let currentPlayer = 'X';
+
+    // Initialize voices
     function loadVoices() {
         const synth = window.speechSynthesis;
         let voices = synth.getVoices();
         
-        // Search for female voice
+        // Try to find a female voice
         selectedVoice = voices.find(v => 
-            (v.name.includes('Female') || v.name.includes('female') || 
-             v.name.includes('Google US English Female') || 
-             v.name.includes('Zira') || v.name.includes('Microsoft Zira')) && 
-            v.lang.includes('en')
+            v.name.toLowerCase().includes('female') || 
+            v.name.includes('Google UK English Female') ||
+            v.name.includes('Microsoft Zira') ||
+            v.name.includes('Samantha')
         );
         
-        // Use alternative voice if female not found
         if (!selectedVoice) {
             selectedVoice = voices.find(v => v.lang.includes('en'));
         }
@@ -151,20 +346,23 @@
     }
     loadVoices();
 
+    // Text-to-speech function
     function speak(text) {
         const synth = window.speechSynthesis;
-        if (synth.speaking) synth.cancel(); 
+        if (synth.speaking) synth.cancel();
         
         const cleanText = text.replace(/[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F700}-\u{1F77F}\u{1F780}-\u{1F7FF}\u{1F800}-\u{1F8FF}\u{1F900}-\u{1F9FF}\u{1FA00}-\u{1FA6F}\u{1FA70}-\u{1FAFF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu, '');
         const utter = new SpeechSynthesisUtterance(cleanText);
         
         if (selectedVoice) utter.voice = selectedVoice;
         
-        utter.pitch = 1.2;
+        utter.pitch = 1.1;
         utter.rate = 0.95;
+        utter.volume = 1;
         synth.speak(utter);
     }
 
+    // Enhanced apps with unique features
     const apps = [
         { id: 'whatsapp', icon: 'fab fa-whatsapp', bg: '#e8f9ee', color: '#25D366', label: 'WA' },
         { id: 'facebook', icon: 'fab fa-facebook', bg: '#e7f0ff', color: '#1877F2', label: 'FB' },
@@ -175,25 +373,29 @@
         { id: 'linkedin', icon: 'fab fa-linkedin', bg: '#eef7fd', color: '#0077b5', label: 'In' },
         { id: 'browser', icon: 'fas fa-globe', bg: '#fff4e5', color: '#f39c12', label: 'URL' },
         { id: 'calculator', icon: 'fas fa-calculator', bg: '#ffe8e8', color: '#e74c3c', label: 'Calc' },
-        { id: 'weather', icon: 'fas fa-cloud', bg: '#e8f4f8', color: '#3498db', label: 'Weather' }
+        { id: 'weather', icon: 'fas fa-cloud', bg: '#e8f4f8', color: '#3498db', label: 'Weather' },
+        { id: 'game', icon: 'fas fa-gamepad', bg: '#e8f9f1', color: '#2ecc71', label: 'Game' },
+        { id: 'music', icon: 'fas fa-music', bg: '#f9e8ff', color: '#9b59b6', label: 'Music' }
     ];
 
     const grid = document.getElementById('gridContainer');
     apps.forEach(app => {
-        grid.innerHTML += `<div class="app-icon" onclick="handleSystemCmd('${app.id}')"><i class="${app.icon}" style="background: ${app.bg}; color: ${app.color};"></i>${app.label}</div>`;
+        grid.innerHTML += `<div class="app-icon" onclick="handleSystemCmd('${app.id}')">
+            <i class="${app.icon}" style="background: ${app.bg}; color: ${app.color};"></i>${app.label}
+        </div>`;
     });
 
     function initGreeting() {
         if (!userName) {
             addMsg("Hello! I am Shizuka. 🌸 May I know your name?", false);
         } else {
-            addMsg(`Welcome back, ${userName}! I'm Shizuka, ready to help. 🌸`, false);
+            addMsg(`Welcome back, ${userName}! I'm Shizuka, ready to help. 🌸 Try asking me to tell a joke or play a game!`, false);
         }
     }
 
-    function showModal(title, callback) {
+    function showModal(title, callback, defaultValue = '') {
         document.getElementById('modalTitle').innerText = title;
-        document.getElementById('modalInput').value = '';
+        document.getElementById('modalInput').value = defaultValue;
         document.getElementById('modal').style.display = 'flex';
         modalCallback = callback;
         document.getElementById('modalInput').focus();
@@ -211,7 +413,186 @@
         closeModal();
     }
 
+    // UNIQUE COMMANDS HANDLER
+    function handleUniqueCommands(text) {
+        const lowText = text.toLowerCase();
+        
+        // Joke command
+        if (lowText.includes('joke') || lowText.includes('funny')) {
+            const jokes = [
+                "Why don't scientists trust atoms? Because they make up everything!",
+                "Why did the chicken go to the séance? To talk to the other side!",
+                "What do you call a fake noodle? An impasta!",
+                "Why did the math book look so sad? Because it had too many problems.",
+                "What do you call a bear with no teeth? A gummy bear!"
+            ];
+            const joke = jokes[Math.floor(Math.random() * jokes.length)];
+            addMsg(joke, false);
+            return true;
+        }
+        
+        // Sing command
+        if (lowText.includes('sing') || lowText.includes('song')) {
+            const songs = [
+                "🎵 Twinkle, twinkle, little star... How I wonder what you are! 🎵",
+                "🎶 You are my sunshine, my only sunshine... 🎶",
+                "🎤 Never gonna give you up, never gonna let you down... 🎤",
+                "🎹 Happy birthday to you, happy birthday to you... 🎹"
+            ];
+            const song = songs[Math.floor(Math.random() * songs.length)];
+            addMsg(song, false);
+            return true;
+        }
+        
+        // Tic Tac Toe game
+        if (lowText.includes('tic tac toe') || lowText.includes('game')) {
+            startTicTacToe();
+            return true;
+        }
+        
+        // Story command
+        if (lowText.includes('story') || lowText.includes('tell me a story')) {
+            const stories = [
+                "Once upon a time, in a digital kingdom, there lived a friendly AI named Shizuka who helped everyone with their tasks...",
+                "In a world of code and circuits, a special assistant was born to make humans smile and help them achieve their dreams...",
+                "There was a magical forest where every tree was a computer and every flower was a beautiful interface..."
+            ];
+            const story = stories[Math.floor(Math.random() * stories.length)];
+            addMsg(story, false);
+            return true;
+        }
+        
+        // Fact command
+        if (lowText.includes('fact') || lowText.includes('interesting fact')) {
+            const facts = [
+                "Did you know? Honey never spoils. Archaeologists have found pots of honey in ancient Egyptian tombs that are over 3,000 years old!",
+                "Octopuses have three hearts. Two pump blood to the gills, while the third pumps it to the rest of the body.",
+                "Bananas are berries, but strawberries aren't!"
+            ];
+            const fact = facts[Math.floor(Math.random() * facts.length)];
+            addMsg(fact, false);
+            return true;
+        }
+        
+        // Riddle command
+        if (lowText.includes('riddle') || lowText.includes('puzzle')) {
+            const riddles = [
+                { q: "What has keys but can't open locks?", a: "A piano!" },
+                { q: "What comes once in a minute, twice in a moment, but never in a thousand years?", a: "The letter 'M'!" },
+                { q: "I speak without a mouth and hear without ears. I have no body, but I come alive with wind. What am I?", a: "An echo!" }
+            ];
+            const riddle = riddles[Math.floor(Math.random() * riddles.length)];
+            addMsg(`🤔 ${riddle.q}`, false);
+            setTimeout(() => addMsg(`Answer: ${riddle.a}`, false), 3000);
+            return true;
+        }
+        
+        return false;
+    }
+
+    // Tic Tac Toe Game Functions
+    function startTicTacToe() {
+        ticTacToeBoard = ['','','','','','','','',''];
+        currentPlayer = 'X';
+        const boardHTML = `
+            <div style="text-align: center; margin: 10px 0;">
+                <h3>🎮 Tic Tac Toe</h3>
+                <div style="display: grid; grid-template-columns: repeat(3, 60px); gap: 5px; margin: 15px auto; width: 190px;">
+                    ${ticTacToeBoard.map((cell, index) => `
+                        <button onclick="makeMove(${index})" 
+                                style="width: 60px; height: 60px; border: 2px solid var(--secondary); 
+                                       border-radius: 8px; font-size: 24px; background: white; 
+                                       cursor: pointer; transition: 0.3s;">
+                            ${cell || ' '}
+                        </button>
+                    `).join('')}
+                </div>
+                <p>Player <b>${currentPlayer}</b>'s turn</p>
+                <button onclick="resetGame()" 
+                        style="padding: 8px 15px; background: var(--primary); color: white; 
+                               border: none; border-radius: 5px; cursor: pointer; margin-top: 10px;">
+                    Reset Game
+                </button>
+            </div>
+        `;
+        addMsg(boardHTML, false);
+    }
+
+    function makeMove(index) {
+        if (ticTacToeBoard[index] || checkWinner()) return;
+        
+        ticTacToeBoard[index] = currentPlayer;
+        updateGameDisplay();
+        
+        if (checkWinner()) {
+            addMsg(`🎉 Player ${currentPlayer} wins!`, false);
+        } else if (ticTacToeBoard.every(cell => cell)) {
+            addMsg("🤝 It's a tie!", false);
+        } else {
+            currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+            updateGameDisplay();
+        }
+    }
+
+    function checkWinner() {
+        const winPatterns = [
+            [0,1,2], [3,4,5], [6,7,8],
+            [0,3,6], [1,4,7], [2,5,8],
+            [0,4,8], [2,4,6]
+        ];
+        
+        return winPatterns.some(pattern => {
+            const [a,b,c] = pattern;
+            return ticTacToeBoard[a] && 
+                   ticTacToeBoard[a] === ticTacToeBoard[b] && 
+                   ticTacToeBoard[a] === ticTacToeBoard[c];
+        });
+    }
+
+    function updateGameDisplay() {
+        const gameElements = chat.querySelectorAll('[style*="grid-template-columns: repeat(3, 60px)"]');
+        if (gameElements.length > 0) {
+            const gameContainer = gameElements[0].parentElement;
+            gameContainer.innerHTML = `
+                <h3>🎮 Tic Tac Toe</h3>
+                <div style="display: grid; grid-template-columns: repeat(3, 60px); gap: 5px; margin: 15px auto; width: 190px;">
+                    ${ticTacToeBoard.map((cell, index) => `
+                        <button onclick="makeMove(${index})" 
+                                style="width: 60px; height: 60px; border: 2px solid var(--secondary); 
+                                       border-radius: 8px; font-size: 24px; background: white; 
+                                       cursor: pointer; transition: 0.3s;">
+                            ${cell || ' '}
+                        </button>
+                    `).join('')}
+                </div>
+                <p>Player <b>${currentPlayer}</b>'s turn</p>
+                <button onclick="resetGame()" 
+                        style="padding: 8px 15px; background: var(--primary); color: white; 
+                               border: none; border-radius: 5px; cursor: pointer; margin-top: 10px;">
+                    Reset Game
+                </button>
+            `;
+        }
+    }
+
+    function resetGame() {
+        startTicTacToe();
+    }
+
+    // System command handler
     function handleSystemCmd(cmd) {
+        if (cmd === 'game') {
+            startTicTacToe();
+            return;
+        }
+        
+        if(cmd === 'music') {
+            showModal("Search Music", (query) => {
+                window.open(`https://www.youtube.com/results?search_query=${encodeURIComponent(query)}+song`, '_blank');
+            }, "Enter song name");
+            return;
+        }
+        
         if(cmd === 'browser') {
             showModal("Enter Website URL", (url) => {
                 window.open(url.includes("http") ? url : "https://" + url, '_blank');
@@ -220,22 +601,25 @@
         }
         
         if(cmd === 'calculator') {
-            showModal("Enter Math (e.g., 5+5)", (expr) => {
+            showModal("Enter Math Expression", (expr) => {
                 try {
                     const result = Function('"use strict"; return (' + expr + ')')();
                     addMsg(`${expr} = ${result}`, true);
-                    addMsg(`Result is ${result}`, false);
+                    addMsg(`🎯 Result: ${result}`, false);
                 } catch(e) {
-                    addMsg(`Sorry, invalid calculation!`, false);
+                    addMsg(`❌ Invalid calculation! Please check your expression.`, false);
                 }
             });
             return;
         }
 
         if(cmd === 'weather') {
-            showModal("Enter Your City Name", (city) => {
-                addMsg(`Weather for ${city}`, true);
-                addMsg(`Please check weather.com for detailed forecast in ${city}`, false);
+            showModal("Enter City Name", (city) => {
+                addMsg(`Fetching weather for ${city}...`, true);
+                addMsg(`☁️ Weather in ${city}: You can check detailed forecast at weather.com`, false);
+                setTimeout(() => {
+                    window.open(`https://www.weather.com/weather/today/l/${encodeURIComponent(city)}`, '_blank');
+                }, 1500);
             });
             return;
         }
@@ -252,92 +636,200 @@
         if(urls[cmd]) window.open(urls[cmd], '_blank');
     }
 
+    // Main message handler
     async function sendMsg() {
         const text = input.value.trim();
         if(!text) return;
+        
         addMsg(text, true);
         input.value = '';
         const lowText = text.toLowerCase();
 
+        // User name handling
         if (!userName) {
             userName = text;
             sessionStorage.setItem('shizuka_user_name', userName);
-            addMsg(`Nice to meet you, ${userName}! How can I help? 😊`, false);
+            addMsg(`Nice to meet you, ${userName}! I'm Shizuka. Try asking me to tell a joke or play tic-tac-toe! 😊`, false);
             return;
         }
 
+        // Change name command
         if(lowText.includes("change my name to")) {
             let n = text.replace(/change my name to/i, "").trim();
             if(n) { 
                 userName = n; 
                 sessionStorage.setItem('shizuka_user_name', userName); 
-                addMsg(`Updated! I'll call you ${userName} from now on. ✨`, false); 
+                addMsg(`✅ Updated! I'll call you ${userName} from now on. ✨`, false); 
             }
             return;
         }
 
+        // Check unique commands first
+        if (handleUniqueCommands(text)) {
+            return;
+        }
+
+        // Basic commands
         if(lowText.includes("time")) {
             const t = new Date().toLocaleTimeString('en-US', { timeZone: 'Asia/Dhaka', hour: '2-digit', minute: '2-digit', hour12: true });
-            addMsg(`The current time in Bangladesh is ${t}`, false);
+            addMsg(`⏰ The current time in Bangladesh is ${t}`, false);
         }
         else if(lowText.includes("date")) {
             const d = new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-            addMsg(`Today's date is ${d}`, false);
+            addMsg(`📅 Today is ${d}`, false);
         }
         else if(lowText.includes("my name")) {
-            addMsg(`Your name is ${userName}. 😊`, false);
+            addMsg(`👤 Your name is ${userName}. 😊`, false);
         }
-        else if(lowText.includes("hello") || lowText.includes("hi")) {
-            addMsg(`Hi ${userName}! How are you doing today? 👋`, false);
+        else if(lowText.includes("hello") || lowText.includes("hi") || lowText.includes("hey")) {
+            const greetings = [
+                `Hi ${userName}! How can I help you today? 👋`,
+                `Hello ${userName}! Ready to assist! 🌟`,
+                `Hey there ${userName}! What's on your mind? 😊`
+            ];
+            addMsg(greetings[Math.floor(Math.random() * greetings.length)], false);
         }
-        else if(lowText.includes("tanim") || lowText.includes("developer")) {
+        else if(lowText.includes("tanim") || lowText.includes("developer") || lowText.includes("creator")) {
             const devInfo = `
                 <div style="border-left: 4px solid var(--secondary); padding-left: 10px; margin: 5px 0;">
-                    <b>Abu Tanim</b> is my creator. 👨‍💻<br>
-                    He is a Software Developer from Chittagong, currently studying <b>BSc in CSE at Premier University</b>. 🎓<br><br>
-                    🐍 <b>Expertise:</b> Python Expert<br>
-                    🎂 <b>Birthday:</b> Sep 20<br><br>
-                    🚀 <b>GitHub:</b> <a href="https://github.com/mrtan-official" target="_blank" style="color: var(--primary);">github.com/mrtan-official</a>
+                    <b>👨‍💻 Abu Tanim</b> - My Creator<br><br>
+                    🎓 <b>Education:</b> BSc in CSE at Premier University<br>
+                    📍 <b>Location:</b> Chittagong, Bangladesh<br>
+                    🐍 <b>Expertise:</b> Python Expert & Full Stack Developer<br>
+                    🎂 <b>Birthday:</b> September 20<br><br>
+                    🔗 <b>GitHub:</b> <a href="https://github.com/mrtan-official" target="_blank">github.com/mrtan-official</a><br>
+                    📧 <b>Email:</b> <a href="mailto:abu.tanim.official@gmail.com">abu.tanim.official@gmail.com</a>
                 </div>`;
             addMsg(devInfo, false);
         }
-        else if(lowText.includes("weather")) {
-            addMsg(`Please specify a city name to get weather information.`, false);
+        else if(lowText.includes("help") || lowText.includes("commands")) {
+            const helpMsg = `
+                <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 15px; border-radius: 15px; margin: 10px 0;">
+                    <b>🤖 Shizuka Commands:</b><br><br>
+                    🎮 <b>Games:</b> "play tic tac toe", "start game"<br>
+                    😄 <b>Fun:</b> "tell me a joke", "sing a song"<br>
+                    📚 <b>Learn:</b> "tell me a story", "give me a fact"<br>
+                    🕰️ <b>Utilities:</b> "what time is it", "what's the date"<br>
+                    👤 <b>Personal:</b> "what's my name", "change my name to [new name]"<br>
+                    🔗 <b>Apps:</b> Click on the app icons below!
+                </div>`;
+            addMsg(helpMsg, false);
+        }
+        else if(lowText.includes("thank")) {
+            addMsg(`You're welcome, ${userName}! 😊 Always happy to help!`, false);
         }
         else if(lowText.includes("open ")) {
-            handleSystemCmd(lowText.replace("open ", "").trim());
+            const app = lowText.replace("open ", "").trim();
+            handleSystemCmd(app);
         }
         else {
+            // Show typing indicator
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'message assistant';
+            typingDiv.innerHTML = `<div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>`;
+            chat.appendChild(typingDiv);
+            chat.scrollTop = chat.scrollHeight;
+            
             try {
-                const res = await fetch(`${API_URL}/api/query`, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ query: text }) });
+                const res = await fetch(`${API_URL}/api/query`, { 
+                    method: 'POST', 
+                    headers: {'Content-Type': 'application/json'}, 
+                    body: JSON.stringify({ query: text }) 
+                });
                 const data = await res.json();
-                addMsg(data.text || "I see!", false);
+                
+                // Remove typing indicator
+                chat.removeChild(typingDiv);
+                
+                addMsg(data.text || "I understand! 😊", false);
             } catch(e) {
-                addMsg(`Sorry ${userName}, system is busy. Try again later.`, false);
+                // Remove typing indicator
+                chat.removeChild(typingDiv);
+                
+                addMsg(`Sorry ${userName}, I'm having trouble connecting. Please try again later. ❤️`, false);
             }
         }
     }
 
+    // Add message to chat
     function addMsg(text, isUser) {
         const div = document.createElement('div');
         div.className = `message ${isUser ? 'user' : 'assistant'}`;
         div.innerHTML = `<div class="message-content">${text}</div>`;
         chat.appendChild(div);
         chat.scrollTop = chat.scrollHeight;
-        if(!isUser) speak(div.innerText);
+        if(!isUser && !text.includes('<button') && !text.includes('<input')) {
+            speak(div.innerText);
+        }
     }
 
-    function startVoice() {
-        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-        if (!SpeechRecognition) return alert("Voice not supported.");
-        const rec = new SpeechRecognition();
-        rec.onstart = () => document.getElementById('mic').classList.add('listening');
-        rec.onend = () => document.getElementById('mic').classList.remove('listening');
-        rec.onresult = (e) => { input.value = e.results[0][0].transcript; sendMsg(); };
-        rec.start();
+    // Voice recognition
+    function toggleVoice() {
+        const micBtn = document.getElementById('mic');
+        
+        if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+            addMsg("Voice recognition is not supported in your browser. 😔", false);
+            return;
+        }
+
+        if (isListening) {
+            stopListening();
+            micBtn.classList.remove('listening');
+            isListening = false;
+        } else {
+            startListening();
+            micBtn.classList.add('listening');
+            isListening = true;
+        }
     }
+
+    function startListening() {
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        recognition = new SpeechRecognition();
+        
+        recognition.lang = 'en-US';
+        recognition.continuous = false;
+        recognition.interimResults = false;
+        
+        recognition.onstart = () => {
+            addMsg("🎤 Listening... Speak now!", true);
+        };
+        
+        recognition.onresult = (event) => {
+            const transcript = event.results[0][0].transcript;
+            input.value = transcript;
+            sendMsg();
+        };
+        
+        recognition.onerror = (event) => {
+            console.error('Speech recognition error', event.error);
+            addMsg("Sorry, I couldn't hear that clearly. 🎧", false);
+        };
+        
+        recognition.onend = () => {
+            const micBtn = document.getElementById('mic');
+            micBtn.classList.remove('listening');
+            isListening = false;
+        };
+        
+        recognition.start();
+    }
+
+    function stopListening() {
+        if (recognition) {
+            recognition.stop();
+        }
+    }
+
+    // Event listeners
+    input.addEventListener('keypress', (e) => { 
+        if(e.key === 'Enter') sendMsg(); 
+    });
     
-    input.addEventListener('keypress', (e) => { if(e.key === 'Enter') sendMsg(); });
+    // Initialize on load
+    window.addEventListener('load', () => {
+        setTimeout(initGreeting, 500);
+    });
 </script>
 </body>
 </html>
