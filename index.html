@@ -198,7 +198,7 @@
 
         if(lowText.includes("time")) {
             const t = new Date().toLocaleTimeString('en-US', { timeZone: 'Asia/Dhaka', hour: '2-digit', minute: '2-digit', hour12: true });
-            addMsg(`The current time in Bangladesh is ${t}, ${userName}.`, false);
+            addMsg(`The current time in Bangladesh is ${t}, false);
         }
         else if(lowText.includes("my name")) {
             addMsg(`Your name is ${userName}.`, false);
@@ -250,6 +250,7 @@
 </script>
 </body>
 </html>
+
 
 
 
