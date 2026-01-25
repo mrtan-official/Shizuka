@@ -133,8 +133,8 @@
         
         // পিচ ০.৯ করলে ভয়েসটি একটু ম্যাচিউর এবং ফিমেল শোনাবে।
         // ০.১ করলে এটি রোবটের মতো শোনাবে, যা ঠিক নয়।
-        utter.pitch = 1.5; 
-        utter.rate = 1.0;  
+        utter.pitch = 1.2; 
+        utter.rate = 1.1;  
         synth.speak(utter);
     }
 
@@ -198,7 +198,7 @@
 
         if(lowText.includes("time")) {
             const t = new Date().toLocaleTimeString('en-US', { timeZone: 'Asia/Dhaka', hour: '2-digit', minute: '2-digit', hour12: true });
-            addMsg(`The current time in Bangladesh is ${t}, false);
+            addMsg(`The current time in Bangladesh is ${t}`, false);
         }
         else if(lowText.includes("my name")) {
             addMsg(`Your name is ${userName}.`, false);
@@ -250,9 +250,3 @@
 </script>
 </body>
 </html>
-
-
-
-
-
-
