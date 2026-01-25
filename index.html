@@ -75,19 +75,13 @@
 <div class="container">
     <div class="header">
         <h1>✨ Shizuka AI Pro</h1>
-        <p>Developer: Abu Tanim</p>
+        <p id="devName">Developer: Abu Tanim</p>
     </div>
 
     <div class="chat-container" id="chat">
-        <div class="message assistant">
-            <div class="message-content">
-                Hello Tanim! 🌸 I've updated my clock system. Ask me the time now!
-            </div>
         </div>
-    </div>
 
-    <div class="app-grid" id="gridContainer">
-        </div>
+    <div class="app-grid" id="gridContainer"></div>
 
     <div class="input-area">
         <button class="btn-round btn-mic" id="mic" onclick="startVoice()"><i class="fas fa-microphone"></i></button>
@@ -100,6 +94,9 @@
     const API_URL = 'https://shizuka-ai-assistant.onrender.com';
     const chat = document.getElementById('chat');
     const input = document.getElementById('msgInput');
+    
+    // Manage User Name
+    let userName = localStorage.getItem('shizuka_user_name');
 
     // --- Dynamic Icons Setup ---
     const apps = [
@@ -115,21 +112,33 @@
 
     const grid = document.getElementById('gridContainer');
     apps.forEach(app => {
-        grid.innerHTML += `
-            <div class="app-icon" onclick="handleSystemCmd('${app.id}')">
-                <i class="${app.icon}" style="background: ${app.bg}; color: ${app.color};"></i>${app.label}
-            </div>`;
+        grid.innerHTML += `<div class="app-icon" onclick="handleSystemCmd('${app.id}')"><i class="${app.icon}" style="background: ${app.bg}; color: ${app.color};"></i>${app.label}</div>`;
     });
 
+    // --- Voice Setup (Ensuring Female Voice) ---
     function speak(text) {
         const synth = window.speechSynthesis;
         const utter = new SpeechSynthesisUtterance(text);
+        
+        // Find a high-pitched female voice
         let voices = synth.getVoices();
-        let ladyVoice = voices.find(v => v.name.includes('Google US English') || v.name.includes('Female'));
-        if (ladyVoice) utter.voice = ladyVoice;
-        utter.pitch = 1.3;
+        let femaleVoice = voices.find(v => v.name.includes('Female') || v.name.includes('Google US English') || v.name.includes('Zira') || v.name.includes('Samantha'));
+        
+        if (femaleVoice) utter.voice = femaleVoice;
+        utter.pitch = 1.4; // Sweet and cute pitch
+        utter.rate = 1.0;
         synth.speak(utter);
     }
+
+    // Initialize Greeting
+    function init() {
+        if (!userName) {
+            addMsg("Hello! I am Shizuka. 🌸 What is your name?", false);
+        } else {
+            addMsg(`Hello ${userName}! How can I assist you today?`, false);
+        }
+    }
+    window.speechSynthesis.onvoiceschanged = init; // Wait for voices to load
 
     function handleSystemCmd(cmd) {
         if(cmd === 'browser') {
@@ -152,18 +161,24 @@
         input.value = '';
         const lowText = text.toLowerCase();
 
-        // --- Bangladesh Time Fix (Intl API) ---
-        if(lowText.includes("time")) {
-            const now = new Date();
-            const timeString = now.toLocaleTimeString('en-US', { 
-                timeZone: 'Asia/Dhaka', 
-                hour: '2-digit', 
-                minute: '2-digit', 
-                hour12: true 
-            });
-            addMsg("The current time in Bangladesh is " + timeString, false);
+        // If user is introducing themselves for the first time
+        if (!userName) {
+            userName = text;
+            localStorage.setItem('shizuka_user_name', userName);
+            addMsg(`Nice to meet you, ${userName}! 🌸 How can I help you?`, false);
+            return;
         }
-        else if(lowText.includes("tanim")) {
+
+        if(lowText.includes("time")) {
+            const timeString = new Date().toLocaleTimeString('en-US', { 
+                timeZone: 'Asia/Dhaka', hour: '2-digit', minute: '2-digit', hour12: true 
+            });
+            addMsg(`The time in Bangladesh is ${timeString}, ${userName}.`, false);
+        }
+        else if(lowText.includes("my name")) {
+            addMsg(`Your name is ${userName}, silly!`, false);
+        }
+        else if(lowText.includes("tanim") || lowText.includes("developer")) {
             addMsg("Abu Tanim is my creator and a Python expert from Chittagong!", false);
         }
         else if(lowText.includes("open ")) {
@@ -177,9 +192,9 @@
                     body: JSON.stringify({ query: text })
                 });
                 const data = await res.json();
-                addMsg(data.text || "Got it!", false);
+                addMsg(data.text || "I see!", false);
             } catch(e) {
-                addMsg("Local Mode: Ask me the time or to open an app.", false);
+                addMsg(`Sorry ${userName}, I'm in local mode right now.`, false);
             }
         }
     }
