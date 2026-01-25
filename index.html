@@ -3,111 +3,255 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shizuka AI - Voice Enabled</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>Shizuka - AI Assistant</title>
     <style>
-        :root {
-            --primary: #667eea;
-            --secondary: #764ba2;
-            --dark: #1a1a2e;
-            --light: #f0f4ff;
-            --gray: #6c757d;
-            --success: #00d4ff;
-        }
-
-        * { 
-            margin: 0; 
-            padding: 0; 
-            box-sizing: border-box; 
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; 
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            padding: 10px;
+            transition: all 0.3s ease;
         }
 
-        .app-container {
+        /* ===== AUTH PAGE ===== */
+        .auth-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .auth-box {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
             width: 100%;
             max-width: 450px;
-            height: 90vh;
-            min-height: 700px;
-            background: white;
-            border-radius: 30px;
-            overflow: hidden;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.3);
-            display: flex;
-            flex-direction: column;
+            padding: 40px;
+            animation: slideUp 0.5s ease;
         }
 
-        .status-bar {
-            height: 35px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 20px;
-            font-size: 0.8rem;
-            color: white;
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .auth-header h1 {
+            font-size: 2.5em;
+            color: #667eea;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .auth-header p {
+            color: #666;
+            font-size: 0.95em;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
             font-weight: 600;
+            font-size: 0.95em;
         }
 
-        .app-header {
-            padding: 15px 20px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .auth-btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .auth-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .auth-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .toggle-form {
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+        }
+
+        .toggle-form a {
+            color: #667eea;
+            cursor: pointer;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .toggle-form a:hover {
+            text-decoration: underline;
+        }
+
+        .alert {
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            display: none;
+            border-left: 4px solid;
+        }
+
+        .alert.error {
+            color: #e74c3c;
+            background: #fadbd8;
+            border-left-color: #e74c3c;
+        }
+
+        .alert.success {
+            color: #27ae60;
+            background: #d5f4e6;
+            border-left-color: #27ae60;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            color: #667eea;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* ===== CHAT PAGE ===== */
+        .chat-container {
+            display: none;
+            flex-direction: column;
+            height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .chat-header {
+            background: rgba(0, 0, 0, 0.1);
+            color: white;
+            padding: 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .header-title {
-            font-size: 1.3rem;
-            font-weight: 800;
+            font-size: 1.5em;
+            font-weight: 700;
         }
 
-        .header-subtitle {
-            font-size: 0.7rem;
-            opacity: 0.9;
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
         }
 
-        .menu-btn {
+        .user-avatar {
             width: 40px;
             height: 40px;
-            background: rgba(255,255,255,0.2);
-            border: none;
-            border-radius: 12px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        .logout-btn {
+            background: rgba(255, 255, 255, 0.2);
             color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 8px 15px;
+            border-radius: 8px;
             cursor: pointer;
-            font-size: 1.1rem;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            font-size: 0.9em;
         }
 
-        .menu-btn:hover {
-            background: rgba(255,255,255,0.3);
-            transform: scale(1.05);
+        .logout-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
         }
 
-        .chat-container {
+        .messages {
             flex: 1;
             overflow-y: auto;
             padding: 20px;
-            background: linear-gradient(180deg, #f8faff 0%, #ffffff 100%);
-            scroll-behavior: smooth;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
         }
 
         .message {
-            margin-bottom: 15px;
             display: flex;
-            animation: slideIn 0.4s ease;
+            animation: fadeIn 0.3s ease;
         }
 
-        @keyframes slideIn {
+        @keyframes fadeIn {
             from {
                 opacity: 0;
                 transform: translateY(10px);
@@ -118,783 +262,459 @@
             }
         }
 
-        .message-bubble {
-            max-width: 80%;
-            padding: 12px 16px;
-            border-radius: 18px;
-            font-size: 0.95rem;
-            line-height: 1.5;
-            word-wrap: break-word;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-        }
-
         .message.user {
             justify-content: flex-end;
         }
 
-        .message.user .message-bubble {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+        .message-content {
+            max-width: 60%;
+            padding: 12px 18px;
+            border-radius: 15px;
+            word-wrap: break-word;
+            font-size: 0.95em;
+            line-height: 1.4;
+        }
+
+        .message.user .message-content {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            border-bottom-right-radius: 4px;
+            border-bottom-right-radius: 0;
         }
 
-        .message.assistant {
-            justify-content: flex-start;
-        }
-
-        .message.assistant .message-bubble {
+        .message.assistant .message-content {
             background: white;
-            color: var(--dark);
-            border: 1px solid #e8e8f0;
-            border-bottom-left-radius: 4px;
-        }
-
-        .typing-indicator {
-            display: flex;
-            gap: 6px;
-            padding: 12px 16px;
-            background: white;
-            border-radius: 18px;
-            width: fit-content;
-            border: 1px solid #e8e8f0;
-        }
-
-        .typing-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: var(--primary);
-            opacity: 0.5;
-            animation: bounce 1.4s infinite;
-        }
-
-        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
-        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
-
-        @keyframes bounce {
-            0%, 60%, 100% { transform: translateY(0); opacity: 0.5; }
-            30% { transform: translateY(-8px); opacity: 1; }
+            color: #333;
+            border-bottom-left-radius: 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
 
         .input-area {
-            padding: 15px 20px;
-            background: white;
-            border-top: 1px solid #e8e8f0;
+            background: rgba(0, 0, 0, 0.1);
+            padding: 20px;
             display: flex;
             gap: 10px;
-            align-items: flex-end;
+            flex-wrap: wrap;
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .message-input {
+        .input-field {
             flex: 1;
-            padding: 12px 16px;
-            border: 1.5px solid #e8e8f0;
-            border-radius: 25px;
-            outline: none;
-            font-size: 0.95rem;
-            resize: none;
-            max-height: 100px;
-            background: var(--light);
-            color: var(--dark);
-            transition: all 0.3s;
-        }
-
-        .message-input:focus {
-            border-color: var(--primary);
-            background: white;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
-
-        .action-btn {
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            border: none;
-            cursor: pointer;
             display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.1rem;
-            transition: all 0.3s;
+            gap: 10px;
+            min-width: 300px;
+        }
+
+        .input-field input {
+            flex: 1;
+            padding: 12px 18px;
+            border: none;
+            border-radius: 25px;
+            background: white;
+            font-size: 0.95em;
+            outline: none;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
 
         .send-btn {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-        }
-
-        .send-btn:hover {
-            transform: scale(1.08);
-        }
-
-        .mic-btn {
-            background: linear-gradient(135deg, var(--success), #00a8e8);
-        }
-
-        .mic-btn:hover {
-            transform: scale(1.08);
-        }
-
-        .mic-btn.listening {
-            background: linear-gradient(135deg, #ff006e, #ff1493);
-            animation: pulse 1.5s infinite;
-        }
-
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(255, 0, 110, 0.7); }
-            70% { box-shadow: 0 0 0 15px rgba(255, 0, 110, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(255, 0, 110, 0); }
-        }
-
-        /* Side Menu */
-        .side-menu {
-            position: fixed;
-            top: 0;
-            left: -300px;
-            width: 300px;
-            height: 100vh;
-            background: white;
-            z-index: 1000;
-            transition: left 0.4s ease;
-            overflow-y: auto;
-            box-shadow: 5px 0 30px rgba(0,0,0,0.2);
-        }
-
-        .side-menu.active {
-            left: 0;
-        }
-
-        .menu-header {
-            padding: 25px 20px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .user-info {
-            flex: 1;
-        }
-
-        .user-avatar {
-            width: 50px;
-            height: 50px;
-            background: white;
-            border-radius: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: var(--primary);
-            margin-bottom: 10px;
-        }
-
-        .user-name {
-            font-weight: 600;
-            font-size: 1.1rem;
-            margin-bottom: 3px;
-        }
-
-        .user-status {
-            font-size: 0.8rem;
-            opacity: 0.9;
-        }
-
-        .close-menu-btn {
-            background: rgba(255,255,255,0.2);
-            border: none;
-            color: white;
-            width: 35px;
-            height: 35px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 1.2rem;
-            transition: all 0.3s;
-        }
-
-        .close-menu-btn:hover {
-            background: rgba(255,255,255,0.3);
-            transform: rotate(90deg);
-        }
-
-        .menu-content {
-            padding: 20px;
-        }
-
-        .menu-section {
-            margin-bottom: 25px;
-        }
-
-        .menu-section-title {
-            font-size: 0.75rem;
-            font-weight: 800;
-            color: var(--primary);
-            text-transform: uppercase;
-            margin-bottom: 12px;
-            letter-spacing: 1px;
-        }
-
-        .menu-item {
-            padding: 12px 15px;
-            margin-bottom: 8px;
-            background: var(--light);
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            color: var(--dark);
-            font-size: 0.9rem;
-            border-left: 3px solid transparent;
-        }
-
-        .menu-item:hover {
-            background: linear-gradient(135deg, var(--light), #f5e6ff);
-            transform: translateX(5px);
-            border-left-color: var(--primary);
-        }
-
-        .menu-item-icon {
-            width: 35px;
-            height: 35px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1rem;
-        }
-
-        .stats-box {
-            background: linear-gradient(135deg, var(--light), #f5e6ff);
-            padding: 15px;
-            border-radius: 15px;
-            margin-bottom: 15px;
-        }
-
-        .stat-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-            font-size: 0.9rem;
-        }
-
-        .stat-item:last-child {
-            margin-bottom: 0;
-        }
-
-        .stat-label {
-            color: var(--gray);
-            font-weight: 500;
-        }
-
-        .stat-value {
-            color: var(--primary);
-            font-weight: 700;
-            font-size: 1.1rem;
-        }
-
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.3);
-            z-index: 999;
-            display: none;
-        }
-
-        .overlay.active {
-            display: block;
-        }
-
-        /* Voice Modal */
-        .voice-modal {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: white;
-            padding: 40px;
-            border-radius: 25px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-            text-align: center;
-            z-index: 5000;
-            display: none;
-        }
-
-        .voice-modal.active {
-            display: block;
-            animation: fadeIn 0.3s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .voice-modal h3 {
-            color: var(--primary);
-            margin-bottom: 20px;
-        }
-
-        .wave-container {
-            display: flex;
-            gap: 6px;
-            justify-content: center;
-            margin: 20px 0;
-            height: 40px;
-            align-items: flex-end;
-        }
-
-        .wave {
-            width: 5px;
-            background: linear-gradient(180deg, var(--primary), var(--secondary));
-            border-radius: 3px;
-            animation: waveAnim 0.6s ease-in-out infinite;
-        }
-
-        .wave:nth-child(1) { height: 20px; animation-delay: 0s; }
-        .wave:nth-child(2) { height: 30px; animation-delay: 0.1s; }
-        .wave:nth-child(3) { height: 35px; animation-delay: 0.2s; }
-        .wave:nth-child(4) { height: 30px; animation-delay: 0.3s; }
-        .wave:nth-child(5) { height: 20px; animation-delay: 0.4s; }
-
-        @keyframes waveAnim {
-            0%, 100% { opacity: 0.5; }
-            50% { opacity: 1; }
-        }
-
-        /* Auth Screens */
-        .auth-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 10000;
-        }
-
-        .auth-container {
-            background: white;
-            padding: 40px;
-            border-radius: 25px;
-            width: 90%;
-            max-width: 400px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-        }
-
-        .auth-title {
-            font-size: 1.8rem;
-            font-weight: 800;
-            color: var(--dark);
-            margin-bottom: 10px;
-            text-align: center;
-        }
-
-        .auth-subtitle {
-            color: var(--gray);
-            text-align: center;
-            margin-bottom: 30px;
-            font-size: 0.9rem;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-label {
-            display: block;
-            margin-bottom: 8px;
-            color: var(--dark);
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-
-        .form-input {
-            width: 100%;
-            padding: 12px 16px;
-            border: 1.5px solid #e8e8f0;
-            border-radius: 12px;
-            font-size: 0.95rem;
-            outline: none;
-            transition: all 0.3s;
-        }
-
-        .form-input:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
-
-        .auth-btn {
-            width: 100%;
-            padding: 12px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border: none;
-            border-radius: 12px;
-            font-size: 1rem;
-            font-weight: 600;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
             cursor: pointer;
-            transition: all 0.3s;
-            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2em;
+            transition: all 0.3s ease;
         }
 
-        .auth-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        .send-btn:hover:not(:disabled) {
+            transform: scale(1.05);
         }
 
-        .toggle-auth {
-            text-align: center;
-            color: var(--gray);
-            font-size: 0.9rem;
+        .send-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
         }
 
-        .toggle-auth a {
-            color: var(--primary);
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            width: 100%;
+        }
+
+        .quick-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 8px 12px;
+            border-radius: 20px;
             cursor: pointer;
-            font-weight: 600;
-            text-decoration: none;
+            font-size: 0.85em;
+            transition: all 0.3s ease;
         }
 
-        .toggle-auth a:hover {
-            text-decoration: underline;
+        .quick-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
         }
 
-        @media (max-width: 480px) {
-            .app-container {
-                height: 100vh;
-                border-radius: 0;
+        .messages::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .messages::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .messages::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
+        }
+
+        .messages::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        @media (max-width: 768px) {
+            .message-content {
+                max-width: 85%;
             }
-            .side-menu {
-                width: 85%;
+
+            .auth-box {
+                padding: 30px 20px;
+            }
+
+            .input-field {
+                min-width: 100%;
             }
         }
     </style>
 </head>
 <body>
+    <!-- ===== AUTH PAGE ===== -->
+    <div class="auth-container" id="authPage">
+        <div class="auth-box">
+            <div class="auth-header">
+                <h1>🤖 Shizuka</h1>
+                <p>Your Personal AI Assistant</p>
+            </div>
 
-<!-- Auth Screen -->
-<div class="auth-screen" id="authScreen">
-    <div class="auth-container">
-        <div class="auth-title">✨ Shizuka</div>
-        <div class="auth-subtitle">AI Assistant Voice Chat</div>
+            <div id="alertMsg" class="alert"></div>
 
-        <!-- Login Form -->
-        <div id="loginForm">
-            <div class="form-group">
-                <label class="form-label">📧 Email or Username</label>
-                <input type="text" class="form-input" id="loginEmail" placeholder="Enter your email">
-            </div>
-            <div class="form-group">
-                <label class="form-label">🔐 Password</label>
-                <input type="password" class="form-input" id="loginPassword" placeholder="Enter password">
-            </div>
-            <button class="auth-btn" onclick="handleLogin()">Login</button>
-            <div class="toggle-auth">
-                Don't have account? <a onclick="toggleAuthForm()">Sign Up</a>
-            </div>
-        </div>
-
-        <!-- Sign Up Form -->
-        <div id="signupForm" style="display: none;">
-            <div class="form-group">
-                <label class="form-label">👤 Full Name</label>
-                <input type="text" class="form-input" id="signupName" placeholder="Enter your name">
-            </div>
-            <div class="form-group">
-                <label class="form-label">📧 Email</label>
-                <input type="email" class="form-input" id="signupEmail" placeholder="Enter email">
-            </div>
-            <div class="form-group">
-                <label class="form-label">🔐 Password</label>
-                <input type="password" class="form-input" id="signupPassword" placeholder="Min 6 characters">
-            </div>
-            <div class="form-group">
-                <label class="form-label">✅ Confirm Password</label>
-                <input type="password" class="form-input" id="signupConfirm" placeholder="Confirm password">
-            </div>
-            <button class="auth-btn" onclick="handleSignup()">Create Account</button>
-            <div class="toggle-auth">
-                Already have account? <a onclick="toggleAuthForm()">Login</a>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Overlay -->
-<div class="overlay" id="overlay"></div>
-
-<!-- Voice Modal -->
-<div class="voice-modal" id="voiceModal">
-    <h3>🎤 Listening...</h3>
-    <div class="wave-container">
-        <div class="wave"></div>
-        <div class="wave"></div>
-        <div class="wave"></div>
-        <div class="wave"></div>
-        <div class="wave"></div>
-    </div>
-    <div id="transcriptText" style="color: var(--dark); margin: 10px 0;"></div>
-</div>
-
-<!-- Side Menu -->
-<div class="side-menu" id="sideMenu">
-    <div class="menu-header">
-        <div class="user-info">
-            <div class="user-avatar" id="userAvatar">U</div>
-            <div class="user-name" id="userName">User</div>
-            <div class="user-status">🟢 Active</div>
-        </div>
-        <button class="close-menu-btn" onclick="closeMenu()">
-            <i class="fas fa-times"></i>
-        </button>
-    </div>
-
-    <div class="menu-content">
-        <!-- Stats -->
-        <div class="menu-section">
-            <div class="menu-section-title">📊 Statistics</div>
-            <div class="stats-box">
-                <div class="stat-item">
-                    <span class="stat-label">Messages Sent</span>
-                    <span class="stat-value" id="msgCount">0</span>
+            <!-- Login Form -->
+            <form id="loginForm">
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" id="loginUsername" required placeholder="Enter username" autocomplete="off">
                 </div>
-                <div class="stat-item">
-                    <span class="stat-label">Voice Chats</span>
-                    <span class="stat-value" id="voiceCount">0</span>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="loginPassword" required placeholder="Enter password" autocomplete="off">
                 </div>
-                <div class="stat-item">
-                    <span class="stat-label">Joined</span>
-                    <span class="stat-value" id="joinDate">Today</span>
+                <button type="submit" class="auth-btn" id="loginBtn">Sign In</button>
+                <div class="loading" id="loginLoading">
+                    <span class="spinner"></span>Signing in...
                 </div>
-            </div>
-        </div>
+            </form>
 
-        <!-- Quick Actions -->
-        <div class="menu-section">
-            <div class="menu-section-title">⚡ Quick Actions</div>
-            <div class="menu-item" onclick="quickAction('joke')">
-                <div class="menu-item-icon"><i class="fas fa-laugh"></i></div>
-                <span>Tell me a joke</span>
+            <div class="toggle-form">
+                Don't have an account? <a onclick="toggleForms()">Create one</a>
             </div>
-            <div class="menu-item" onclick="quickAction('story')">
-                <div class="menu-item-icon"><i class="fas fa-book"></i></div>
-                <span>Tell me a story</span>
-            </div>
-            <div class="menu-item" onclick="quickAction('fact')">
-                <div class="menu-item-icon"><i class="fas fa-lightbulb"></i></div>
-                <span>Random fact</span>
-            </div>
-            <div class="menu-item" onclick="quickAction('motivation')">
-                <div class="menu-item-icon"><i class="fas fa-star"></i></div>
-                <span>Motivational quote</span>
-            </div>
-        </div>
 
-        <!-- Voice Features -->
-        <div class="menu-section">
-            <div class="menu-section-title">🎤 Voice Features</div>
-            <div class="menu-item" onclick="toggleVoiceOutput()">
-                <div class="menu-item-icon"><i class="fas fa-volume-up"></i></div>
-                <span>Voice Output</span>
-            </div>
-            <div class="menu-item" onclick="changeLanguage()">
-                <div class="menu-item-icon"><i class="fas fa-globe"></i></div>
-                <span>Change Language</span>
-            </div>
-            <div class="menu-item" onclick="voiceSettings()">
-                <div class="menu-item-icon"><i class="fas fa-sliders-h"></i></div>
-                <span>Voice Settings</span>
-            </div>
-        </div>
+            <!-- Sign Up Form -->
+            <form id="signupForm" style="display: none;">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="signupName" required placeholder="Enter your full name" autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" id="signupUsername" required placeholder="Choose username" autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="signupPassword" required placeholder="Create password (min 6 chars)" minlength="6" autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <label>Confirm Password</label>
+                    <input type="password" id="signupConfirm" required placeholder="Confirm password" minlength="6" autocomplete="off">
+                </div>
+                <button type="submit" class="auth-btn" id="signupBtn">Create Account</button>
+                <div class="loading" id="signupLoading">
+                    <span class="spinner"></span>Creating account...
+                </div>
+            </form>
 
-        <!-- Chat Features -->
-        <div class="menu-section">
-            <div class="menu-section-title">💬 Chat</div>
-            <div class="menu-item" onclick="saveChat()">
-                <div class="menu-item-icon"><i class="fas fa-download"></i></div>
-                <span>Save Chat History</span>
-            </div>
-            <div class="menu-item" onclick="viewHistory()">
-                <div class="menu-item-icon"><i class="fas fa-history"></i></div>
-                <span>Chat History</span>
-            </div>
-            <div class="menu-item" onclick="clearChat()">
-                <div class="menu-item-icon"><i class="fas fa-trash"></i></div>
-                <span>Clear Chat</span>
-            </div>
-        </div>
-
-        <!-- Settings -->
-        <div class="menu-section">
-            <div class="menu-section-title">⚙️ Settings</div>
-            <div class="menu-item" onclick="editProfile()">
-                <div class="menu-item-icon"><i class="fas fa-user-edit"></i></div>
-                <span>Edit Profile</span>
-            </div>
-            <div class="menu-item" onclick="darkMode()">
-                <div class="menu-item-icon"><i class="fas fa-moon"></i></div>
-                <span>Dark Mode</span>
-            </div>
-            <div class="menu-item" onclick="helpSupport()">
-                <div class="menu-item-icon"><i class="fas fa-question-circle"></i></div>
-                <span>Help & Support</span>
-            </div>
-            <div class="menu-item" onclick="about()">
-                <div class="menu-item-icon"><i class="fas fa-info-circle"></i></div>
-                <span>About Shizuka</span>
-            </div>
-        </div>
-
-        <!-- Account -->
-        <div class="menu-section">
-            <div class="menu-section-title">👤 Account</div>
-            <div class="menu-item" onclick="logout()" style="border-left-color: #ff6b6b;">
-                <div class="menu-item-icon" style="background: linear-gradient(135deg, #ff6b6b, #ff4757);"><i class="fas fa-sign-out-alt"></i></div>
-                <span>Logout</span>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- App -->
-<div class="app-container" id="appContainer" style="display: none;">
-    <div class="status-bar">
-        <div id="currentTime">12:00</div>
-        <div>🎤 Shizuka AI</div>
-        <div style="display: flex; gap: 8px;">
-            <i class="fas fa-signal"></i>
-            <i class="fas fa-wifi"></i>
-        </div>
-    </div>
-
-    <div class="app-header">
-        <button class="menu-btn" onclick="toggleMenu()">
-            <i class="fas fa-bars"></i>
-        </button>
-        <div>
-            <div class="header-title">✨ Shizuka</div>
-            <div class="header-subtitle" id="userGreeting">Voice AI Chat</div>
-        </div>
-        <button class="menu-btn" onclick="showHelp()">
-            <i class="fas fa-question-circle"></i>
-        </button>
-    </div>
-
-    <div class="chat-container" id="chatContainer">
-        <div class="message assistant">
-            <div class="message-bubble">
-                👋 Welcome! Start chatting or use the 🎤 button to speak!
+            <div class="toggle-form" id="signupToggle" style="display: none;">
+                Already have an account? <a onclick="toggleForms()">Sign In</a>
             </div>
         </div>
     </div>
 
-    <div class="input-area">
-        <button class="action-btn mic-btn" id="micBtn" onclick="toggleVoice()" title="Voice Input">
-            <i class="fas fa-microphone"></i>
-        </button>
-        <textarea 
-            class="message-input" 
-            id="messageInput" 
-            placeholder="Type or use voice..."
-            rows="1"
-            oninput="autoResize(this)"
-        ></textarea>
-        <button class="action-btn send-btn" onclick="sendMessage()" title="Send">
-            <i class="fas fa-paper-plane"></i>
-        </button>
+    <!-- ===== CHAT PAGE ===== -->
+    <div class="chat-container" id="chatPage">
+        <div class="chat-header">
+            <div class="header-title">💬 Shizuka - AI Assistant</div>
+            <div class="user-info">
+                <div class="user-avatar" id="userInitial">U</div>
+                <span id="userName">User</span>
+                <button type="button" class="logout-btn" onclick="logout()">Logout</button>
+            </div>
+        </div>
+
+        <div class="messages" id="messages">
+            <div class="message assistant">
+                <div class="message-content">👋 Hello! I'm Shizuka, your AI assistant. How can I help you today?</div>
+            </div>
+        </div>
+
+        <div class="input-area">
+            <div class="action-buttons">
+                <button type="button" class="quick-btn" onclick="quickAction('time')">⏰ Time</button>
+                <button type="button" class="quick-btn" onclick="quickAction('joke')">😂 Joke</button>
+                <button type="button" class="quick-btn" onclick="quickAction('fun fact')">💡 Fact</button>
+                <button type="button" class="quick-btn" onclick="quickAction('motivate me')">🚀 Motivate</button>
+            </div>
+            <div class="input-field">
+                <input type="text" id="messageInput" placeholder="Ask me anything..." autocomplete="off">
+                <button type="button" class="send-btn" id="sendBtn" onclick="sendMessage()">📤</button>
+            </div>
+        </div>
     </div>
-</div>
 
-<script>
-    const API_KEY = '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';
-    const GROQ_API_URL = 'https://api.groq.com/openai/v1/chat/completions';
+    <script>
+        const API_URL = 'http://localhost:8000';
+        let currentUser = null;
 
-    // User Data
-    let currentUser = null;
-    let userStats = {
-        messagesSent: 0,
-        voiceChats: 0,
-        joinDate: new Date().toLocaleDateString()
-    };
-
-    // Auth Functions
-    function toggleAuthForm() {
-        document.getElementById('loginForm').style.display = 
-            document.getElementById('loginForm').style.display === 'none' ? 'block' : 'none';
-        document.getElementById('signupForm').style.display = 
-            document.getElementById('signupForm').style.display === 'none' ? 'block' : 'none';
-    }
-
-    function handleLogin() {
-        const email = document.getElementById('loginEmail').value.trim();
-        const password = document.getElementById('loginPassword').value.trim();
-
-        if (!email || !password) {
-            alert('Please fill all fields!');
-            return;
+        // ===== AUTH FUNCTIONS =====
+        function toggleForms() {
+            document.getElementById('loginForm').style.display = 
+                document.getElementById('loginForm').style.display === 'none' ? 'block' : 'none';
+            document.getElementById('signupForm').style.display = 
+                document.getElementById('signupForm').style.display === 'none' ? 'block' : 'none';
+            document.querySelector('.toggle-form').style.display = 
+                document.querySelector('.toggle-form').style.display === 'none' ? 'block' : 'none';
+            document.getElementById('signupToggle').style.display = 
+                document.getElementById('signupToggle').style.display === 'none' ? 'block' : 'none';
+            
+            // Clear forms
+            document.getElementById('loginForm').reset();
+            document.getElementById('signupForm').reset();
+            document.getElementById('alertMsg').style.display = 'none';
         }
 
-        currentUser = {
-            name: email.split('@')[0],
-            email: email,
-            avatar: email.charAt(0).toUpperCase()
-        };
-
-        initializeApp();
-    }
-
-    function handleSignup() {
-        const name = document.getElementById('signupName').value.trim();
-        const email = document.getElementById('signupEmail').value.trim();
-        const password = document.getElementById('signupPassword').value.trim();
-        const confirm = document.getElementById('signupConfirm').value.trim();
-
-        if (!name || !email || !password || !confirm) {
-            alert('Please fill all fields!');
-            return;
+        function showAlert(message, type = 'error') {
+            const alertMsg = document.getElementById('alertMsg');
+            alertMsg.textContent = message;
+            alertMsg.className = 'alert ' + type;
+            alertMsg.style.display = 'block';
         }
 
-        if (password !== confirm) {
-            alert('Passwords do not match!');
-            return;
+        // Sign Up Handler
+        document.getElementById('signupForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const name = document.getElementById('signupName').value.trim();
+            const username = document.getElementById('signupUsername').value.trim();
+            const password = document.getElementById('signupPassword').value;
+            const confirm = document.getElementById('signupConfirm').value;
+
+            // Validation
+            if (!name || !username || !password || !confirm) {
+                showAlert('❌ Please fill all fields', 'error');
+                return;
+            }
+
+            if (username.length < 3) {
+                showAlert('❌ Username must be at least 3 characters', 'error');
+                return;
+            }
+
+            if (password.length < 6) {
+                showAlert('❌ Password must be at least 6 characters', 'error');
+                return;
+            }
+
+            if (password !== confirm) {
+                showAlert('❌ Passwords do not match', 'error');
+                return;
+            }
+
+            // Show loading
+            document.getElementById('signupBtn').disabled = true;
+            document.getElementById('signupLoading').style.display = 'block';
+
+            try {
+                const response = await fetch(`${API_URL}/api/signup`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, username, password })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    showAlert('✅ Account created successfully! Please sign in.', 'success');
+                    setTimeout(() => {
+                        document.getElementById('signupForm').reset();
+                        document.getElementById('loginUsername').value = username;
+                        toggleForms();
+                    }, 1500);
+                } else {
+                    showAlert(`❌ ${data.message}`, 'error');
+                }
+            } catch (error) {
+                showAlert(`❌ Connection error: ${error.message}`, 'error');
+            } finally {
+                document.getElementById('signupBtn').disabled = false;
+                document.getElementById('signupLoading').style.display = 'none';
+            }
+        });
+
+        // Login Handler
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const username = document.getElementById('loginUsername').value.trim();
+            const password = document.getElementById('loginPassword').value;
+
+            if (!username || !password) {
+                showAlert('❌ Please fill all fields', 'error');
+                return;
+            }
+
+            // Show loading
+            document.getElementById('loginBtn').disabled = true;
+            document.getElementById('loginLoading').style.display = 'block';
+
+            try {
+                const response = await fetch(`${API_URL}/api/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    currentUser = { ...data.user, password };
+                    sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
+                    showAlert('✅ Signed in successfully!', 'success');
+                    setTimeout(() => {
+                        showChatPage();
+                    }, 500);
+                } else {
+                    showAlert(`❌ ${data.message}`, 'error');
+                }
+            } catch (error) {
+                showAlert(`❌ Connection error: ${error.message}`, 'error');
+            } finally {
+                document.getElementById('loginBtn').disabled = false;
+                document.getElementById('loginLoading').style.display = 'none';
+            }
+        });
+
+        function showChatPage() {
+            document.getElementById('authPage').style.display = 'none';
+            document.getElementById('chatPage').style.display = 'flex';
+            document.getElementById('userName').textContent = currentUser.name;
+            document.getElementById('userInitial').textContent = currentUser.name.charAt(0).toUpperCase();
+            document.getElementById('messageInput').focus();
         }
 
-        if (password.length < 6) {
-            alert('Password must be at least 6 characters!');
-            return;
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                currentUser = null;
+                sessionStorage.removeItem('currentUser');
+                document.getElementById('chatPage').style.display = 'none';
+                document.getElementById('authPage').style.display = 'flex';
+                document.getElementById('messages').innerHTML = '<div class="message assistant"><div class="message-content">👋 Hello! I\'m Shizuka. How can I help?</div></div>';
+                document.getElementById('loginForm').reset();
+                document.getElementById('signupForm').reset();
+                document.getElementById('loginForm').style.display = 'block';
+                document.getElementById('signupForm').style.display = 'none';
+                document.querySelector('.toggle-form').style.display = 'block';
+                document.getElementById('signupToggle').style.display = 'none';
+                document.getElementById('alertMsg').style.display = 'none';
+            }
         }
 
-        currentUser = {
-            name: name,
-            email: email,
-            avatar: name.charAt(0).toUpperCase()
-        };
+        // ===== CHAT FUNCTIONS =====
+        async function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const message = input.value.trim();
 
-        initializeApp();
-    }
+            if (!message) return;
 
-    function initializeApp() {
-        document.getElementById('authScreen').style.display = 'none';
-        document.getElementById('appContainer').style.display = 'flex';
-        updateUserProfile();
-        updateTime();
-        setInterval(updateTime, 60000);
-    }
+            addMessage(message, 'user');
+            input.value = '';
+            input.focus();
 
-    function updateUserProfile() {
-        document.getElementById('userName').textContent = currentUser.name;
-        document.getElementById('userAvatar
+            document.getElementById('sendBtn').disabled = true;
+
+            try {
+                const response = await fetch(`${API_URL}/api/query`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        query: message,
+                        username: currentUser.username
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+
+                const data = await response.json();
+                const replyText = data.text || 'I apologize, I could not process that request.';
+                addMessage(replyText, 'assistant');
+            } catch (error) {
+                console.error('Error:', error);
+                addMessage('❌ Connection error. Make sure the backend server is running on http://localhost:8000', 'assistant');
+            }
+
+            document.getElementById('sendBtn').disabled = false;
+        }
+
+        function quickAction(action) {
+            document.getElementById('messageInput').value = action;
+            sendMessage();
+        }
+
+        function addMessage(text, sender) {
+            const messagesDiv = document.getElementById('messages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}`;
+            messageDiv.innerHTML = `<div class="message-content">${escapeHtml(text)}</div>`;
+            messagesDiv.appendChild(messageDiv);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // ===== KEYBOARD SUPPORT =====
+        document.getElementById('messageInput')?.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+
+        // ===== LOAD SAVED SESSION =====
+        window.addEventListener('load', () => {
+            const saved = sessionStorage.getItem('currentUser');
+            if (saved) {
+                currentUser = JSON.parse(saved);
+                showChatPage();
+            }
+        });
+    </script>
+</body>
+</html>
