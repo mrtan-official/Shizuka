@@ -54,7 +54,7 @@
         .assistant { align-items: flex-start; }
         .assistant .message-content { background: #f1f2f6; color: var(--dark); border-bottom-left-radius: 2px; border: 1px solid #ddd; }
 
-        .app-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; padding: 15px; background: #fff; border-top: 1px solid #eee; }
+        .app-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; padding: 15px; background: #fff; border-top: 1px solid #eee; }
         .app-icon { display: flex; flex-direction: column; align-items: center; font-size: 0.65rem; cursor: pointer; color: #555; transition: 0.3s; }
         .app-icon i { width: 45px; height: 45px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; margin-bottom: 4px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); transition: 0.3s; }
         .app-icon:hover i { transform: translateY(-3px); }
@@ -81,24 +81,18 @@
     <div class="chat-container" id="chat">
         <div class="message assistant">
             <div class="message-content">
-                Hello Tanim! 🌸 How can I help you? Type <b>'help'</b> to see commands.
+                Hello Tanim! 🌸 I've updated my clock system. Ask me the time now!
             </div>
         </div>
     </div>
 
-    <div class="app-grid">
-        <div class="app-icon" onclick="handleSystemCmd('whatsapp')"><i class="fab fa-whatsapp" style="background: #e8f9ee; color: #25D366;"></i>WhatsApp</div>
-        <div class="app-icon" onclick="handleSystemCmd('facebook')"><i class="fab fa-facebook" style="background: #e7f0ff; color: #1877F2;"></i>Facebook</div>
-        <div class="app-icon" onclick="handleSystemCmd('github')"><i class="fab fa-github" style="background: #f1f1f1; color: #333;"></i>GitHub</div>
-        <div class="app-icon" onclick="handleSystemCmd('google')"><i class="fab fa-google" style="background: #f2f6ff; color: #4285F4;"></i>Google</div>
-        <div class="app-icon" onclick="handleSystemCmd('chatgpt')"><i class="fas fa-robot" style="background: #f0fbf9; color: #10a37f;"></i>ChatGPT</div>
-        <div class="app-icon" onclick="handleSystemCmd('browser')"><i class="fas fa-globe" style="background: #fff4e5; color: #f39c12;"></i>Browse URL</div>
-    </div>
+    <div class="app-grid" id="gridContainer">
+        </div>
 
     <div class="input-area">
         <button class="btn-round btn-mic" id="mic" onclick="startVoice()"><i class="fas fa-microphone"></i></button>
-        <input type="text" id="msgInput" placeholder="Ask me something...">
-        <button class="btn-round btn-send" id="sendBtn" onclick="sendMsg()"><i class="fas fa-paper-plane"></i></button>
+        <input type="text" id="msgInput" placeholder="Type or say something...">
+        <button class="btn-round btn-send" onclick="sendMsg()"><i class="fas fa-paper-plane"></i></button>
     </div>
 </div>
 
@@ -107,35 +101,48 @@
     const chat = document.getElementById('chat');
     const input = document.getElementById('msgInput');
 
+    // --- Dynamic Icons Setup ---
+    const apps = [
+        { id: 'whatsapp', icon: 'fab fa-whatsapp', bg: '#e8f9ee', color: '#25D366', label: 'WA' },
+        { id: 'facebook', icon: 'fab fa-facebook', bg: '#e7f0ff', color: '#1877F2', label: 'FB' },
+        { id: 'youtube', icon: 'fab fa-youtube', bg: '#fff0f0', color: '#FF0000', label: 'YT' },
+        { id: 'github', icon: 'fab fa-github', bg: '#f1f1f1', color: '#333', label: 'Git' },
+        { id: 'google', icon: 'fab fa-google', bg: '#f2f6ff', color: '#4285F4', label: 'Ggl' },
+        { id: 'gmail', icon: 'fas fa-envelope', bg: '#fff2f2', color: '#EA4335', label: 'Mail' },
+        { id: 'linkedin', icon: 'fab fa-linkedin', bg: '#eef7fd', color: '#0077b5', label: 'In' },
+        { id: 'browser', icon: 'fas fa-globe', bg: '#fff4e5', color: '#f39c12', label: 'URL' }
+    ];
+
+    const grid = document.getElementById('gridContainer');
+    apps.forEach(app => {
+        grid.innerHTML += `
+            <div class="app-icon" onclick="handleSystemCmd('${app.id}')">
+                <i class="${app.icon}" style="background: ${app.bg}; color: ${app.color};"></i>${app.label}
+            </div>`;
+    });
+
     function speak(text) {
         const synth = window.speechSynthesis;
         const utter = new SpeechSynthesisUtterance(text);
         let voices = synth.getVoices();
-        let ladyVoice = voices.find(v => v.name.includes('Google US English') || v.name.includes('Female') || v.name.includes('Zira'));
+        let ladyVoice = voices.find(v => v.name.includes('Google US English') || v.name.includes('Female'));
         if (ladyVoice) utter.voice = ladyVoice;
-        utter.pitch = 1.3; utter.rate = 1.0;
+        utter.pitch = 1.3;
         synth.speak(utter);
     }
 
     function handleSystemCmd(cmd) {
         if(cmd === 'browser') {
-            let u = prompt("Enter Website URL (e.g., google.com):");
-            if(u) {
-                let fullUrl = u.includes("http") ? u : "https://" + u;
-                window.open(fullUrl, '_blank');
-                addMsg("Opening URL for you!", false);
-            }
+            let u = prompt("Enter Website (e.g. google.com):");
+            if(u) window.open(u.includes("http") ? u : "https://" + u, '_blank');
             return;
         }
         const urls = {
-            'whatsapp': 'https://wa.me/', 'facebook': 'https://facebook.com',
-            'github': 'https://github.com/mrtan-official', 'google': 'https://google.com',
-            'chatgpt': 'https://chat.openai.com'
+            whatsapp: 'https://wa.me/', facebook: 'https://facebook.com', youtube: 'https://youtube.com',
+            github: 'https://github.com/mrtan-official', google: 'https://google.com', gmail: 'https://mail.google.com',
+            linkedin: 'https://linkedin.com'
         };
-        if(urls[cmd]) {
-            addMsg(`Opening ${cmd}...`, false);
-            setTimeout(() => { window.open(urls[cmd], '_blank'); }, 800);
-        }
+        if(urls[cmd]) window.open(urls[cmd], '_blank');
     }
 
     async function sendMsg() {
@@ -145,31 +152,22 @@
         input.value = '';
         const lowText = text.toLowerCase();
 
-        // --- Bangladesh Country Based Time Logic ---
+        // --- Bangladesh Time Fix (Intl API) ---
         if(lowText.includes("time")) {
-            const options = { 
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('en-US', { 
                 timeZone: 'Asia/Dhaka', 
                 hour: '2-digit', 
                 minute: '2-digit', 
-                second: '2-digit',
                 hour12: true 
-            };
-            const bdTime = new Intl.DateTimeFormat('en-US', options).format(new Date());
-            addMsg("In Bangladesh, the current time is " + bdTime, false);
+            });
+            addMsg("The current time in Bangladesh is " + timeString, false);
         }
-        else if(lowText === 'help') {
-            addMsg("Try: 'Time', 'Joke', 'Open Facebook', or ask about 'Tanim'!", false);
-        }
-        else if(lowText.includes("joke")) {
-            const jokes = ["Why was the computer cold? It left its Windows open!", "What do you call a fake noodle? An Impasta!"];
-            addMsg(jokes[Math.floor(Math.random()*jokes.length)], false);
-        }
-        else if(lowText.includes("tanim") || lowText.includes("developer")) {
-            addMsg("Abu Tanim is a Python developer from Chittagong, studying CSE at Premier University.", false);
+        else if(lowText.includes("tanim")) {
+            addMsg("Abu Tanim is my creator and a Python expert from Chittagong!", false);
         }
         else if(lowText.includes("open ")) {
-            let app = lowText.replace("open ", "").trim();
-            handleSystemCmd(app);
+            handleSystemCmd(lowText.replace("open ", "").trim());
         }
         else {
             try {
@@ -179,9 +177,9 @@
                     body: JSON.stringify({ query: text })
                 });
                 const data = await res.json();
-                addMsg(data.text || "Okay!", false);
+                addMsg(data.text || "Got it!", false);
             } catch(e) {
-                addMsg("I'm in local mode. Try asking 'What time is it?'", false);
+                addMsg("Local Mode: Ask me the time or to open an app.", false);
             }
         }
     }
@@ -198,14 +196,11 @@
     function startVoice() {
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         if (!SpeechRecognition) return alert("Voice not supported.");
-        const recognition = new SpeechRecognition();
-        recognition.onstart = () => document.getElementById('mic').classList.add('listening');
-        recognition.onend = () => document.getElementById('mic').classList.remove('listening');
-        recognition.onresult = (e) => {
-            input.value = e.results[0][0].transcript;
-            sendMsg();
-        };
-        recognition.start();
+        const rec = new SpeechRecognition();
+        rec.onstart = () => document.getElementById('mic').classList.add('listening');
+        rec.onend = () => document.getElementById('mic').classList.remove('listening');
+        rec.onresult = (e) => { input.value = e.results[0][0].transcript; sendMsg(); };
+        rec.start();
     }
     input.addEventListener('keypress', (e) => { if(e.key === 'Enter') sendMsg(); });
 </script>
