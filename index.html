@@ -3,29 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shizuka AI Assistant Pro</title>
-    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/4712/4712035.png" type="image/png">
+    <title>Shizuka AI - Voice Enabled</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
-            --primary: #ff6b6b;
-            --secondary: #4ecdc4;
-            --accent: #667eea;
-            --dark: #2d3436;
-            --light: #f8f9fa;
+            --primary: #667eea;
+            --secondary: #764ba2;
+            --dark: #1a1a2e;
+            --light: #f0f4ff;
             --gray: #6c757d;
-            --success: #2ecc71;
-            --warning: #f39c12;
-            --danger: #e74c3c;
-            --shadow: 0 10px 40px rgba(0,0,0,0.1);
-            --radius: 20px;
+            --success: #00d4ff;
         }
 
         * { 
             margin: 0; 
             padding: 0; 
             box-sizing: border-box; 
-            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; 
         }
 
         body {
@@ -34,165 +28,89 @@
             display: flex; 
             justify-content: center; 
             align-items: center; 
-            padding: 20px;
-            position: relative;
-            overflow: hidden;
+            padding: 10px;
         }
 
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 90% 80%, rgba(0, 0, 0, 0.1) 0%, transparent 50%);
-            z-index: -1;
-        }
-
-        /* Mobile App Container */
         .app-container {
             width: 100%;
             max-width: 450px;
             height: 90vh;
             min-height: 700px;
             background: white;
-            border-radius: var(--radius);
+            border-radius: 30px;
             overflow: hidden;
-            box-shadow: 
-                0 25px 50px rgba(0,0,0,0.2),
-                0 0 0 1px rgba(255,255,255,0.1);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.3);
             display: flex;
             flex-direction: column;
-            position: relative;
         }
 
-        /* Status Bar */
         .status-bar {
-            height: 30px;
-            background: rgba(0,0,0,0.05);
+            height: 35px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 0 20px;
             font-size: 0.8rem;
-            color: var(--gray);
-            border-bottom: 1px solid rgba(0,0,0,0.05);
-        }
-
-        .time {
+            color: white;
             font-weight: 600;
         }
 
-        .status-icons {
-            display: flex;
-            gap: 10px;
-        }
-
-        /* App Header */
         .app-header {
-            padding: 20px;
-            background: linear-gradient(135deg, var(--primary), #ff8e8e);
-            display: flex;
-            align-items: center;
-            gap: 15px;
+            padding: 15px 20px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .app-header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 100%;
-            background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
-            animation: shimmer 3s infinite;
-        }
-
-        @keyframes shimmer {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-        }
-
-        .menu-toggle {
-            width: 45px;
-            height: 45px;
-            background: rgba(255,255,255,0.2);
-            border-radius: 15px;
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.3);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
         }
 
-        .menu-toggle:hover {
+        .header-title {
+            font-size: 1.3rem;
+            font-weight: 800;
+        }
+
+        .header-subtitle {
+            font-size: 0.7rem;
+            opacity: 0.9;
+        }
+
+        .menu-btn {
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.2);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+        }
+
+        .menu-btn:hover {
             background: rgba(255,255,255,0.3);
             transform: scale(1.05);
         }
 
-        .menu-toggle i {
-            font-size: 1.2rem;
-        }
-
-        .app-info {
+        .chat-container {
             flex: 1;
-        }
-
-        .app-title {
-            font-size: 1.3rem;
-            font-weight: 700;
-            margin-bottom: 3px;
-        }
-
-        .app-subtitle {
-            font-size: 0.85rem;
-            opacity: 0.9;
-        }
-
-        .user-avatar {
-            width: 45px;
-            height: 45px;
-            background: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            color: var(--primary);
-            cursor: pointer;
-            border: 2px solid rgba(255,255,255,0.3);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-
-        /* Main Content Area - Biger Chat Space */
-        .main-content {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            background: var(--light);
-        }
-
-        /* Welcome Banner */
-        .welcome-banner {
+            overflow-y: auto;
             padding: 20px;
-            background: white;
-            border-bottom: 1px solid rgba(0,0,0,0.05);
-            animation: slideDown 0.5s ease;
+            background: linear-gradient(180deg, #f8faff 0%, #ffffff 100%);
+            scroll-behavior: smooth;
         }
 
-        @keyframes slideDown {
+        .message {
+            margin-bottom: 15px;
+            display: flex;
+            animation: slideIn 0.4s ease;
+        }
+
+        @keyframes slideIn {
             from {
                 opacity: 0;
-                transform: translateY(-20px);
+                transform: translateY(10px);
             }
             to {
                 opacity: 1;
@@ -200,300 +118,147 @@
             }
         }
 
-        .welcome-text {
-            font-size: 0.9rem;
-            color: var(--gray);
-            text-align: center;
-            line-height: 1.5;
-        }
-
-        .welcome-text span {
-            color: var(--primary);
-            font-weight: 600;
-        }
-
-        /* Chat Container - Made Bigger */
-        .chat-container {
-            flex: 1;
-            overflow-y: auto;
-            padding: 20px;
-            scroll-behavior: smooth;
-            background: 
-                linear-gradient(180deg, 
-                    rgba(248, 249, 250, 0.95) 0%, 
-                    rgba(255, 255, 255, 0.98) 100%);
-            position: relative;
-            min-height: 400px;
-        }
-
-        .chat-container::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .chat-container::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        .chat-container::-webkit-scrollbar-thumb {
-            background: var(--primary);
-            border-radius: 10px;
-        }
-
-        /* Messages */
-        .message {
-            margin-bottom: 20px;
-            display: flex;
-            flex-direction: column;
-            animation: messageAppear 0.4s cubic-bezier(0.18, 0.89, 0.32, 1.28);
-            max-width: 100%;
-        }
-
-        @keyframes messageAppear {
-            from {
-                opacity: 0;
-                transform: translateY(20px) scale(0.95);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
-
-        .message-content {
-            padding: 16px 20px;
-            border-radius: 24px;
-            font-size: 1rem;
+        .message-bubble {
+            max-width: 80%;
+            padding: 12px 16px;
+            border-radius: 18px;
+            font-size: 0.95rem;
             line-height: 1.5;
             word-wrap: break-word;
-            max-width: 90%;
-            position: relative;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            min-width: 60px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
         }
 
-        /* User Message */
         .message.user {
-            align-items: flex-end;
+            justify-content: flex-end;
         }
 
-        .message.user .message-content {
-            background: linear-gradient(135deg, var(--primary), #ff8e8e);
+        .message.user .message-bubble {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
-            border-bottom-right-radius: 8px;
-            border-top-left-radius: 24px;
-            border-top-right-radius: 24px;
+            border-bottom-right-radius: 4px;
         }
 
-        /* Assistant Message */
         .message.assistant {
-            align-items: flex-start;
+            justify-content: flex-start;
         }
 
-        .message.assistant .message-content {
+        .message.assistant .message-bubble {
             background: white;
             color: var(--dark);
-            border-bottom-left-radius: 8px;
-            border-top-left-radius: 24px;
-            border-top-right-radius: 24px;
-            border: 1px solid rgba(0,0,0,0.05);
+            border: 1px solid #e8e8f0;
+            border-bottom-left-radius: 4px;
         }
 
-        /* Time Stamp */
-        .message-time {
-            font-size: 0.7rem;
-            color: var(--gray);
-            margin-top: 5px;
-            opacity: 0.7;
-        }
-
-        .message.user .message-time {
-            text-align: right;
-            margin-right: 10px;
-        }
-
-        .message.assistant .message-time {
-            text-align: left;
-            margin-left: 10px;
-        }
-
-        /* Input Area */
-        .input-area {
-            padding: 20px;
-            background: white;
-            border-top: 1px solid rgba(0,0,0,0.05);
+        .typing-indicator {
             display: flex;
-            gap: 12px;
-            align-items: center;
-            position: relative;
+            gap: 6px;
+            padding: 12px 16px;
+            background: white;
+            border-radius: 18px;
+            width: fit-content;
+            border: 1px solid #e8e8f0;
         }
 
-        .input-area::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, 
-                transparent, 
-                var(--secondary), 
-                var(--primary), 
-                transparent);
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--primary);
+            opacity: 0.5;
+            animation: bounce 1.4s infinite;
+        }
+
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes bounce {
+            0%, 60%, 100% { transform: translateY(0); opacity: 0.5; }
+            30% { transform: translateY(-8px); opacity: 1; }
+        }
+
+        .input-area {
+            padding: 15px 20px;
+            background: white;
+            border-top: 1px solid #e8e8f0;
+            display: flex;
+            gap: 10px;
+            align-items: flex-end;
         }
 
         .message-input {
             flex: 1;
-            padding: 18px 20px;
-            border: 2px solid #e9ecef;
-            background: #f8f9fa;
+            padding: 12px 16px;
+            border: 1.5px solid #e8e8f0;
             border-radius: 25px;
             outline: none;
-            font-size: 1rem;
-            transition: all 0.3s;
-            color: var(--dark);
-            min-height: 56px;
-            max-height: 120px;
+            font-size: 0.95rem;
             resize: none;
-            overflow-y: auto;
+            max-height: 100px;
+            background: var(--light);
+            color: var(--dark);
+            transition: all 0.3s;
         }
 
         .message-input:focus {
-            border-color: var(--secondary);
+            border-color: var(--primary);
             background: white;
-            box-shadow: 
-                0 0 0 3px rgba(78, 205, 196, 0.1),
-                0 5px 20px rgba(0,0,0,0.05);
-        }
-
-        .message-input::placeholder {
-            color: #adb5bd;
-        }
-
-        .action-buttons {
-            display: flex;
-            gap: 8px;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
 
         .action-btn {
-            width: 56px;
-            height: 56px;
+            width: 45px;
+            height: 45px;
             border-radius: 50%;
             border: none;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.3s;
-            background: linear-gradient(135deg, var(--secondary), #7ae0d8);
             color: white;
-            box-shadow: 0 5px 15px rgba(78, 205, 196, 0.3);
+            font-size: 1.1rem;
+            transition: all 0.3s;
         }
 
-        .action-btn:hover {
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 8px 25px rgba(78, 205, 196, 0.4);
+        .send-btn {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
         }
 
-        .action-btn.send {
-            background: linear-gradient(135deg, var(--primary), #ff8e8e);
-            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+        .send-btn:hover {
+            transform: scale(1.08);
         }
 
-        .action-btn.send:hover {
-            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
+        .mic-btn {
+            background: linear-gradient(135deg, var(--success), #00a8e8);
         }
 
-        .action-btn.mic.listening {
-            background: linear-gradient(135deg, #ff4757, #ff6b81);
+        .mic-btn:hover {
+            transform: scale(1.08);
+        }
+
+        .mic-btn.listening {
+            background: linear-gradient(135deg, #ff006e, #ff1493);
             animation: pulse 1.5s infinite;
         }
 
         @keyframes pulse {
-            0% {
-                transform: scale(1);
-                box-shadow: 0 0 0 0 rgba(255, 71, 87, 0.7);
-            }
-            70% {
-                transform: scale(1.05);
-                box-shadow: 0 0 0 10px rgba(255, 71, 87, 0);
-            }
-            100% {
-                transform: scale(1);
-                box-shadow: 0 0 0 0 rgba(255, 71, 87, 0);
-            }
+            0% { box-shadow: 0 0 0 0 rgba(255, 0, 110, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(255, 0, 110, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 0, 110, 0); }
         }
 
-        .action-btn i {
-            font-size: 1.2rem;
-        }
-
-        /* Bottom Navigation */
-        .bottom-nav {
-            display: flex;
-            background: white;
-            border-top: 1px solid rgba(0,0,0,0.05);
-            padding: 10px 0;
-            position: relative;
-        }
-
-        .nav-item {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 10px;
-            cursor: pointer;
-            transition: all 0.3s;
-            color: var(--gray);
-            position: relative;
-        }
-
-        .nav-item:hover {
-            color: var(--primary);
-        }
-
-        .nav-item.active {
-            color: var(--primary);
-        }
-
-        .nav-item.active::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 40px;
-            height: 3px;
-            background: var(--primary);
-            border-radius: 0 0 3px 3px;
-        }
-
-        .nav-icon {
-            font-size: 1.2rem;
-            margin-bottom: 5px;
-        }
-
-        .nav-label {
-            font-size: 0.7rem;
-            font-weight: 500;
-        }
-
-        /* Side Menu - Separate Scrollable Part */
+        /* Side Menu */
         .side-menu {
             position: fixed;
             top: 0;
-            left: -100%;
-            width: 85%;
-            max-width: 350px;
+            left: -300px;
+            width: 300px;
             height: 100vh;
             background: white;
             z-index: 1000;
-            transition: left 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            display: flex;
-            flex-direction: column;
-            box-shadow: 5px 0 30px rgba(0,0,0,0.15);
-            overflow: hidden;
+            transition: left 0.4s ease;
+            overflow-y: auto;
+            box-shadow: 5px 0 30px rgba(0,0,0,0.2);
         }
 
         .side-menu.active {
@@ -501,282 +266,172 @@
         }
 
         .menu-header {
-            padding: 40px 20px 20px;
-            background: linear-gradient(135deg, var(--primary), var(--accent));
+            padding: 25px 20px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
-            position: relative;
-        }
-
-        .menu-close {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            width: 40px;
-            height: 40px;
-            background: rgba(255,255,255,0.2);
-            border-radius: 12px;
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s;
-            border: 1px solid rgba(255,255,255,0.3);
         }
 
-        .menu-close:hover {
-            background: rgba(255,255,255,0.3);
-            transform: rotate(90deg);
+        .user-info {
+            flex: 1;
         }
 
-        .user-profile {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        .profile-avatar {
-            width: 60px;
-            height: 60px;
+        .user-avatar {
+            width: 50px;
+            height: 50px;
             background: white;
-            border-radius: 20px;
+            border-radius: 15px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 1.5rem;
+            font-weight: bold;
             color: var(--primary);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            margin-bottom: 10px;
         }
 
-        .profile-info h3 {
-            font-size: 1.3rem;
-            margin-bottom: 5px;
-        }
-
-        .profile-info p {
-            font-size: 0.85rem;
-            opacity: 0.9;
-        }
-
-        .menu-stats {
-            display: flex;
-            gap: 15px;
-            margin-top: 15px;
-        }
-
-        .stat-item {
-            flex: 1;
-            text-align: center;
-            padding: 10px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 10px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.2);
-        }
-
-        .stat-value {
-            font-size: 1.2rem;
-            font-weight: 700;
+        .user-name {
+            font-weight: 600;
+            font-size: 1.1rem;
             margin-bottom: 3px;
         }
 
-        .stat-label {
-            font-size: 0.7rem;
+        .user-status {
+            font-size: 0.8rem;
             opacity: 0.9;
         }
 
-        /* Scrollable Menu Content */
+        .close-menu-btn {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+        }
+
+        .close-menu-btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: rotate(90deg);
+        }
+
         .menu-content {
-            flex: 1;
-            overflow-y: auto;
             padding: 20px;
-            background: var(--light);
         }
 
         .menu-section {
             margin-bottom: 25px;
-            background: white;
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
         }
 
-        .section-title {
+        .menu-section-title {
+            font-size: 0.75rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            letter-spacing: 1px;
+        }
+
+        .menu-item {
+            padding: 12px 15px;
+            margin-bottom: 8px;
+            background: var(--light);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
             display: flex;
             align-items: center;
-            gap: 10px;
-            margin-bottom: 15px;
+            gap: 12px;
             color: var(--dark);
-            font-size: 1rem;
-            font-weight: 600;
+            font-size: 0.9rem;
+            border-left: 3px solid transparent;
         }
 
-        .section-title i {
+        .menu-item:hover {
+            background: linear-gradient(135deg, var(--light), #f5e6ff);
+            transform: translateX(5px);
+            border-left-color: var(--primary);
+        }
+
+        .menu-item-icon {
+            width: 35px;
+            height: 35px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1rem;
+        }
+
+        .stats-box {
+            background: linear-gradient(135deg, var(--light), #f5e6ff);
+            padding: 15px;
+            border-radius: 15px;
+            margin-bottom: 15px;
+        }
+
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+        }
+
+        .stat-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .stat-label {
+            color: var(--gray);
+            font-weight: 500;
+        }
+
+        .stat-value {
             color: var(--primary);
+            font-weight: 700;
             font-size: 1.1rem;
         }
 
-        /* Quick Actions Grid */
-        .quick-actions-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-
-        .quick-action {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 15px 10px;
-            background: var(--light);
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.3s;
-            border: 1px solid transparent;
-        }
-
-        .quick-action:hover {
-            background: white;
-            border-color: var(--primary);
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(255, 107, 107, 0.1);
-        }
-
-        .quick-action i {
-            width: 45px;
-            height: 45px;
-            background: linear-gradient(135deg, var(--primary), #ff8e8e);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.3rem;
-            margin-bottom: 8px;
-        }
-
-        .quick-action span {
-            font-size: 0.8rem;
-            font-weight: 500;
-            color: var(--dark);
-            text-align: center;
-        }
-
-        /* Search Engines Grid */
-        .search-engines-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-        }
-
-        .search-engine {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 15px 10px;
-            background: white;
-            border: 2px solid #e9ecef;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .search-engine:hover {
-            border-color: var(--accent);
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.1);
-        }
-
-        .search-engine i {
-            width: 45px;
-            height: 45px;
-            background: var(--light);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.3rem;
-            margin-bottom: 8px;
-            color: var(--dark);
-        }
-
-        .search-engine span {
-            font-size: 0.75rem;
-            font-weight: 500;
-            color: var(--dark);
-            text-align: center;
-        }
-
-        /* Commands List */
-        .commands-list {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .command-item {
-            display: flex;
-            align-items: center;
-            padding: 15px;
-            background: var(--light);
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.3s;
-            border-left: 4px solid transparent;
-        }
-
-        .command-item:hover {
-            background: white;
-            border-left-color: var(--primary);
-            transform: translateX(5px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-        }
-
-        .command-icon {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, var(--secondary), #7ae0d8);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            margin-right: 15px;
-        }
-
-        .command-text {
-            flex: 1;
-            font-size: 0.9rem;
-            color: var(--dark);
-        }
-
-        .command-shortcut {
-            font-size: 0.7rem;
-            color: var(--gray);
-            background: rgba(0,0,0,0.05);
-            padding: 3px 8px;
-            border-radius: 10px;
-        }
-
-        /* Search Modal */
-        .search-modal {
+        .overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.5);
-            z-index: 2000;
+            background: rgba(0,0,0,0.3);
+            z-index: 999;
             display: none;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            backdrop-filter: blur(5px);
         }
 
-        .search-modal.active {
-            display: flex;
+        .overlay.active {
+            display: block;
+        }
+
+        /* Voice Modal */
+        .voice-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 40px;
+            border-radius: 25px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            text-align: center;
+            z-index: 5000;
+            display: none;
+        }
+
+        .voice-modal.active {
+            display: block;
             animation: fadeIn 0.3s ease;
         }
 
@@ -785,1408 +440,461 @@
             to { opacity: 1; }
         }
 
-        .search-box {
-            background: white;
-            width: 100%;
-            max-width: 400px;
-            border-radius: var(--radius);
-            padding: 30px;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.3);
-            animation: slideUp 0.4s cubic-bezier(0.18, 0.89, 0.32, 1.28);
-        }
-
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .search-title {
-            font-size: 1.3rem;
-            color: var(--dark);
+        .voice-modal h3 {
+            color: var(--primary);
             margin-bottom: 20px;
-            text-align: center;
         }
 
-        .search-input {
-            width: 100%;
-            padding: 18px 20px;
-            border: 2px solid var(--secondary);
-            border-radius: 15px;
-            font-size: 1rem;
-            margin-bottom: 20px;
-            background: #f8f9fa;
-            transition: all 0.3s;
-        }
-
-        .search-input:focus {
-            background: white;
-            box-shadow: 0 0 0 3px rgba(78, 205, 196, 0.1);
-        }
-
-        .engine-selection {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin-bottom: 25px;
-        }
-
-        .engine-option {
-            padding: 12px;
-            border: 2px solid #e9ecef;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.3s;
+        .wave-container {
             display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .engine-option:hover {
-            border-color: var(--accent);
-            transform: translateY(-2px);
-        }
-
-        .engine-option.active {
-            border-color: var(--primary);
-            background: rgba(255, 107, 107, 0.05);
-        }
-
-        .engine-icon {
-            width: 35px;
-            height: 35px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
+            gap: 6px;
             justify-content: center;
-            color: white;
-            font-size: 1.1rem;
+            margin: 20px 0;
+            height: 40px;
+            align-items: flex-end;
         }
 
-        .engine-name {
-            font-size: 0.8rem;
-            font-weight: 500;
-            color: var(--dark);
+        .wave {
+            width: 5px;
+            background: linear-gradient(180deg, var(--primary), var(--secondary));
+            border-radius: 3px;
+            animation: waveAnim 0.6s ease-in-out infinite;
         }
 
-        .search-actions {
-            display: flex;
-            gap: 10px;
+        .wave:nth-child(1) { height: 20px; animation-delay: 0s; }
+        .wave:nth-child(2) { height: 30px; animation-delay: 0.1s; }
+        .wave:nth-child(3) { height: 35px; animation-delay: 0.2s; }
+        .wave:nth-child(4) { height: 30px; animation-delay: 0.3s; }
+        .wave:nth-child(5) { height: 20px; animation-delay: 0.4s; }
+
+        @keyframes waveAnim {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
         }
 
-        .btn {
-            flex: 1;
-            padding: 16px;
-            border: none;
-            border-radius: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-size: 0.95rem;
-        }
-
-        .btn-cancel {
-            background: #f1f2f6;
-            color: var(--dark);
-        }
-
-        .btn-cancel:hover {
-            background: #e4e5e9;
-            transform: translateY(-2px);
-        }
-
-        .btn-search {
-            background: linear-gradient(135deg, var(--primary), #ff8e8e);
-            color: white;
-            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
-        }
-
-        .btn-search:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(255, 107, 107, 0.4);
-        }
-
-        /* Overlay */
-        .overlay {
+        /* Auth Screens */
+        .auth-screen {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.5);
-            z-index: 999;
-            display: none;
-            backdrop-filter: blur(5px);
-        }
-
-        .overlay.active {
-            display: block;
-            animation: fadeIn 0.3s ease;
-        }
-
-        /* Typing Indicator */
-        .typing-indicator {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             display: flex;
-            gap: 8px;
-            padding: 15px 20px;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+        }
+
+        .auth-container {
             background: white;
-            border-radius: 24px;
-            width: fit-content;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            border: 1px solid rgba(0,0,0,0.05);
+            padding: 40px;
+            border-radius: 25px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
         }
 
-        .typing-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: var(--dark);
-            opacity: 0.3;
-            animation: typingBounce 1.4s infinite;
+        .auth-title {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 10px;
+            text-align: center;
         }
 
-        .typing-dot:nth-child(2) {
-            animation-delay: 0.2s;
-        }
-        .typing-dot:nth-child(3) {
-            animation-delay: 0.4s;
-        }
-
-        @keyframes typingBounce {
-            0%, 60%, 100% {
-                opacity: 0.3;
-                transform: translateY(0);
-            }
-            30% {
-                opacity: 1;
-                transform: translateY(-8px);
-            }
+        .auth-subtitle {
+            color: var(--gray);
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 0.9rem;
         }
 
-        /* Responsive */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--dark);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1.5px solid #e8e8f0;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .form-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .auth-btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 15px;
+        }
+
+        .auth-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .toggle-auth {
+            text-align: center;
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .toggle-auth a {
+            color: var(--primary);
+            cursor: pointer;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .toggle-auth a:hover {
+            text-decoration: underline;
+        }
+
         @media (max-width: 480px) {
             .app-container {
                 height: 100vh;
                 border-radius: 0;
             }
-            
             .side-menu {
                 width: 85%;
-            }
-            
-            .quick-actions-grid,
-            .search-engines-grid,
-            .engine-selection {
-                grid-template-columns: repeat(3, 1fr);
-            }
-            
-            .message-content {
-                font-size: 0.95rem;
-                padding: 14px 18px;
-            }
-            
-            .message-input {
-                font-size: 0.95rem;
-                padding: 16px;
-            }
-        }
-
-        @media (max-width: 360px) {
-            .quick-actions-grid,
-            .search-engines-grid,
-            .engine-selection {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .app-header {
-                padding: 15px;
-            }
-            
-            .chat-container {
-                padding: 15px;
             }
         }
     </style>
 </head>
 <body>
 
+<!-- Auth Screen -->
+<div class="auth-screen" id="authScreen">
+    <div class="auth-container">
+        <div class="auth-title">✨ Shizuka</div>
+        <div class="auth-subtitle">AI Assistant Voice Chat</div>
+
+        <!-- Login Form -->
+        <div id="loginForm">
+            <div class="form-group">
+                <label class="form-label">📧 Email or Username</label>
+                <input type="text" class="form-input" id="loginEmail" placeholder="Enter your email">
+            </div>
+            <div class="form-group">
+                <label class="form-label">🔐 Password</label>
+                <input type="password" class="form-input" id="loginPassword" placeholder="Enter password">
+            </div>
+            <button class="auth-btn" onclick="handleLogin()">Login</button>
+            <div class="toggle-auth">
+                Don't have account? <a onclick="toggleAuthForm()">Sign Up</a>
+            </div>
+        </div>
+
+        <!-- Sign Up Form -->
+        <div id="signupForm" style="display: none;">
+            <div class="form-group">
+                <label class="form-label">👤 Full Name</label>
+                <input type="text" class="form-input" id="signupName" placeholder="Enter your name">
+            </div>
+            <div class="form-group">
+                <label class="form-label">📧 Email</label>
+                <input type="email" class="form-input" id="signupEmail" placeholder="Enter email">
+            </div>
+            <div class="form-group">
+                <label class="form-label">🔐 Password</label>
+                <input type="password" class="form-input" id="signupPassword" placeholder="Min 6 characters">
+            </div>
+            <div class="form-group">
+                <label class="form-label">✅ Confirm Password</label>
+                <input type="password" class="form-input" id="signupConfirm" placeholder="Confirm password">
+            </div>
+            <button class="auth-btn" onclick="handleSignup()">Create Account</button>
+            <div class="toggle-auth">
+                Already have account? <a onclick="toggleAuthForm()">Login</a>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Overlay -->
-<div class="overlay" id="overlay" onclick="closeMenu()"></div>
+<div class="overlay" id="overlay"></div>
+
+<!-- Voice Modal -->
+<div class="voice-modal" id="voiceModal">
+    <h3>🎤 Listening...</h3>
+    <div class="wave-container">
+        <div class="wave"></div>
+        <div class="wave"></div>
+        <div class="wave"></div>
+        <div class="wave"></div>
+        <div class="wave"></div>
+    </div>
+    <div id="transcriptText" style="color: var(--dark); margin: 10px 0;"></div>
+</div>
 
 <!-- Side Menu -->
 <div class="side-menu" id="sideMenu">
     <div class="menu-header">
-        <div class="menu-close" onclick="closeMenu()">
+        <div class="user-info">
+            <div class="user-avatar" id="userAvatar">U</div>
+            <div class="user-name" id="userName">User</div>
+            <div class="user-status">🟢 Active</div>
+        </div>
+        <button class="close-menu-btn" onclick="closeMenu()">
             <i class="fas fa-times"></i>
-        </div>
-        
-        <div class="user-profile">
-            <div class="profile-avatar" id="userAvatar">
-                <i class="fas fa-user"></i>
-            </div>
-            <div class="profile-info">
-                <h3 id="userNameDisplay">Guest User</h3>
-                <p>Shizuka AI Assistant</p>
-            </div>
-        </div>
-        
-        <div class="menu-stats">
-            <div class="stat-item">
-                <div class="stat-value" id="messageCount">0</div>
-                <div class="stat-label">Messages</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-value" id="commandCount">0</div>
-                <div class="stat-label">Commands</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-value">2.2</div>
-                <div class="stat-label">Version</div>
-            </div>
-        </div>
+        </button>
     </div>
-    
+
     <div class="menu-content">
+        <!-- Stats -->
+        <div class="menu-section">
+            <div class="menu-section-title">📊 Statistics</div>
+            <div class="stats-box">
+                <div class="stat-item">
+                    <span class="stat-label">Messages Sent</span>
+                    <span class="stat-value" id="msgCount">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Voice Chats</span>
+                    <span class="stat-value" id="voiceCount">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Joined</span>
+                    <span class="stat-value" id="joinDate">Today</span>
+                </div>
+            </div>
+        </div>
+
         <!-- Quick Actions -->
         <div class="menu-section">
-            <div class="section-title">
-                <i class="fas fa-bolt"></i>
-                <span>Quick Actions</span>
+            <div class="menu-section-title">⚡ Quick Actions</div>
+            <div class="menu-item" onclick="quickAction('joke')">
+                <div class="menu-item-icon"><i class="fas fa-laugh"></i></div>
+                <span>Tell me a joke</span>
             </div>
-            <div class="quick-actions-grid">
-                <div class="quick-action" onclick="handleQuickAction('joke')">
-                    <i class="fas fa-laugh"></i>
-                    <span>Joke</span>
-                </div>
-                <div class="quick-action" onclick="handleQuickAction('time')">
-                    <i class="fas fa-clock"></i>
-                    <span>Time</span>
-                </div>
-                <div class="quick-action" onclick="handleQuickAction('game')">
-                    <i class="fas fa-gamepad"></i>
-                    <span>Game</span>
-                </div>
-                <div class="quick-action" onclick="handleQuickAction('fact')">
-                    <i class="fas fa-lightbulb"></i>
-                    <span>Fact</span>
-                </div>
-                <div class="quick-action" onclick="handleQuickAction('weather')">
-                    <i class="fas fa-cloud"></i>
-                    <span>Weather</span>
-                </div>
-                <div class="quick-action" onclick="handleQuickAction('music')">
-                    <i class="fas fa-music"></i>
-                    <span>Music</span>
-                </div>
-                <div class="quick-action" onclick="handleQuickAction('calc')">
-                    <i class="fas fa-calculator"></i>
-                    <span>Calculator</span>
-                </div>
-                <div class="quick-action" onclick="handleQuickAction('story')">
-                    <i class="fas fa-book"></i>
-                    <span>Story</span>
-                </div>
-                <div class="quick-action" onclick="handleQuickAction('quote')">
-                    <i class="fas fa-quote-right"></i>
-                    <span>Quote</span>
-                </div>
+            <div class="menu-item" onclick="quickAction('story')">
+                <div class="menu-item-icon"><i class="fas fa-book"></i></div>
+                <span>Tell me a story</span>
+            </div>
+            <div class="menu-item" onclick="quickAction('fact')">
+                <div class="menu-item-icon"><i class="fas fa-lightbulb"></i></div>
+                <span>Random fact</span>
+            </div>
+            <div class="menu-item" onclick="quickAction('motivation')">
+                <div class="menu-item-icon"><i class="fas fa-star"></i></div>
+                <span>Motivational quote</span>
             </div>
         </div>
-        
-        <!-- Search Engines -->
+
+        <!-- Voice Features -->
         <div class="menu-section">
-            <div class="section-title">
-                <i class="fas fa-search"></i>
-                <span>Search Engines</span>
+            <div class="menu-section-title">🎤 Voice Features</div>
+            <div class="menu-item" onclick="toggleVoiceOutput()">
+                <div class="menu-item-icon"><i class="fas fa-volume-up"></i></div>
+                <span>Voice Output</span>
             </div>
-            <div class="search-engines-grid">
-                <div class="search-engine" onclick="openSearchModal('google')">
-                    <i class="fab fa-google" style="background: #4285F4; color: white;"></i>
-                    <span>Google</span>
-                </div>
-                <div class="search-engine" onclick="openSearchModal('youtube')">
-                    <i class="fab fa-youtube" style="background: #FF0000; color: white;"></i>
-                    <span>YouTube</span>
-                </div>
-                <div class="search-engine" onclick="openSearchModal('github')">
-                    <i class="fab fa-github" style="background: #333; color: white;"></i>
-                    <span>GitHub</span>
-                </div>
-                <div class="search-engine" onclick="openSearchModal('wikipedia')">
-                    <i class="fab fa-wikipedia-w" style="background: #636466; color: white;"></i>
-                    <span>Wikipedia</span>
-                </div>
-                <div class="search-engine" onclick="openSearchModal('maps')">
-                    <i class="fas fa-map" style="background: #34A853; color: white;"></i>
-                    <span>Maps</span>
-                </div>
-                <div class="search-engine" onclick="openSearchModal('translate')">
-                    <i class="fas fa-language" style="background: #4285F4; color: white;"></i>
-                    <span>Translate</span>
-                </div>
+            <div class="menu-item" onclick="changeLanguage()">
+                <div class="menu-item-icon"><i class="fas fa-globe"></i></div>
+                <span>Change Language</span>
+            </div>
+            <div class="menu-item" onclick="voiceSettings()">
+                <div class="menu-item-icon"><i class="fas fa-sliders-h"></i></div>
+                <span>Voice Settings</span>
             </div>
         </div>
-        
-        <!-- Voice Commands -->
+
+        <!-- Chat Features -->
         <div class="menu-section">
-            <div class="section-title">
-                <i class="fas fa-microphone"></i>
-                <span>Voice Commands</span>
+            <div class="menu-section-title">💬 Chat</div>
+            <div class="menu-item" onclick="saveChat()">
+                <div class="menu-item-icon"><i class="fas fa-download"></i></div>
+                <span>Save Chat History</span>
             </div>
-            <div class="commands-list">
-                <div class="command-item" onclick="handleVoiceCommand('time')">
-                    <div class="command-icon">
-                        <i class="fas fa-clock"></i>
-                    </div>
-                    <div class="command-text">"What time is it?"</div>
-                    <div class="command-shortcut">Try saying</div>
-                </div>
-                <div class="command-item" onclick="handleVoiceCommand('joke')">
-                    <div class="command-icon">
-                        <i class="fas fa-laugh"></i>
-                    </div>
-                    <div class="command-text">"Tell me a joke"</div>
-                    <div class="command-shortcut">Try saying</div>
-                </div>
-                <div class="command-item" onclick="handleVoiceCommand('weather')">
-                    <div class="command-icon">
-                        <i class="fas fa-cloud"></i>
-                    </div>
-                    <div class="command-text">"What's the weather?"</div>
-                    <div class="command-shortcut">Try saying</div>
-                </div>
-                <div class="command-item" onclick="handleVoiceCommand('game')">
-                    <div class="command-icon">
-                        <i class="fas fa-gamepad"></i>
-                    </div>
-                    <div class="command-text">"Play tic tac toe"</div>
-                    <div class="command-shortcut">Try saying</div>
-                </div>
+            <div class="menu-item" onclick="viewHistory()">
+                <div class="menu-item-icon"><i class="fas fa-history"></i></div>
+                <span>Chat History</span>
+            </div>
+            <div class="menu-item" onclick="clearChat()">
+                <div class="menu-item-icon"><i class="fas fa-trash"></i></div>
+                <span>Clear Chat</span>
+            </div>
+        </div>
+
+        <!-- Settings -->
+        <div class="menu-section">
+            <div class="menu-section-title">⚙️ Settings</div>
+            <div class="menu-item" onclick="editProfile()">
+                <div class="menu-item-icon"><i class="fas fa-user-edit"></i></div>
+                <span>Edit Profile</span>
+            </div>
+            <div class="menu-item" onclick="darkMode()">
+                <div class="menu-item-icon"><i class="fas fa-moon"></i></div>
+                <span>Dark Mode</span>
+            </div>
+            <div class="menu-item" onclick="helpSupport()">
+                <div class="menu-item-icon"><i class="fas fa-question-circle"></i></div>
+                <span>Help & Support</span>
+            </div>
+            <div class="menu-item" onclick="about()">
+                <div class="menu-item-icon"><i class="fas fa-info-circle"></i></div>
+                <span>About Shizuka</span>
+            </div>
+        </div>
+
+        <!-- Account -->
+        <div class="menu-section">
+            <div class="menu-section-title">👤 Account</div>
+            <div class="menu-item" onclick="logout()" style="border-left-color: #ff6b6b;">
+                <div class="menu-item-icon" style="background: linear-gradient(135deg, #ff6b6b, #ff4757);"><i class="fas fa-sign-out-alt"></i></div>
+                <span>Logout</span>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Search Modal -->
-<div class="search-modal" id="searchModal">
-    <div class="search-box">
-        <h2 class="search-title" id="searchTitle">Search on Google</h2>
-        
-        <div class="engine-selection" id="engineSelection"></div>
-        
-        <input type="text" class="search-input" id="searchInput" placeholder="Type your search query...">
-        
-        <div class="search-actions">
-            <button class="btn btn-cancel" onclick="closeSearchModal()">Cancel</button>
-            <button class="btn btn-search" onclick="performSearch()">
-                <i class="fas fa-search"></i> Search Now
-            </button>
-        </div>
-    </div>
-</div>
-
-<!-- Mobile App Container -->
-<div class="app-container">
-    <!-- Status Bar -->
+<!-- App -->
+<div class="app-container" id="appContainer" style="display: none;">
     <div class="status-bar">
-        <div class="time" id="currentTime">12:00 PM</div>
-        <div class="status-icons">
+        <div id="currentTime">12:00</div>
+        <div>🎤 Shizuka AI</div>
+        <div style="display: flex; gap: 8px;">
             <i class="fas fa-signal"></i>
             <i class="fas fa-wifi"></i>
-            <i class="fas fa-battery-full"></i>
         </div>
     </div>
-    
-    <!-- App Header -->
+
     <div class="app-header">
-        <div class="menu-toggle" onclick="toggleMenu()">
+        <button class="menu-btn" onclick="toggleMenu()">
             <i class="fas fa-bars"></i>
+        </button>
+        <div>
+            <div class="header-title">✨ Shizuka</div>
+            <div class="header-subtitle" id="userGreeting">Voice AI Chat</div>
         </div>
-        <div class="app-info">
-            <div class="app-title">Shizuka AI Pro</div>
-            <div class="app-subtitle">Intelligent Assistant</div>
-        </div>
-        <div class="user-avatar" onclick="showProfile()" id="avatarInitial">
-            <i class="fas fa-user"></i>
+        <button class="menu-btn" onclick="showHelp()">
+            <i class="fas fa-question-circle"></i>
+        </button>
+    </div>
+
+    <div class="chat-container" id="chatContainer">
+        <div class="message assistant">
+            <div class="message-bubble">
+                👋 Welcome! Start chatting or use the 🎤 button to speak!
+            </div>
         </div>
     </div>
-    
-    <!-- Main Content -->
-    <div class="main-content">
-        <!-- Welcome Banner -->
-        <div class="welcome-banner">
-            <div class="welcome-text">
-                👋 Hello! I'm <span>Shizuka</span>, your AI assistant. Ask me anything or try quick actions!
-            </div>
-        </div>
-        
-        <!-- Chat Area (Bigger Space) -->
-        <div class="chat-container" id="chatContainer">
-            <!-- Messages will appear here -->
-        </div>
-        
-        <!-- Input Area -->
-        <div class="input-area">
-            <div class="action-buttons">
-                <button class="action-btn mic" id="micBtn" onclick="toggleVoice()" title="Voice Input">
-                    <i class="fas fa-microphone"></i>
-                </button>
-            </div>
-            
-            <textarea 
-                class="message-input" 
-                id="messageInput" 
-                placeholder="Type your message here..."
-                rows="1"
-                oninput="autoResize(this)"
-            ></textarea>
-            
-            <div class="action-buttons">
-                <button class="action-btn send" onclick="sendMessage()" title="Send Message">
-                    <i class="fas fa-paper-plane"></i>
-                </button>
-            </div>
-        </div>
-        
-        <!-- Bottom Navigation -->
-        <div class="bottom-nav">
-            <div class="nav-item active" onclick="switchTab('chat')">
-                <div class="nav-icon">
-                    <i class="fas fa-comment-dots"></i>
-                </div>
-                <div class="nav-label">Chat</div>
-            </div>
-            <div class="nav-item" onclick="switchTab('commands')">
-                <div class="nav-icon">
-                    <i class="fas fa-code"></i>
-                </div>
-                <div class="nav-label">Commands</div>
-            </div>
-            <div class="nav-item" onclick="switchTab('tools')">
-                <div class="nav-icon">
-                    <i class="fas fa-tools"></i>
-                </div>
-                <div class="nav-label">Tools</div>
-            </div>
-            <div class="nav-item" onclick="switchTab('settings')">
-                <div class="nav-icon">
-                    <i class="fas fa-cog"></i>
-                </div>
-                <div class="nav-label">Settings</div>
-            </div>
-        </div>
+
+    <div class="input-area">
+        <button class="action-btn mic-btn" id="micBtn" onclick="toggleVoice()" title="Voice Input">
+            <i class="fas fa-microphone"></i>
+        </button>
+        <textarea 
+            class="message-input" 
+            id="messageInput" 
+            placeholder="Type or use voice..."
+            rows="1"
+            oninput="autoResize(this)"
+        ></textarea>
+        <button class="action-btn send-btn" onclick="sendMessage()" title="Send">
+            <i class="fas fa-paper-plane"></i>
+        </button>
     </div>
 </div>
 
 <script>
-    // Configuration
-    const API_URL = 'https://shizuka-ai-assistant.onrender.com';
-    const chatContainer = document.getElementById('chatContainer');
-    const messageInput = document.getElementById('messageInput');
-    const currentTime = document.getElementById('currentTime');
-    const userNameDisplay = document.getElementById('userNameDisplay');
-    const userAvatar = document.getElementById('userAvatar');
-    const avatarInitial = document.getElementById('avatarInitial');
-    const messageCount = document.getElementById('messageCount');
-    const commandCount = document.getElementById('commandCount');
-    
-    // State variables
-    let userName = localStorage.getItem('shizuka_user_name') || 'Guest';
-    let selectedVoice = null;
-    let isListening = false;
-    let recognition = null;
-    let messageCounter = 0;
-    let commandCounter = 0;
-    let currentSearchEngine = 'google';
-    
-    // Search engines configuration
-    const searchEngines = {
-        google: {
-            name: "Google",
-            icon: "fab fa-google",
-            color: "#4285F4",
-            url: "https://www.google.com/search?q="
-        },
-        youtube: {
-            name: "YouTube",
-            icon: "fab fa-youtube",
-            color: "#FF0000",
-            url: "https://www.youtube.com/results?search_query="
-        },
-        github: {
-            name: "GitHub",
-            icon: "fab fa-github",
-            color: "#333",
-            url: "https://github.com/search?q="
-        },
-        wikipedia: {
-            name: "Wikipedia",
-            icon: "fab fa-wikipedia-w",
-            color: "#636466",
-            url: "https://en.wikipedia.org/wiki/"
-        },
-        maps: {
-            name: "Google Maps",
-            icon: "fas fa-map",
-            color: "#34A853",
-            url: "https://www.google.com/maps/search/"
-        },
-        translate: {
-            name: "Google Translate",
-            icon: "fas fa-language",
-            color: "#4285F4",
-            url: "https://translate.google.com/?sl=auto&tl=en&text="
-        }
+    const API_KEY = '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';
+    const GROQ_API_URL = 'https://api.groq.com/openai/v1/chat/completions';
+
+    // User Data
+    let currentUser = null;
+    let userStats = {
+        messagesSent: 0,
+        voiceChats: 0,
+        joinDate: new Date().toLocaleDateString()
     };
-    
-    // Initialize app
-    function initApp() {
+
+    // Auth Functions
+    function toggleAuthForm() {
+        document.getElementById('loginForm').style.display = 
+            document.getElementById('loginForm').style.display === 'none' ? 'block' : 'none';
+        document.getElementById('signupForm').style.display = 
+            document.getElementById('signupForm').style.display === 'none' ? 'block' : 'none';
+    }
+
+    function handleLogin() {
+        const email = document.getElementById('loginEmail').value.trim();
+        const password = document.getElementById('loginPassword').value.trim();
+
+        if (!email || !password) {
+            alert('Please fill all fields!');
+            return;
+        }
+
+        currentUser = {
+            name: email.split('@')[0],
+            email: email,
+            avatar: email.charAt(0).toUpperCase()
+        };
+
+        initializeApp();
+    }
+
+    function handleSignup() {
+        const name = document.getElementById('signupName').value.trim();
+        const email = document.getElementById('signupEmail').value.trim();
+        const password = document.getElementById('signupPassword').value.trim();
+        const confirm = document.getElementById('signupConfirm').value.trim();
+
+        if (!name || !email || !password || !confirm) {
+            alert('Please fill all fields!');
+            return;
+        }
+
+        if (password !== confirm) {
+            alert('Passwords do not match!');
+            return;
+        }
+
+        if (password.length < 6) {
+            alert('Password must be at least 6 characters!');
+            return;
+        }
+
+        currentUser = {
+            name: name,
+            email: email,
+            avatar: name.charAt(0).toUpperCase()
+        };
+
+        initializeApp();
+    }
+
+    function initializeApp() {
+        document.getElementById('authScreen').style.display = 'none';
+        document.getElementById('appContainer').style.display = 'flex';
+        updateUserProfile();
         updateTime();
         setInterval(updateTime, 60000);
-        
-        loadVoices();
-        updateUserProfile();
-        showWelcomeMessage();
-        
-        // Auto-resize textarea
-        messageInput.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                sendMessage();
-            }
-        });
-        
-        // Keyboard shortcuts
-        document.addEventListener('keydown', function(e) {
-            if (e.key === '/' && e.ctrlKey) {
-                e.preventDefault();
-                messageInput.focus();
-            }
-            if (e.key === 'Escape') {
-                closeMenu();
-                closeSearchModal();
-            }
-        });
-        
-        // Initialize stats
-        updateStats();
     }
-    
-    // Update time
-    function updateTime() {
-        const now = new Date();
-        const time = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        currentTime.textContent = time;
-    }
-    
-    // Load voices for speech synthesis
-    function loadVoices() {
-        const synth = window.speechSynthesis;
-        let voices = synth.getVoices();
-        
-        selectedVoice = voices.find(v => 
-            v.name.toLowerCase().includes('female') || 
-            v.name.includes('Microsoft Zira')
-        ) || voices[0];
-    }
-    
-    if (speechSynthesis.onvoiceschanged !== undefined) {
-        speechSynthesis.onvoiceschanged = loadVoices;
-    }
-    
-    // Update user profile
+
     function updateUserProfile() {
-        const displayName = userName === 'Guest' ? 'Guest User' : userName;
-        userNameDisplay.textContent = displayName;
-        
-        // Set avatar initial
-        const initial = userName === 'Guest' ? 'G' : userName.charAt(0).toUpperCase();
-        avatarInitial.innerHTML = `<i class="fas fa-user"></i>`;
-        
-        // Update menu avatar
-        userAvatar.innerHTML = `<span style="font-size: 1.5rem; font-weight: 700;">${initial}</span>`;
-    }
-    
-    // Show welcome message
-    function showWelcomeMessage() {
-        const welcomeMsg = `
-            <div class="message assistant">
-                <div class="message-content">
-                    👋 Hello ${userName}! I'm <b>Shizuka</b>, your AI assistant. 🌸<br><br>
-                    I can help you with:
-                    • Answering questions<br>
-                    • Telling jokes & stories<br>
-                    • Playing games<br>
-                    • Searching the web<br>
-                    • Much more!
-                </div>
-                <div class="message-time">Just now</div>
-            </div>
-        `;
-        chatContainer.innerHTML = welcomeMsg;
-        messageCounter = 1;
-        updateStats();
-    }
-    
-    // Update statistics
-    function updateStats() {
-        messageCount.textContent = messageCounter;
-        commandCount.textContent = commandCounter;
-    }
-    
-    // Auto-resize textarea
-    function autoResize(textarea) {
-        textarea.style.height = 'auto';
-        textarea.style.height = Math.min(textarea.scrollHeight, 120) + 'px';
-    }
-    
-    // Toggle side menu
-    function toggleMenu() {
-        const menu = document.getElementById('sideMenu');
-        const overlay = document.getElementById('overlay');
-        menu.classList.toggle('active');
-        overlay.classList.toggle('active');
-    }
-    
-    function closeMenu() {
-        const menu = document.getElementById('sideMenu');
-        const overlay = document.getElementById('overlay');
-        menu.classList.remove('active');
-        overlay.classList.remove('active');
-    }
-    
-    // Handle quick actions
-    function handleQuickAction(action) {
-        closeMenu();
-        
-        switch(action) {
-            case 'joke':
-                handleCommand('Tell me a joke');
-                break;
-            case 'time':
-                handleCommand('What time is it?');
-                break;
-            case 'game':
-                handleCommand('Play tic tac toe');
-                break;
-            case 'fact':
-                handleCommand('Tell me a fact');
-                break;
-            case 'weather':
-                handleCommand('What is the weather today?');
-                break;
-            case 'music':
-                openSearchModal('youtube');
-                break;
-            case 'calc':
-                showCalculator();
-                break;
-            case 'story':
-                handleCommand('Tell me a story');
-                break;
-            case 'quote':
-                handleCommand('Give me an inspirational quote');
-                break;
-        }
-    }
-    
-    // Handle voice commands
-    function handleVoiceCommand(command) {
-        closeMenu();
-        handleCommand(command);
-    }
-    
-    // Show calculator
-    function showCalculator() {
-        const calcHtml = `
-            <div class="message assistant">
-                <div class="message-content">
-                    <div style="text-align: center; margin: 10px 0;">
-                        <h3 style="color: var(--primary); margin-bottom: 15px;">🧮 Calculator</h3>
-                        <input type="text" id="calcInput" placeholder="Enter expression (e.g., 5+5*2)" 
-                               style="width: 100%; padding: 12px; border: 2px solid var(--secondary); 
-                                      border-radius: 10px; margin-bottom: 15px; font-size: 1rem;">
-                        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;">
-                            ${['7','8','9','/','4','5','6','*','1','2','3','-','0','.','=','+'].map(btn => `
-                                <button onclick="handleCalcButton('${btn}')" 
-                                        style="padding: 12px; border: 1px solid #ddd; border-radius: 8px; 
-                                               background: ${btn === '=' ? 'var(--primary)' : 'white'}; 
-                                               color: ${btn === '=' ? 'white' : 'var(--dark)'}; 
-                                               cursor: pointer; font-size: 1.1rem;">
-                                    ${btn}
-                                </button>
-                            `).join('')}
-                        </div>
-                        <button onclick="calculate()" 
-                                style="width: 100%; padding: 12px; margin-top: 15px; 
-                                       background: var(--secondary); color: white; 
-                                       border: none; border-radius: 10px; cursor: pointer;">
-                            Calculate
-                        </button>
-                    </div>
-                </div>
-                <div class="message-time">Just now</div>
-            </div>
-        `;
-        addMessage(calcHtml, false);
-    }
-    
-    function handleCalcButton(btn) {
-        const input = document.getElementById('calcInput');
-        if (btn === '=') {
-            calculate();
-        } else {
-            input.value += btn;
-        }
-    }
-    
-    function calculate() {
-        const input = document.getElementById('calcInput');
-        try {
-            const result = Function('"use strict"; return (' + input.value + ')')();
-            addMessage(`Calculation: ${input.value} = ${result}`, true);
-            addMessage(`✅ Result: ${result}`, false);
-        } catch(e) {
-            addMessage(`❌ Invalid expression!`, false);
-        }
-    }
-    
-    // Search modal functions
-    function openSearchModal(engine) {
-        currentSearchEngine = engine;
-        const engineData = searchEngines[engine];
-        
-        document.getElementById('searchTitle').textContent = `Search on ${engineData.name}`;
-        document.getElementById('searchTitle').style.color = engineData.color;
-        
-        // Update engine selection
-        const selection = document.getElementById('engineSelection');
-        selection.innerHTML = '';
-        
-        Object.entries(searchEngines).forEach(([key, data]) => {
-            const isActive = key === currentSearchEngine;
-            selection.innerHTML += `
-                <div class="engine-option ${isActive ? 'active' : ''}" onclick="selectSearchEngine('${key}')">
-                    <div class="engine-icon" style="background: ${data.color}">
-                        <i class="${data.icon}"></i>
-                    </div>
-                    <div class="engine-name">${data.name}</div>
-                </div>
-            `;
-        });
-        
-        document.getElementById('searchInput').value = '';
-        document.getElementById('searchInput').focus();
-        
-        document.getElementById('searchModal').classList.add('active');
-    }
-    
-    function selectSearchEngine(engine) {
-        currentSearchEngine = engine;
-        const engineData = searchEngines[engine];
-        
-        document.getElementById('searchTitle').textContent = `Search on ${engineData.name}`;
-        document.getElementById('searchTitle').style.color = engineData.color;
-        
-        // Update active class
-        document.querySelectorAll('.engine-option').forEach(option => {
-            option.classList.remove('active');
-        });
-        event.currentTarget.classList.add('active');
-        
-        document.getElementById('searchInput').focus();
-    }
-    
-    function closeSearchModal() {
-        document.getElementById('searchModal').classList.remove('active');
-    }
-    
-    function performSearch() {
-        const query = document.getElementById('searchInput').value.trim();
-        if (!query) {
-            showToast('Please enter a search query!');
-            return;
-        }
-        
-        const engine = searchEngines[currentSearchEngine];
-        const searchUrl = engine.url + encodeURIComponent(query);
-        
-        addMessage(`Searching for "${query}" on ${engine.name}...`, true);
-        
-        window.open(searchUrl, '_blank');
-        closeSearchModal();
-    }
-    
-    // Switch tabs
-    function switchTab(tab) {
-        // Update active nav item
-        document.querySelectorAll('.nav-item').forEach(item => {
-            item.classList.remove('active');
-        });
-        event.currentTarget.classList.add('active');
-        
-        // Show different content based on tab
-        switch(tab) {
-            case 'chat':
-                // Already showing chat
-                break;
-            case 'commands':
-                showCommandsList();
-                break;
-            case 'tools':
-                showTools();
-                break;
-            case 'settings':
-                showSettings();
-                break;
-        }
-    }
-    
-    function showCommandsList() {
-        const commandsHtml = `
-            <div class="message assistant">
-                <div class="message-content">
-                    <h3 style="color: var(--primary); margin-bottom: 15px;">📋 Available Commands</h3>
-                    <div style="display: grid; grid-template-columns: 1fr; gap: 10px;">
-                        <div style="background: var(--light); padding: 12px; border-radius: 10px;">
-                            <b>🎮 Games & Fun:</b><br>
-                            • "play tic tac toe"<br>
-                            • "tell me a joke"<br>
-                            • "sing a song"<br>
-                            • "riddle me"
-                        </div>
-                        <div style="background: var(--light); padding: 12px; border-radius: 10px;">
-                            <b>🔍 Search:</b><br>
-                            • "search google [query]"<br>
-                            • "search youtube [query]"<br>
-                            • "search github [query]"<br>
-                            • "search wikipedia [query]"
-                        </div>
-                        <div style="background: var(--light); padding: 12px; border-radius: 10px;">
-                            <b>ℹ️ Information:</b><br>
-                            • "what time is it"<br>
-                            • "what's the date"<br>
-                            • "tell me a fact"<br>
-                            • "weather in [city]"
-                        </div>
-                    </div>
-                </div>
-                <div class="message-time">Just now</div>
-            </div>
-        `;
-        addMessage(commandsHtml, false);
-    }
-    
-    function showTools() {
-        const toolsHtml = `
-            <div class="message assistant">
-                <div class="message-content">
-                    <h3 style="color: var(--primary); margin-bottom: 15px;">🛠️ Tools</h3>
-                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;">
-                        <button onclick="showCalculator()" style="padding: 15px; border: 2px solid var(--secondary); border-radius: 12px; background: white; cursor: pointer;">
-                            <i class="fas fa-calculator" style="font-size: 1.5rem; color: var(--secondary); margin-bottom: 8px;"></i><br>
-                            <span style="font-size: 0.9rem;">Calculator</span>
-                        </button>
-                        <button onclick="openSearchModal('translate')" style="padding: 15px; border: 2px solid var(--accent); border-radius: 12px; background: white; cursor: pointer;">
-                            <i class="fas fa-language" style="font-size: 1.5rem; color: var(--accent); margin-bottom: 8px;"></i><br>
-                            <span style="font-size: 0.9rem;">Translate</span>
-                        </button>
-                        <button onclick="handleCommand('Convert 100 USD to BDT')" style="padding: 15px; border: 2px solid var(--success); border-radius: 12px; background: white; cursor: pointer;">
-                            <i class="fas fa-money-bill-wave" style="font-size: 1.5rem; color: var(--success); margin-bottom: 8px;"></i><br>
-                            <span style="font-size: 0.9rem;">Currency</span>
-                        </button>
-                        <button onclick="openSearchModal('maps')" style="padding: 15px; border: 2px solid var(--warning); border-radius: 12px; background: white; cursor: pointer;">
-                            <i class="fas fa-map" style="font-size: 1.5rem; color: var(--warning); margin-bottom: 8px;"></i><br>
-                            <span style="font-size: 0.9rem;">Maps</span>
-                        </button>
-                    </div>
-                </div>
-                <div class="message-time">Just now</div>
-            </div>
-        `;
-        addMessage(toolsHtml, false);
-    }
-    
-    function showSettings() {
-        const settingsHtml = `
-            <div class="message assistant">
-                <div class="message-content">
-                    <h3 style="color: var(--primary); margin-bottom: 15px;">⚙️ Settings</h3>
-                    <div style="display: grid; grid-template-columns: 1fr; gap: 12px;">
-                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background: var(--light); border-radius: 10px;">
-                            <span>Theme</span>
-                            <select onchange="changeTheme(this.value)" style="padding: 8px; border-radius: 8px; border: 1px solid #ddd;">
-                                <option value="default">Default</option>
-                                <option value="dark">Dark</option>
-                                <option value="blue">Blue</option>
-                                <option value="purple">Purple</option>
-                            </select>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background: var(--light); border-radius: 10px;">
-                            <span>Voice Assistant</span>
-                            <button onclick="toggleVoice()" style="padding: 8px 16px; background: var(--primary); color: white; border: none; border-radius: 8px; cursor: pointer;">
-                                ${isListening ? 'Stop' : 'Start'}
-                            </button>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background: var(--light); border-radius: 10px;">
-                            <span>Clear Chat History</span>
-                            <button onclick="clearChat()" style="padding: 8px 16px; background: var(--danger); color: white; border: none; border-radius: 8px; cursor: pointer;">
-                                Clear
-                            </button>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background: var(--light); border-radius: 10px;">
-                            <span>Change Name</span>
-                            <button onclick="changeName()" style="padding: 8px 16px; background: var(--secondary); color: white; border: none; border-radius: 8px; cursor: pointer;">
-                                Change
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="message-time">Just now</div>
-            </div>
-        `;
-        addMessage(settingsHtml, false);
-    }
-    
-    // Settings functions
-    function changeTheme(theme) {
-        let primaryColor = '#ff6b6b';
-        
-        switch(theme) {
-            case 'dark':
-                primaryColor = '#2d3436';
-                break;
-            case 'blue':
-                primaryColor = '#3498db';
-                break;
-            case 'purple':
-                primaryColor = '#9b59b6';
-                break;
-        }
-        
-        document.documentElement.style.setProperty('--primary', primaryColor);
-        showToast(`Theme changed to ${theme}`);
-    }
-    
-    function changeName() {
-        const newName = prompt('Enter your name:', userName);
-        if (newName && newName.trim()) {
-            userName = newName.trim();
-            localStorage.setItem('shizuka_user_name', userName);
-            updateUserProfile();
-            addMessage(`✅ Name updated to ${userName}!`, false);
-        }
-    }
-    
-    function clearChat() {
-        if (confirm('Are you sure you want to clear all chat messages?')) {
-            chatContainer.innerHTML = '';
-            messageCounter = 0;
-            updateStats();
-            showWelcomeMessage();
-        }
-    }
-    
-    function showProfile() {
-        const profileHtml = `
-            <div class="message assistant">
-                <div class="message-content">
-                    <div style="text-align: center;">
-                        <div style="width: 80px; height: 80px; background: var(--primary); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 15px; color: white; font-size: 2rem; font-weight: bold;">
-                            ${userName.charAt(0).toUpperCase()}
-                        </div>
-                        <h3 style="color: var(--primary); margin-bottom: 5px;">${userName}</h3>
-                        <p style="color: var(--gray); margin-bottom: 20px;">Shizuka AI User</p>
-                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px;">
-                            <div style="text-align: center;">
-                                <div style="font-size: 1.2rem; font-weight: bold; color: var(--primary);">${messageCounter}</div>
-                                <div style="font-size: 0.8rem; color: var(--gray);">Messages</div>
-                            </div>
-                            <div style="text-align: center;">
-                                <div style="font-size: 1.2rem; font-weight: bold; color: var(--primary);">${commandCounter}</div>
-                                <div style="font-size: 0.8rem; color: var(--gray);">Commands</div>
-                            </div>
-                            <div style="text-align: center;">
-                                <div style="font-size: 1.2rem; font-weight: bold; color: var(--primary);">2.2</div>
-                                <div style="font-size: 0.8rem; color: var(--gray);">Version</div>
-                            </div>
-                        </div>
-                        <button onclick="changeName()" style="width: 100%; padding: 12px; background: var(--primary); color: white; border: none; border-radius: 10px; cursor: pointer; margin-bottom: 10px;">
-                            Change Name
-                        </button>
-                        <button onclick="clearChat()" style="width: 100%; padding: 12px; background: var(--light); color: var(--dark); border: 1px solid #ddd; border-radius: 10px; cursor: pointer;">
-                            Clear Chat
-                        </button>
-                    </div>
-                </div>
-                <div class="message-time">Just now</div>
-            </div>
-        `;
-        addMessage(profileHtml, false);
-    }
-    
-    // Toast notification
-    function showToast(message) {
-        const toast = document.createElement('div');
-        toast.style.cssText = `
-            position: fixed;
-            bottom: 100px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--dark);
-            color: white;
-            padding: 12px 24px;
-            border-radius: 25px;
-            font-size: 0.9rem;
-            z-index: 3000;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            animation: slideUp 0.3s ease;
-        `;
-        toast.textContent = message;
-        document.body.appendChild(toast);
-        
-        setTimeout(() => {
-            toast.style.animation = 'slideDown 0.3s ease';
-            setTimeout(() => document.body.removeChild(toast), 300);
-        }, 3000);
-    }
-    
-    // Add message to chat
-    function addMessage(content, isUser) {
-        const messageDiv = document.createElement('div');
-        messageDiv.className = `message ${isUser ? 'user' : 'assistant'}`;
-        messageDiv.innerHTML = content;
-        
-        chatContainer.appendChild(messageDiv);
-        chatContainer.scrollTop = chatContainer.scrollHeight;
-        
-        if (isUser) {
-            messageCounter++;
-        }
-        updateStats();
-    }
-    
-    // Handle command
-    function handleCommand(command) {
-        addMessage(`
-            <div class="message-content">${command}</div>
-            <div class="message-time">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
-        `, true);
-        
-        processCommand(command);
-        messageInput.value = '';
-        messageInput.style.height = 'auto';
-    }
-    
-    // Send message
-    function sendMessage() {
-        const message = messageInput.value.trim();
-        if (!message) return;
-        
-        handleCommand(message);
-    }
-    
-    // Voice recognition
-    function toggleVoice() {
-        const micBtn = document.getElementById('micBtn');
-        
-        if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
-            showToast('Voice recognition not supported');
-            return;
-        }
-        
-        if (isListening) {
-            stopListening();
-            micBtn.classList.remove('listening');
-            isListening = false;
-        } else {
-            startListening();
-            micBtn.classList.add('listening');
-            isListening = true;
-        }
-    }
-    
-    function startListening() {
-        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-        recognition = new SpeechRecognition();
-        
-        recognition.lang = 'en-US';
-        recognition.continuous = false;
-        recognition.interimResults = false;
-        
-        recognition.onstart = () => {
-            addMessage(`
-                <div class="message-content">🎤 Listening... Speak now!</div>
-                <div class="message-time">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
-            `, true);
-        };
-        
-        recognition.onresult = (event) => {
-            const transcript = event.results[0][0].transcript;
-            messageInput.value = transcript;
-            setTimeout(() => sendMessage(), 500);
-        };
-        
-        recognition.onerror = (event) => {
-            if (event.error !== 'aborted') {
-                showToast('Sorry, I couldn\'t hear that');
-            }
-        };
-        
-        recognition.onend = () => {
-            const micBtn = document.getElementById('micBtn');
-            micBtn.classList.remove('listening');
-            isListening = false;
-        };
-        
-        try {
-            recognition.start();
-        } catch(e) {
-            console.error('Voice recognition error:', e);
-        }
-    }
-    
-    function stopListening() {
-        if (recognition) {
-            try {
-                recognition.stop();
-            } catch(e) {
-                console.error('Stop recognition error:', e);
-            }
-        }
-    }
-    
-    // Process command
-    async function processCommand(command) {
-        const lowerCommand = command.toLowerCase();
-        commandCounter++;
-        updateStats();
-        
-        // Show typing indicator
-        const typingDiv = document.createElement('div');
-        typingDiv.className = 'message assistant';
-        typingDiv.innerHTML = `
-            <div class="typing-indicator">
-                <div class="typing-dot"></div>
-                <div class="typing-dot"></div>
-                <div class="typing-dot"></div>
-            </div>
-        `;
-        chatContainer.appendChild(typingDiv);
-        chatContainer.scrollTop = chatContainer.scrollHeight;
-        
-        // Check for special commands
-        let handled = false;
-        
-        // Time command
-        if (lowerCommand.includes('time') && (lowerCommand.includes('what') || lowerCommand.includes('current'))) {
-            const time = new Date().toLocaleTimeString('en-US', { timeZone: 'Asia/Dhaka', hour: '2-digit', minute: '2-digit', hour12: true });
-            setTimeout(() => {
-                chatContainer.removeChild(typingDiv);
-                addMessage(`
-                    <div class="message-content">⏰ The current time in Bangladesh is ${time}</div>
-                    <div class="message-time">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
-                `, false);
-            }, 1000);
-            handled = true;
-        }
-        
-        // Date command
-        else if (lowerCommand.includes('date')) {
-            const date = new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-            setTimeout(() => {
-                chatContainer.removeChild(typingDiv);
-                addMessage(`
-                    <div class="message-content">📅 Today is ${date}</div>
-                    <div class="message-time">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
-                `, false);
-            }, 1000);
-            handled = true;
-        }
-        
-        // Joke command
-        else if (lowerCommand.includes('joke') || lowerCommand.includes('funny')) {
-            const jokes = [
-                "Why don't scientists trust atoms? Because they make up everything!",
-                "Why did the chicken go to the séance? To talk to the other side!",
-                "What do you call a fake noodle? An impasta!",
-                "Why did the math book look so sad? Because it had too many problems.",
-                "What do you call a bear with no teeth? A gummy bear!"
-            ];
-            const joke = jokes[Math.floor(Math.random() * jokes.length)];
-            setTimeout(() => {
-                chatContainer.removeChild(typingDiv);
-                addMessage(`
-                    <div class="message-content">${joke}</div>
-                    <div class="message-time">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
-                `, false);
-            }, 1000);
-            handled = true;
-        }
-        
-        // Game command
-        else if (lowerCommand.includes('tic tac toe') || lowerCommand.includes('game')) {
-            setTimeout(() => {
-                chatContainer.removeChild(typingDiv);
-                startTicTacToe();
-            }, 1000);
-            handled = true;
-        }
-        
-        // Search commands
-        else if (lowerCommand.startsWith('search ')) {
-            const query = command.substring(7).trim();
-            const engine = lowerCommand.includes('youtube') ? 'youtube' : 
-                          lowerCommand.includes('github') ? 'github' :
-                          lowerCommand.includes('wikipedia') ? 'wikipedia' : 'google';
-            
-            const engineData = searchEngines[engine];
-            const searchUrl = engineData.url + encodeURIComponent(query.replace(engine, '').trim());
-            
-            setTimeout(() => {
-                chatContainer.removeChild(typingDiv);
-                addMessage(`
-                    <div class="message-content">🔍 Searching ${engineData.name} for "${query}"...</div>
-                    <div class="message-time">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
-                `, false);
-                
-                window.open(searchUrl, '_blank');
-            }, 1000);
-            handled = true;
-        }
-        
-        // If not handled by special commands, use AI
-        if (!handled) {
-            try {
-                const response = await fetch(`${API_URL}/api/query`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ query: command })
-                });
-                
-                const data = await response.json();
-                
-                chatContainer.removeChild(typingDiv);
-                addMessage(`
-                    <div class="message-content">${data.text || 'I understand! 😊'}</div>
-                    <div class="message-time">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
-                `, false);
-            } catch (error) {
-                chatContainer.removeChild(typingDiv);
-                const fallback = [
-                    "I'm not sure about that. Could you rephrase?",
-                    "That's interesting! Tell me more.",
-                    "I'm still learning. Try asking something else! 😊"
-                ];
-                const randomResponse = fallback[Math.floor(Math.random() * fallback.length)];
-                
-                addMessage(`
-                    <div class="message-content">${randomResponse}</div>
-                    <div class="message-time">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
-                `, false);
-            }
-        }
-    }
-    
-    // Tic Tac Toe game
-    let ticTacToeBoard = ['','','','','','','','',''];
-    let currentPlayer = 'X';
-    
-    function startTicTacToe() {
-        ticTacToeBoard = ['','','','','','','','',''];
-        currentPlayer = 'X';
-        
-        const gameHtml = `
-            <div class="message assistant">
-                <div class="message-content">
-                    <div style="text-align: center;">
-                        <h3 style="color: var(--primary); margin-bottom: 15px;">🎮 Tic Tac Toe</h3>
-                        <div id="gameBoard" style="display: grid; grid-template-columns: repeat(3, 80px); gap: 10px; margin: 0 auto 20px; width: 260px;">
-                            ${ticTacToeBoard.map((cell, index) => `
-                                <button onclick="makeMove(${index})" 
-                                        style="width: 80px; height: 80px; border: 2px solid var(--secondary); 
-                                               border-radius: 15px; font-size: 32px; font-weight: bold; 
-                                               background: white; cursor: pointer; transition: all 0.3s;">
-                                    ${cell || ''}
-                                </button>
-                            `).join('')}
-                        </div>
-                        <p id="gameStatus" style="color: var(--dark); font-weight: 600; margin-bottom: 15px;">
-                            Player <span style="color: var(--primary);">${currentPlayer}</span>'s turn
-                        </p>
-                        <button onclick="resetGame()" 
-                                style="padding: 10px 25px; background: var(--primary); color: white; 
-                                       border: none; border-radius: 25px; cursor: pointer; font-weight: 600;">
-                            🔄 New Game
-                        </button>
-                    </div>
-                </div>
-                <div class="message-time">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
-            </div>
-        `;
-        
-        addMessage(gameHtml, false);
-    }
-    
-    function makeMove(index) {
-        if (ticTacToeBoard[index] || checkWinner()) return;
-        
-        ticTacToeBoard[index] = currentPlayer;
-        updateGameDisplay();
-        
-        if (checkWinner()) {
-            document.getElementById('gameStatus').innerHTML = 
-                `🎉 Player <span style="color: var(--primary);">${currentPlayer}</span> wins! 🏆`;
-        } else if (ticTacToeBoard.every(cell => cell)) {
-            document.getElementById('gameStatus').innerHTML = "🤝 It's a tie!";
-        } else {
-            currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
-            document.getElementById('gameStatus').innerHTML = 
-                `Player <span style="color: var(--primary);">${currentPlayer}</span>'s turn`;
-        }
-    }
-    
-    function checkWinner() {
-        const winPatterns = [
-            [0,1,2], [3,4,5], [6,7,8],
-            [0,3,6], [1,4,7], [2,5,8],
-            [0,4,8], [2,4,6]
-        ];
-        
-        return winPatterns.some(pattern => {
-            const [a,b,c] = pattern;
-            return ticTacToeBoard[a] && 
-                   ticTacToeBoard[a] === ticTacToeBoard[b] && 
-                   ticTacToeBoard[a] === ticTacToeBoard[c];
-        });
-    }
-    
-    function updateGameDisplay() {
-        const board = document.getElementById('gameBoard');
-        if (board) {
-            board.innerHTML = ticTacToeBoard.map((cell, index) => `
-                <button onclick="makeMove(${index})" 
-                        style="width: 80px; height: 80px; border: 2px solid var(--secondary); 
-                               border-radius: 15px; font-size: 32px; font-weight: bold; 
-                               background: white; cursor: pointer; transition: all 0.3s;">
-                    ${cell || ''}
-                </button>
-            `).join('');
-        }
-    }
-    
-    function resetGame() {
-        startTicTacToe();
-    }
-    
-    // Initialize app
-    window.onload = initApp;
-</script>
-</body>
-</html>
+        document.getElementById('userName').textContent = currentUser.name;
+        document.getElementById('userAvatar
