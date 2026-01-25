@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shizuka AI Assistant</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+
+        .status {
+            background: #f8f9fa;
+            padding: 15px 30px;
+            border-bottom: 1px solid #dee2e6;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .pulse {
+            width: 12px;
+            height: 12px;
+            background: #28a745;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .chat-container {
+            height: 500px;
+            overflow-y: auto;
+            padding: 30px;
+            background: #f8f9fa;
+        }
+
+        .message {
+            margin-bottom: 20px;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message.user {
+            text-align: right;
+        }
+
+        .message-content {
+            display: inline-block;
+            padding: 15px 20px;
+            border-radius: 20px;
+            max-width: 70%;
+            word-wrap: break-word;
+        }
+
+        .message.user .message-content {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-bottom-right-radius: 5px;
+        }
+
+        .message.assistant .message-content {
+            background: white;
+            color: #333;
+            border: 1px solid #dee2e6;
+            border-bottom-left-radius: 5px;
+        }
+
+        .timestamp {
+            font-size: 0.8em;
+            opacity: 0.6;
+            margin-top: 5px;
+        }
+
+        .input-container {
+            padding: 20px 30px;
+            background: white;
+            border-top: 1px solid #dee2e6;
+        }
+
+        .input-wrapper {
+            display: flex;
+            gap: 10px;
+        }
+
+        #userInput {
+            flex: 1;
+            padding: 15px 20px;
+            border: 2px solid #dee2e6;
+            border-radius: 25px;
+            font-size: 1em;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        #userInput:focus {
+            border-color: #667eea;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-voice {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #28a745;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+        }
+
+        .btn-voice.listening {
+            background: #dc3545;
+            animation: pulse-voice 1s infinite;
+        }
+
+        @keyframes pulse-voice {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            padding: 20px 30px;
+            background: #f8f9fa;
+            border-top: 1px solid #dee2e6;
+        }
+
+        .feature-btn {
+            padding: 12px;
+            background: white;
+            border: 1px solid #dee2e6;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            font-size: 0.9em;
+        }
+
+        .feature-btn:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 10px;
+        }
+
+        .loading.active {
+            display: block;
+        }
+
+        .loader {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .image-preview {
+            max-width: 100%;
+            border-radius: 10px;
+            margin-top: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+            
+            .chat-container {
+                height: 400px;
+            }
+            
+            .features {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🤖 Shizuka AI</h1>
+            <p>Your Personal AI Assistant</p>
+            <p style="font-size: 0.9em; margin-top: 5px;">Developed by Abu Tanim</p>
+        </div>
+
+        <div class="status">
+            <div class="status-indicator">
+                <div class="pulse"></div>
+                <span id="statusText">Online & Ready</span>
+            </div>
+            <div id="dateTime"></div>
+        </div>
+
+        <div class="chat-container" id="chatContainer">
+            <div class="message assistant">
+                <div class="message-content">
+                    Hello! I am Shizuka, your personal AI assistant. How can I help you today?
+                </div>
+                <div class="timestamp" id="initialTime"></div>
+            </div>
+        </div>
+
+        <div class="loading" id="loading">
+            <div class="loader"></div>
+            <span style="margin-left: 10px;">Thinking...</span>
+        </div>
+
+        <div class="input-container">
+            <div class="input-wrapper">
+                <input type="text" id="userInput" placeholder="Type your message or use voice..." />
+                <button class="btn btn-primary" onclick="sendMessage()">Send</button>
+                <button class="btn btn-voice" id="voiceBtn" onclick="toggleVoice()">🎤</button>
+            </div>
+        </div>
+
+        <div class="features">
+            <div class="feature-btn" onclick="quickCommand('what time is it')">⏰ Time</div>
+            <div class="feature-btn" onclick="quickCommand('what is the date today')">📅 Date</div>
+            <div class="feature-btn" onclick="quickCommand('tell me a joke')">😄 Joke</div>
+            <div class="feature-btn" onclick="quickCommand('fun fact')">💡 Fun Fact</div>
+            <div class="feature-btn" onclick="quickCommand('motivate me')">🚀 Motivation</div>
+            <div class="feature-btn" onclick="quickCommand('system info')">💻 System Info</div>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:8000';
+        let isListening = false;
+        let recognition;
+
+        // Initialize speech recognition
+        if ('webkitSpeechRecognition' in window) {
+            recognition = new webkitSpeechRecognition();
+            recognition.continuous = false;
+            recognition.interimResults = false;
+            recognition.lang = 'en-US';
+
+            recognition.onresult = function(event) {
+                const transcript = event.results[0][0].transcript;
+                document.getElementById('userInput').value = transcript;
+                sendMessage();
+            };
+
+            recognition.onend = function() {
+                isListening = false;
+                document.getElementById('voiceBtn').classList.remove('listening');
+            };
+        }
+
+        // Text to Speech Function with Female Voice
+        function speak(text) {
+            if ('speechSynthesis' in window) {
+                // Cancel any ongoing speech
+                speechSynthesis.cancel();
+                
+                const utterance = new SpeechSynthesisUtterance(text);
+                
+                // Get available voices
+                const voices = speechSynthesis.getVoices();
+                
+                // Try to find a female English voice
+                const femaleVoice = voices.find(voice => 
+                    (voice.name.includes('Female') || 
+                     voice.name.includes('female') ||
+                     voice.name.includes('Zira') ||
+                     voice.name.includes('Google UK English Female') ||
+                     voice.name.includes('Microsoft Zira') ||
+                     voice.name.includes('Samantha')) && 
+                    voice.lang.startsWith('en')
+                );
+                
+                // If no specific female voice found, use any female-sounding voice
+                const backupFemaleVoice = voices.find(voice => 
+                    voice.lang.startsWith('en') && 
+                    (voice.name.includes('Google') || voice.name.includes('Microsoft'))
+                );
+                
+                // Set the voice
+                if (femaleVoice) {
+                    utterance.voice = femaleVoice;
+                } else if (backupFemaleVoice) {
+                    utterance.voice = backupFemaleVoice;
+                }
+                
+                // Voice settings for more natural female voice
+                utterance.rate = 0.95;  // Slightly slower
+                utterance.pitch = 1.2;  // Higher pitch for female voice
+                utterance.volume = 1.0;
+                
+                speechSynthesis.speak(utterance);
+            }
+        }
+
+        // Load voices when they become available
+        if ('speechSynthesis' in window) {
+            speechSynthesis.onvoiceschanged = function() {
+                const voices = speechSynthesis.getVoices();
+                console.log('Available voices:', voices.map(v => v.name));
+            };
+        }
+
+        // Update date/time
+        function updateDateTime() {
+            const now = new Date();
+            const options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+            document.getElementById('dateTime').textContent = now.toLocaleDateString('en-US', options);
+            document.getElementById('initialTime').textContent = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+        }
+        updateDateTime();
+        setInterval(updateDateTime, 1000);
+
+        // Toggle voice recognition
+        function toggleVoice() {
+            if (!recognition) {
+                alert('Voice recognition not supported in your browser');
+                return;
+            }
+
+            if (isListening) {
+                recognition.stop();
+                isListening = false;
+                document.getElementById('voiceBtn').classList.remove('listening');
+            } else {
+                recognition.start();
+                isListening = true;
+                document.getElementById('voiceBtn').classList.add('listening');
+            }
+        }
+
+        // Add message to chat
+        function addMessage(text, isUser, imageUrl = null) {
+            const chatContainer = document.getElementById('chatContainer');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user' : 'assistant'}`;
+            
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+            
+            let content = `
+                <div class="message-content">
+                    ${text}
+                    ${imageUrl ? `<br><img src="${imageUrl}" class="image-preview" alt="Generated Image">` : ''}
+                </div>
+                <div class="timestamp">${timeStr}</div>
+            `;
+            
+            messageDiv.innerHTML = content;
+            chatContainer.appendChild(messageDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+
+            // Text to speech for assistant messages with female voice
+            if (!isUser) {
+                speak(text);
+            }
+        }
+
+        // Send message
+        async function sendMessage() {
+            const input = document.getElementById('userInput');
+            const message = input.value.trim();
+            
+            if (!message) return;
+            
+            addMessage(message, true);
+            input.value = '';
+            
+            document.getElementById('loading').classList.add('active');
+            document.getElementById('statusText').textContent = 'Processing...';
+            
+            try {
+                const response = await fetch(`${API_URL}/api/query`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ query: message })
+                });
+                
+                const data = await response.json();
+                
+                if (data.birthday_message) {
+                    addMessage(data.birthday_message, false);
+                }
+                
+                let imageUrl = null;
+                if (data.data && data.data.url) {
+                    imageUrl = API_URL + data.data.url;
+                }
+                
+                addMessage(data.text, false, imageUrl);
+                
+            } catch (error) {
+                addMessage('Sorry, I encountered an error. Please make sure the backend server is running.', false);
+                console.error('Error:', error);
+            } finally {
+                document.getElementById('loading').classList.remove('active');
+                document.getElementById('statusText').textContent = 'Online & Ready';
+            }
+        }
+
+        // Quick command
+        function quickCommand(command) {
+            document.getElementById('userInput').value = command;
+            sendMessage();
+        }
+
+        // Enter key to send
+        document.getElementById('userInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        // Initial greeting with female voice
+        window.addEventListener('load', function() {
+            setTimeout(() => {
+                speak('Hello! I am Shizuka, your personal AI assistant. How can I help you today?');
+            }, 500);
+        });
+    </script>
+</body>
+</html>
