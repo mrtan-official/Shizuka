@@ -273,6 +273,9 @@
             word-wrap: break-word;
             font-size: 0.95em;
             line-height: 1.4;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         .message.user .message-content {
@@ -286,6 +289,30 @@
             color: #333;
             border-bottom-left-radius: 0;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .speak-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2em;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+            padding: 0;
+            margin-left: 10px;
+        }
+
+        .speak-btn:hover {
+            opacity: 1;
+        }
+
+        .speak-btn.speaking {
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
         }
 
         .input-area {
@@ -468,7 +495,9 @@
 
         <div class="messages" id="messages">
             <div class="message assistant">
-                <div class="message-content">👋 Hello! I'm Shizuka, your AI assistant. How can I help you today?</div>
+                <div class="message-content">
+                    👋 Hello! I'm Shizuka, your AI assistant. How can I help you today?
+                </div>
             </div>
         </div>
 
@@ -478,6 +507,10 @@
                 <button type="button" class="quick-btn" onclick="quickAction('joke')">😂 Joke</button>
                 <button type="button" class="quick-btn" onclick="quickAction('fun fact')">💡 Fact</button>
                 <button type="button" class="quick-btn" onclick="quickAction('motivate me')">🚀 Motivate</button>
+                <button type="button" class="quick-btn" onclick="quickAction('calculator')">🧮 Calc</button>
+                <button type="button" class="quick-btn" onclick="quickAction('weather')">🌤️ Weather</button>
+                <button type="button" class="quick-btn" onclick="quickAction('flip coin')">🪙 Coin</button>
+                <button type="button" class="quick-btn" onclick="quickAction('roll dice')">🎲 Dice</button>
             </div>
             <div class="input-field">
                 <input type="text" id="messageInput" placeholder="Ask me anything..." autocomplete="off">
@@ -487,8 +520,48 @@
     </div>
 
     <script>
-        const API_URL = 'http://localhost:8000';
+        const API_URL = 'https://shizuka-ai-assistant.onrender.com';
         let currentUser = null;
+
+        // ===== SPEECH SYNTHESIS ===== 
+        function speakText(text) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.rate = 1;
+                utterance.pitch = 1.2;
+                utterance.volume = 1;
+                
+                // Try to use female voice
+                const voices = window.speechSynthesis.getVoices();
+                const femaleVoice = voices.find(v => v.name.includes('Female') || v.name.includes('female'));
+                if (femaleVoice) {
+                    utterance.voice = femaleVoice;
+                } else if (voices.length > 0) {
+                    utterance.voice = voices[1] || voices[0];
+                }
+                
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+
+        // ===== BD TIME FORMAT =====
+        function getBDTime() {
+            const now = new Date();
+            const options = {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: true,
+                timeZone: 'Asia/Dhaka'
+            };
+            return now.toLocaleDateString('bn-BD', options);
+        }
 
         // ===== AUTH FUNCTIONS =====
         function toggleForms() {
@@ -501,7 +574,6 @@
             document.getElementById('signupToggle').style.display = 
                 document.getElementById('signupToggle').style.display === 'none' ? 'block' : 'none';
             
-            // Clear forms
             document.getElementById('loginForm').reset();
             document.getElementById('signupForm').reset();
             document.getElementById('alertMsg').style.display = 'none';
@@ -522,7 +594,6 @@
             const password = document.getElementById('signupPassword').value;
             const confirm = document.getElementById('signupConfirm').value;
 
-            // Validation
             if (!name || !username || !password || !confirm) {
                 showAlert('❌ Please fill all fields', 'error');
                 return;
@@ -533,17 +604,11 @@
                 return;
             }
 
-            if (password.length < 6) {
-                showAlert('❌ Password must be at least 6 characters', 'error');
-                return;
-            }
-
             if (password !== confirm) {
                 showAlert('❌ Passwords do not match', 'error');
                 return;
             }
 
-            // Show loading
             document.getElementById('signupBtn').disabled = true;
             document.getElementById('signupLoading').style.display = 'block';
 
@@ -558,6 +623,7 @@
 
                 if (data.success) {
                     showAlert('✅ Account created successfully! Please sign in.', 'success');
+                    speakText('Account created successfully');
                     setTimeout(() => {
                         document.getElementById('signupForm').reset();
                         document.getElementById('loginUsername').value = username;
@@ -567,7 +633,7 @@
                     showAlert(`❌ ${data.message}`, 'error');
                 }
             } catch (error) {
-                showAlert(`❌ Connection error: ${error.message}`, 'error');
+                showAlert(`❌ Error: ${error.message}`, 'error');
             } finally {
                 document.getElementById('signupBtn').disabled = false;
                 document.getElementById('signupLoading').style.display = 'none';
@@ -585,7 +651,6 @@
                 return;
             }
 
-            // Show loading
             document.getElementById('loginBtn').disabled = true;
             document.getElementById('loginLoading').style.display = 'block';
 
@@ -602,6 +667,7 @@
                     currentUser = { ...data.user, password };
                     sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
                     showAlert('✅ Signed in successfully!', 'success');
+                    speakText(`Welcome back ${data.user.name}`);
                     setTimeout(() => {
                         showChatPage();
                     }, 500);
@@ -609,7 +675,7 @@
                     showAlert(`❌ ${data.message}`, 'error');
                 }
             } catch (error) {
-                showAlert(`❌ Connection error: ${error.message}`, 'error');
+                showAlert(`❌ Error: ${error.message}`, 'error');
             } finally {
                 document.getElementById('loginBtn').disabled = false;
                 document.getElementById('loginLoading').style.display = 'none';
@@ -628,16 +694,8 @@
             if (confirm('Are you sure you want to logout?')) {
                 currentUser = null;
                 sessionStorage.removeItem('currentUser');
-                document.getElementById('chatPage').style.display = 'none';
-                document.getElementById('authPage').style.display = 'flex';
-                document.getElementById('messages').innerHTML = '<div class="message assistant"><div class="message-content">👋 Hello! I\'m Shizuka. How can I help?</div></div>';
-                document.getElementById('loginForm').reset();
-                document.getElementById('signupForm').reset();
-                document.getElementById('loginForm').style.display = 'block';
-                document.getElementById('signupForm').style.display = 'none';
-                document.querySelector('.toggle-form').style.display = 'block';
-                document.getElementById('signupToggle').style.display = 'none';
-                document.getElementById('alertMsg').style.display = 'none';
+                window.speechSynthesis.cancel();
+                location.reload();
             }
         }
 
@@ -664,16 +722,13 @@
                     })
                 });
 
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-
                 const data = await response.json();
-                const replyText = data.text || 'I apologize, I could not process that request.';
+                const replyText = data.text || 'Sorry, I could not process that request.';
                 addMessage(replyText, 'assistant');
+                speakText(replyText);
             } catch (error) {
-                console.error('Error:', error);
-                addMessage('❌ Connection error. Make sure the backend server is running on http://localhost:8000', 'assistant');
+                const errorMsg = `Sorry, there was an error: ${error.message}`;
+                addMessage(errorMsg, 'assistant');
             }
 
             document.getElementById('sendBtn').disabled = false;
@@ -688,7 +743,8 @@
             const messagesDiv = document.getElementById('messages');
             const messageDiv = document.createElement('div');
             messageDiv.className = `message ${sender}`;
-            messageDiv.innerHTML = `<div class="message-content">${escapeHtml(text)}</div>`;
+            const textContent = escapeHtml(text);
+            messageDiv.innerHTML = `<div class="message-content">${textContent}</div>`;
             messagesDiv.appendChild(messageDiv);
             messagesDiv.scrollTop = messagesDiv.scrollHeight;
         }
