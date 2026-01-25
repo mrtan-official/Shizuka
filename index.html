@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shizuka AI Assistant Pro</title>
+    <title>Shizuka AI Assistant Pro | Abu Tanim</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
@@ -130,13 +130,13 @@
 <div class="container">
     <div class="header">
         <h1>✨ Shizuka AI</h1>
-        <p>Active Now | Developed by Abu Tanim</p>
+        <p>Active Now | Created by Abu Tanim</p>
     </div>
 
     <div class="chat-container" id="chat">
         <div class="message assistant">
             <div class="message-content">
-                Hello! I am Shizuka. How can I assist you today? 🌸
+                Hello! I am Shizuka, your personal assistant. 🌸 How can I help you today?
             </div>
         </div>
     </div>
@@ -182,7 +182,6 @@
                     navigator.mediaDevices.getUserMedia({video: true}).then(s => s.getTracks().forEach(t => t.stop()));
                 } break;
         }
-        
         speak(`Opening ${cmd} for you.`);
     }
 
@@ -190,8 +189,18 @@
         const text = input.value.trim();
         if(!text) return;
 
-        // Smart Commands logic
         const lowText = text.toLowerCase();
+
+        // --- Custom Knowledge about Developer (Abu Tanim) ---
+        if(lowText.includes("who is tanim") || lowText.includes("developer") || lowText.includes("creator") || lowText.includes("your owner")) {
+            addMsg(text, true);
+            const devBio = "My creator is Abu Tanim. He is a brilliant Software Developer from Chittagong. He completed his BSc in CSE from Premier University. His birthday is on September 20th. He loves Python coding! You can find his projects on GitHub: https://github.com/mrtan-official";
+            addMsg(devBio, false);
+            input.value = '';
+            return;
+        }
+
+        // Smart App Commands
         if(lowText.includes("open whatsapp")) { handleSystemCmd('whatsapp'); input.value=''; return; }
         if(lowText.includes("open facebook")) { handleSystemCmd('facebook'); input.value=''; return; }
         if(lowText.includes("open camera")) { handleSystemCmd('camera'); input.value=''; return; }
@@ -226,26 +235,29 @@
         if(!isUser) speak(text);
     }
 
+    // --- Updated Lady Version Voice Function ---
     function speak(text) {
         const synth = window.speechSynthesis;
         const utter = new SpeechSynthesisUtterance(text);
-        utter.pitch = 1.2; utter.rate = 1;
+        
+        // Find a female voice
+        const voices = synth.getVoices();
+        const femaleVoice = voices.find(v => 
+            v.name.includes('Google US English') || 
+            v.name.includes('Female') || 
+            v.name.includes('Zira') || 
+            v.name.includes('Samantha') ||
+            v.name.includes('Microsoft Maria')
+        );
+
+        if (femaleVoice) utter.voice = femaleVoice;
+        
+        utter.pitch = 1.3; // Cute Shizuka-like pitch
+        utter.rate = 1.0; 
         synth.speak(utter);
     }
 
-    function startVoice() {
-        const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-        recognition.onstart = () => document.getElementById('mic').classList.add('listening');
-        recognition.onend = () => document.getElementById('mic').classList.remove('listening');
-        recognition.onresult = (e) => {
-            input.value = e.results[0][0].transcript;
-            sendMsg();
-        };
-        recognition.start();
-    }
+    // Pre-load voices for browser support
+    window.speechSynthesis.onvoiceschanged = () => { window.speechSynthesis.getVoices(); };
 
-    input.addEventListener('keypress', (e) => e.key === 'Enter' && sendMsg());
-</script>
-
-</body>
-</html>
+    function start
