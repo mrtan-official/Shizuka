@@ -1,4 +1,4 @@
-# 🤖 Shizuka AI Assistant
+# Shizuka AI Assistant
 
 Shizuka AI Assistant is a Voice and Text based Personal AI Assistant
 designed to help you perform daily tasks easily on your computer.
