@@ -1,4 +1,4 @@
-# Shizuka AI Assistant
+# 🤖 Shizuka AI Assistant
 
 Shizuka AI Assistant is a Voice and Text based Personal AI Assistant
 designed to help you perform daily tasks easily on your computer.
@@ -9,36 +9,29 @@ Developed by **Abu Tanim (Mr. Tan)**
 
 ## ✅ Features
 
-With Shizuka AI Assistant, you can:
-
--   🎤 Voice commands and text input
--   🧠 Ask AI questions (Chat system)
--   ⏰ Get current time and date
--   ⏳ Set reminders
--   📝 Save and read voice notes
--   💻 Check system information (CPU, Battery, Memory, Disk)
--   📸 Take screenshots
--   🔊 Control volume and brightness
--   🌐 Open websites (Google, YouTube, Facebook, GitHub, ChatGPT, etc.)
--   📱 Send WhatsApp messages and make calls automatically
--   🎨 Generate AI images
--   📚 Learning system (remember information)
--   🎲 Fun features (coin toss, dice roll, motivation, fun facts)
+-   Voice & text commands\
+-   AI chat system\
+-   Reminder & notes\
+-   System control\
+-   WhatsApp automation\
+-   Image generation\
+-   Learning memory\
+-   Fun & motivation
 
 ------------------------------------------------------------------------
 
 ## ⚙️ First Time Setup
 
-### 1️⃣ OpenRouter API Key Required
+### 1️⃣ OpenRouter API Key
 
 On first run, the program will open:
 
     https://openrouter.ai
 
-Steps: 1. Create an account 2. Generate an API key 3. Paste the API key
-into the program 4. Press Enter
+Steps: 1. Create an account 2. Generate API key 3. Paste it into the
+program 4. Press Enter
 
-Your API key will be saved in:
+Saved in:
 
     configa.json
 
@@ -50,92 +43,160 @@ Allow microphone access for voice commands.
 
 ------------------------------------------------------------------------
 
-### 3️⃣ Screen Coordinate Setup (Call End Feature)
+### 3️⃣ Screen Coordinate Setup
 
-For WhatsApp call ending feature, the program will ask:
+For call end feature:
 
     Set your screen Width value:
     Set your screen Height value:
 
-Provide the screen coordinates of the call end button.
-
 ------------------------------------------------------------------------
 
-## 🗣️ Example Voice Commands
+## 🗣️ Full Command List
 
-You can say:
+### ⏰ Time & Date
 
--   **"What time is it"**
--   **"What is today's date"**
--   **"Set reminder"**
--   **"Generate image"**
--   **"Send message to John"**
--   **"Open YouTube"**
--   **"Take screenshot"**
--   **"System info"**
--   **"Motivate me"**
--   **"Tell me a fun fact"**
--   **"Play song name"**
--   **"Shutdown PC"**
--   **"Restart PC"**
--   **"Goodbye"**
+-   What time is it
+-   What is today's date
 
-------------------------------------------------------------------------
+### 🧠 AI Chat
 
-## ⏰ Reminder Time Format
+-   What is \[question\]
+-   Tell me about \[topic\]
+-   Calculate \[math\]
+-   Motivate me
+-   Tell me a fun fact
 
-You can say time like:
+### 📝 Learning
 
--   `2 30 PM`
--   `10 AM`
--   `7 PM`
--   `14 45`
+-   Remember that sky is blue
+-   What is sky
+-   What have you learned
 
-------------------------------------------------------------------------
+### ⏳ Reminder
 
-## 🧠 Learning Feature
+-   Set reminder
+-   Remind me
 
-Say:
+Time format: - 2 30 PM - 10 AM - 7 PM - 14 45
 
-    Remember that sky is blue
+### 📝 Notes
 
-Later say:
+-   Take note
+-   Save note
+-   Read notes
+-   Show notes
 
-    What is sky
+### 🎨 Image
+
+-   Generate image
+-   Create image
+-   Draw image
+
+### 💻 System Info
+
+-   System info
+-   Battery status
+-   CPU usage
+
+### 📸 Screenshot
+
+-   Take screenshot
+
+### 🔊 Volume & Brightness
+
+-   Volume up
+-   Volume down
+-   Mute
+-   Increase brightness
+-   Decrease brightness
+
+### 🌐 Open Websites
+
+-   Open Google
+-   Open YouTube
+-   Open Facebook
+-   Open GitHub
+-   Open ChatGPT
+-   Open Gemini
+-   Open background remover
+
+### 📱 WhatsApp
+
+-   Open WhatsApp
+-   Close WhatsApp
+-   Send message to \[name\]
+-   Send whatsapp to \[name\]
+-   Call \[name\]
+-   End call
+
+### 💻 Apps
+
+-   Open calculator
+-   Close calculator
+-   Open notepad
+-   Close notepad
+-   Open settings
+-   Close settings
+-   Open command prompt
+-   Close command prompt
+
+### 🧹 System Control
+
+-   Minimize all windows
+-   Empty recycle bin
+-   Shutdown PC
+-   Restart PC
+
+### 🎵 Entertainment
+
+-   Play \[song name\]
+-   Roll dice
+-   Flip a coin
+-   Random number
+
+### 🌐 Search
+
+-   Search for \[topic\]
+-   Google search \[topic\]
+
+### ❌ Exit
+
+-   Goodbye
+-   Stop
+-   Bye
 
 ------------------------------------------------------------------------
 
 ## 📁 Files Created Automatically
 
-These files will be created automatically:
-
--   `configa.json` → API key storage\
--   `screen_config.txt` → Screen coordinates\
--   `reminders.json` → Reminder data\
--   `voice_notes.txt` → Saved notes\
--   `learning_data.json` → Learned information\
--   `conversation_history.json` → Chat history
+-   configa.json → API key\
+-   screen_config.txt → Screen coordinates\
+-   reminders.json → Reminders\
+-   voice_notes.txt → Notes\
+-   learning_data.json → Memory\
+-   conversation_history.json → Chat history
 
 ------------------------------------------------------------------------
 
 ## ⚠️ Important Notes
 
--   Internet connection is required
--   WhatsApp Desktop must be installed
--   Microphone is required for voice commands
--   Windows OS is recommended
--   Antivirus may block the EXE file --- allow it if prompted
+-   Internet connection required\
+-   WhatsApp Desktop required\
+-   Microphone required\
+-   Windows OS recommended\
+-   Antivirus may block EXE --- allow it
 
 ------------------------------------------------------------------------
 
 ## ❌ Source Code Policy
 
-This software is provided as an executable (.exe) file only.\
+This software is provided as an executable (.exe) only.\
 Source code sharing is not allowed.
 
 ------------------------------------------------------------------------
 
-## 👨‍💻 Developer Information
+## 👨‍💻 Developer
 
 Developed by: **Abu Tanim (Mr. Tan)**\
 GitHub: https://github.com/mrtan-official
@@ -145,6 +206,4 @@ GitHub: https://github.com/mrtan-official
 ## ❤️ Thank You
 
 Thank you for using **Shizuka AI Assistant**.\
-Enjoy your smart personal assistant!
-
-For any issues, please contact the developer.
+Enjoy your smart assistant!
