@@ -35,7 +35,7 @@ Saved in:
 
     configa.json
     
-![Instruction Image](Instruction/Instruction.png)
+<img src="Instruction/Instruction.png" alt="Instruction" width="400"/>
 ------------------------------------------------------------------------
 
 ### 2️⃣ Microphone Permission
