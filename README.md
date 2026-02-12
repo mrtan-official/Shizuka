@@ -1,4 +1,5 @@
 <img width="1536" height="1024" alt="shizuka-ai" src="https://github.com/user-attachments/assets/7f476a69-8330-4240-80a2-455f7b766fa2" />
+
 # Shizuka AI Assistant
 
 Shizuka AI Assistant is a Voice and Text based Personal AI Assistant
