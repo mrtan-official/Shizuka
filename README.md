@@ -34,8 +34,8 @@ program 4. Press Enter
 Saved in:
 
     configa.json
-    ![Instruction Image](Instruction/Instruction.png)
-
+    
+![Instruction Image](Instruction/Instruction.png)
 ------------------------------------------------------------------------
 
 ### 2️⃣ Microphone Permission
