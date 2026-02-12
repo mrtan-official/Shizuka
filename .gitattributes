@@ -1,5 +1,9 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 *.exe filter=lfs diff=lfs merge=lfs -text
 >>>>>>> d3016fe (Shizuka)
+=======
+*.exe filter=lfs diff=lfs merge=lfs -text
+>>>>>>> 0943cb2 (Shizuka)
