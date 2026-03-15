@@ -2,213 +2,239 @@
 
 # Shizuka AI Assistant
 
-Shizuka AI Assistant is a Voice and Text based Personal AI Assistant
-designed to help you perform daily tasks easily on your computer.
+Shizuka AI Assistant is a Voice and Text based Personal AI Assistant  
+designed to help you perform daily tasks easily — available on **Windows** and **Android**.
 
-Developed by **Abu Tanim (Mr. Tan)**
+Developed by **Abu Tanim (Mr. Tan)**
 
-------------------------------------------------------------------------
+---
 
-## ✅ Features
+## 📦 Versions
 
--   Voice & text commands\
--   AI chat system\
--   Reminder & notes\
--   System control\
--   WhatsApp automation\
--   Image generation\
--   Learning memory\
--   Fun & motivation
+| Platform | Type | Status |
+|----------|------|--------|
+| 🖥️ Windows | `.exe` Desktop App | ✅ Available |
+| 📱 Android | `.apk` Mobile App | ✅ Available (v1.2) |
 
-------------------------------------------------------------------------
+---
 
-## ⚙️ First Time Setup
+## 📱 Android Version — v1.2
 
-### 1️⃣ OpenRouter API Key
+### ✅ Features
+- AI Chat (text-based)
+- Bangla / multilingual support
+- Reminders & Notes
+- WhatsApp quick message
+- File upload & AI analysis
+- Auto update notification
+- Encrypted conversation history
 
-On first run, the program will open:
+### 📥 Install
+Download `Shizuka-v1.2.apk` from [Releases](https://github.com/mrtan-official/Shizuka/releases)
 
-    https://openrouter.ai
+> ⚠️ Allow "Install from unknown sources" in Android settings
 
-Steps: 1. Create an account 2. Generate API key 3. Paste it into the
-program 4. Press Enter
+### ⚙️ Setup
+1. Open app → go to **Settings**
+2. Enter your [OpenRouter API Key](https://openrouter.ai)
+3. Tap **Save** — done!
 
-Saved in:
+### 📁 File Upload (New in v1.2)
+- Tap **File** button in Chat
+- Android file picker opens directly
+- Select any `.txt`, `.py`, `.json`, `.md`, `.csv`, `.html` file
+- Shizuka will analyze it automatically
 
-    configa.json
+### 🌐 Language Support
+- Write in **Bangla** → reply in Bangla
+- Write in Hindi, Arabic, English → reply in same language
+- AI auto-detects your language
 
+### 🔔 Auto Update
+- App checks for new version on startup
+- Yellow banner appears on home screen if update available
+- Settings → **Check for Updates** anytime
+
+### Requirements
+- Android 6.0+ (API 23)
+- Internet connection
+- OpenRouter API Key (free available)
+
+---
+
+## 🖥️ Windows Version
+
+### ✅ Features
+- Voice & text commands
+- AI chat system
+- Reminder & notes
+- System control
+- WhatsApp automation
+- Image generation
+- Learning memory
+- Fun & motivation
+
+### 📥 Install
+Download `Shizuka-AI.exe` from [Releases](https://github.com/mrtan-official/Shizuka/releases)
+
+> ⚠️ Antivirus may block EXE — allow it manually
+
+### ⚙️ First Time Setup
+
+**1️⃣ OpenRouter API Key**
+
+On first run, the program will open `https://openrouter.ai`
+
+Steps:
+1. Create an account
+2. Generate API key
+3. Paste it into the program
+4. Press Enter
+
+Saved in: `configa.json`
 
 <img src="Instruction/Instruction.png" alt="Instruction" width="400"/>
 
-------------------------------------------------------------------------
-
-### 2️⃣ Microphone Permission
+**2️⃣ Microphone Permission**
 
 Allow microphone access for voice commands.
 
-------------------------------------------------------------------------
-
-### 3️⃣ Screen Coordinate Setup
+**3️⃣ Screen Coordinate Setup**
 
 For call end feature:
+```
+Set your screen Width value:
+Set your screen Height value:
+```
 
-    Set your screen Width value:
-    Set your screen Height value:
+### 🗣️ Full Command List
 
-------------------------------------------------------------------------
+#### ⏰ Time & Date
+- What time is it
+- What is today's date
 
-## 🗣️ Full Command List
+#### 🧠 AI Chat
+- What is [question]
+- Tell me about [topic]
+- Calculate [math]
+- Motivate me
+- Tell me a fun fact
 
-### ⏰ Time & Date
+#### 📝 Learning
+- Remember that sky is blue
+- What is sky
+- What have you learned
 
--   What time is it
--   What is today's date
+#### ⏳ Reminder
+- Set reminder
+- Remind me
 
-### 🧠 AI Chat
+Time format:
+- `2 30 PM`
+- `10 AM`
+- `7 PM`
+- `14 45`
 
--   What is \[question\]
--   Tell me about \[topic\]
--   Calculate \[math\]
--   Motivate me
--   Tell me a fun fact
+#### 📝 Notes
+- Take note / Save note
+- Read notes / Show notes
 
-### 📝 Learning
+#### 🎨 Image
+- Generate image
+- Create image
+- Draw image
 
--   Remember that sky is blue
--   What is sky
--   What have you learned
+#### 💻 System Info
+- System info
+- Battery status
+- CPU usage
 
-### ⏳ Reminder
+#### 📸 Screenshot
+- Take screenshot
 
--   Set reminder
--   Remind me
+#### 🔊 Volume & Brightness
+- Volume up / Volume down / Mute
+- Increase brightness / Decrease brightness
 
-Time format: - 2 30 PM - 10 AM - 7 PM - 14 45
+#### 🌐 Open Websites
+- Open Google / YouTube / Facebook / GitHub
+- Open ChatGPT / Gemini
+- Open background remover
 
-### 📝 Notes
+#### 📱 WhatsApp
+- Open WhatsApp / Close WhatsApp
+- Send message to [name]
+- Send whatsapp to [name]
+- Call [name] / End call
 
--   Take note
--   Save note
--   Read notes
--   Show notes
+#### 💻 Apps
+- Open/Close calculator
+- Open/Close notepad
+- Open/Close settings
+- Open/Close command prompt
 
-### 🎨 Image
+#### 🧹 System Control
+- Minimize all windows
+- Empty recycle bin
+- Shutdown PC / Restart PC
 
--   Generate image
--   Create image
--   Draw image
+#### 🎵 Entertainment
+- Play [song name]
+- Roll dice / Flip a coin / Random number
 
-### 💻 System Info
+#### 🌐 Search
+- Search for [topic]
+- Google search [topic]
 
--   System info
--   Battery status
--   CPU usage
+#### ❌ Exit
+- Goodbye / Stop / Bye
 
-### 📸 Screenshot
+### 📁 Files Created Automatically
+| File | Purpose |
+|------|---------|
+| `configa.json` | API key |
+| `screen_config.txt` | Screen coordinates |
+| `reminders.json` | Reminders |
+| `voice_notes.txt` | Notes |
+| `learning_data.json` | Memory |
+| `conversation_history.json` | Chat history |
 
--   Take screenshot
+### ⚠️ Important Notes
+- Internet connection required
+- WhatsApp Desktop required
+- Microphone required
+- Windows OS recommended
+- Antivirus may block EXE — allow it
 
-### 🔊 Volume & Brightness
+---
 
--   Volume up
--   Volume down
--   Mute
--   Increase brightness
--   Decrease brightness
+## 🔑 API Key — Both Versions
 
-### 🌐 Open Websites
+1. Go to [openrouter.ai](https://openrouter.ai)
+2. Create a free account
+3. Copy your API key
+4. Paste it in the app (Windows: on first run / Android: Settings)
 
--   Open Google
--   Open YouTube
--   Open Facebook
--   Open GitHub
--   Open ChatGPT
--   Open Gemini
--   Open background remover
+Free models available — no payment required for basic use.
 
-### 📱 WhatsApp
-
--   Open WhatsApp
--   Close WhatsApp
--   Send message to \[name\]
--   Send whatsapp to \[name\]
--   Call \[name\]
--   End call
-
-### 💻 Apps
-
--   Open calculator
--   Close calculator
--   Open notepad
--   Close notepad
--   Open settings
--   Close settings
--   Open command prompt
--   Close command prompt
-
-### 🧹 System Control
-
--   Minimize all windows
--   Empty recycle bin
--   Shutdown PC
--   Restart PC
-
-### 🎵 Entertainment
-
--   Play \[song name\]
--   Roll dice
--   Flip a coin
--   Random number
-
-### 🌐 Search
-
--   Search for \[topic\]
--   Google search \[topic\]
-
-### ❌ Exit
-
--   Goodbye
--   Stop
--   Bye
-
-------------------------------------------------------------------------
-
-## 📁 Files Created Automatically
-
--   configa.json → API key\
--   screen_config.txt → Screen coordinates\
--   reminders.json → Reminders\
--   voice_notes.txt → Notes\
--   learning_data.json → Memory\
--   conversation_history.json → Chat history
-
-------------------------------------------------------------------------
-
-## ⚠️ Important Notes
-
--   Internet connection required\
--   WhatsApp Desktop required\
--   Microphone required\
--   Windows OS recommended\
--   Antivirus may block EXE --- allow it
-
-------------------------------------------------------------------------
+---
 
 ## ❌ Source Code Policy
 
-This software is provided as an executable (.exe) only.\
+This software is provided as executable files only (`.exe` / `.apk`).  
 Source code sharing is not allowed.
 
-------------------------------------------------------------------------
+---
 
 ## 👨‍💻 Developer
 
-Developed by: **Abu Tanim (Mr. Tan)**\
-GitHub: https://github.com/mrtan-official
+Developed by: **Abu Tanim (Mr. Tan)**  
+GitHub: [github.com/mrtan-official](https://github.com/mrtan-official)  
+Repo: [github.com/mrtan-official/Shizuka](https://github.com/mrtan-official/Shizuka)
 
-------------------------------------------------------------------------
+---
 
 ## ❤️ Thank You
 
-Thank you for using **Shizuka AI Assistant**.\
-Enjoy your smart assistant!
+Thank you for using **Shizuka AI Assistant**.  
+Enjoy your smart assistant — on your PC and in your pocket!
