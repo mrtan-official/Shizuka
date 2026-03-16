@@ -7,29 +7,26 @@ on:
 jobs:
   update-readme:
     runs-on: ubuntu-latest
-
+    permissions:
+      contents: write
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
-      - name: Get version from release tag
+      - name: Update version in README
         run: |
           VERSION="${{ github.event.release.tag_name }}"
-          VERSION="${VERSION#v}"
-          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          # Android version table update
+          sed -i "s/Available (v[0-9.]*)/Available (${VERSION})/g" README.md
+          # APK filename update
+          sed -i "s/Shizuka-v[0-9.]*.apk/Shizuka-${VERSION}.apk/g" README.md
+          # Section heading update
+          sed -i "s/## 📱 Android Version — v[0-9.]*/## 📱 Android Version — ${VERSION}/" README.md
 
-      - name: Update README version
-        run: |
-          V="${{ env.VERSION }}"
-          sed -i "s/✅ Available (v[0-9.]*)/✅ Available (v${V})/" README.md
-          sed -i "s/## 📱 Android Version — v[0-9.]*/## 📱 Android Version — v${V}/" README.md
-          sed -i "s/Shizuka-v[0-9.]*\.apk/Shizuka-v${V}.apk/g" README.md
-
-      - name: Commit & Push
+      - name: Commit and push
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add README.md
-          git diff --staged --quiet && exit 0
-          git commit -m "📱 README updated to v${{ env.VERSION }}"
+          git diff --cached --quiet || git commit -m "📝 Update README: Android version → ${{ github.event.release.tag_name }}"
           git push
