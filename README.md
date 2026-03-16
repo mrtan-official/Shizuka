@@ -14,11 +14,11 @@ Developed by **Abu Tanim (Mr. Tan)**
 | Platform | Type | Status |
 |----------|------|--------|
 | 🖥️ Windows | `.exe` Desktop App | ✅ Available |
-| 📱 Android | `.apk` Mobile App | ✅ Available (v1.2) |
+| 📱 Android | `.apk` Mobile App | ✅ Available (v1.7) |
 
 ---
 
-## 📱 Android Version — v1.2
+## 📱 Android Version — v1.7
 
 ### ✅ Features
 - AI Chat (text-based)
@@ -30,7 +30,7 @@ Developed by **Abu Tanim (Mr. Tan)**
 - Encrypted conversation history
 
 ### 📥 Install
-Download `Shizuka-v1.2.apk` from [Releases](https://github.com/mrtan-official/Shizuka/releases)
+Download `Shizuka-v1.7.apk` from [Releases](https://github.com/mrtan-official/ShizukaAI/releases)
 
 > ⚠️ Allow "Install from unknown sources" in Android settings
 
@@ -39,7 +39,7 @@ Download `Shizuka-v1.2.apk` from [Releases](https://github.com/mrtan-official/Sh
 2. Enter your [OpenRouter API Key](https://openrouter.ai)
 3. Tap **Save** — done!
 
-### 📁 File Upload (New in v1.2)
+### 📁 File Upload
 - Tap **File** button in Chat
 - Android file picker opens directly
 - Select any `.txt`, `.py`, `.json`, `.md`, `.csv`, `.html` file
@@ -75,7 +75,7 @@ Download `Shizuka-v1.2.apk` from [Releases](https://github.com/mrtan-official/Sh
 - Fun & motivation
 
 ### 📥 Install
-Download `Shizuka-AI.exe` from [Releases](https://github.com/mrtan-official/Shizuka/releases)
+Download `Shizuka-AI.exe` from [Releases](https://github.com/mrtan-official/ShizukaAI/releases)
 
 > ⚠️ Antivirus may block EXE — allow it manually
 
@@ -91,120 +91,9 @@ Steps:
 3. Paste it into the program
 4. Press Enter
 
-Saved in: `configa.json`
-
-<img src="Instruction/Instruction.png" alt="Instruction" width="400"/>
-
 **2️⃣ Microphone Permission**
 
 Allow microphone access for voice commands.
-
-**3️⃣ Screen Coordinate Setup**
-
-For call end feature:
-```
-Set your screen Width value:
-Set your screen Height value:
-```
-
-### 🗣️ Full Command List
-
-#### ⏰ Time & Date
-- What time is it
-- What is today's date
-
-#### 🧠 AI Chat
-- What is [question]
-- Tell me about [topic]
-- Calculate [math]
-- Motivate me
-- Tell me a fun fact
-
-#### 📝 Learning
-- Remember that sky is blue
-- What is sky
-- What have you learned
-
-#### ⏳ Reminder
-- Set reminder
-- Remind me
-
-Time format:
-- `2 30 PM`
-- `10 AM`
-- `7 PM`
-- `14 45`
-
-#### 📝 Notes
-- Take note / Save note
-- Read notes / Show notes
-
-#### 🎨 Image
-- Generate image
-- Create image
-- Draw image
-
-#### 💻 System Info
-- System info
-- Battery status
-- CPU usage
-
-#### 📸 Screenshot
-- Take screenshot
-
-#### 🔊 Volume & Brightness
-- Volume up / Volume down / Mute
-- Increase brightness / Decrease brightness
-
-#### 🌐 Open Websites
-- Open Google / YouTube / Facebook / GitHub
-- Open ChatGPT / Gemini
-- Open background remover
-
-#### 📱 WhatsApp
-- Open WhatsApp / Close WhatsApp
-- Send message to [name]
-- Send whatsapp to [name]
-- Call [name] / End call
-
-#### 💻 Apps
-- Open/Close calculator
-- Open/Close notepad
-- Open/Close settings
-- Open/Close command prompt
-
-#### 🧹 System Control
-- Minimize all windows
-- Empty recycle bin
-- Shutdown PC / Restart PC
-
-#### 🎵 Entertainment
-- Play [song name]
-- Roll dice / Flip a coin / Random number
-
-#### 🌐 Search
-- Search for [topic]
-- Google search [topic]
-
-#### ❌ Exit
-- Goodbye / Stop / Bye
-
-### 📁 Files Created Automatically
-| File | Purpose |
-|------|---------|
-| `configa.json` | API key |
-| `screen_config.txt` | Screen coordinates |
-| `reminders.json` | Reminders |
-| `voice_notes.txt` | Notes |
-| `learning_data.json` | Memory |
-| `conversation_history.json` | Chat history |
-
-### ⚠️ Important Notes
-- Internet connection required
-- WhatsApp Desktop required
-- Microphone required
-- Windows OS recommended
-- Antivirus may block EXE — allow it
 
 ---
 
@@ -230,7 +119,7 @@ Source code sharing is not allowed.
 
 Developed by: **Abu Tanim (Mr. Tan)**  
 GitHub: [github.com/mrtan-official](https://github.com/mrtan-official)  
-Repo: [github.com/mrtan-official/Shizuka](https://github.com/mrtan-official/Shizuka)
+Repo: [github.com/mrtan-official/ShizukaAI](https://github.com/mrtan-official/ShizukaAI)
 
 ---
 
