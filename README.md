@@ -14,11 +14,11 @@ Developed by **Abu Tanim (Mr. Tan)**
 | Platform | Type | Status |
 |----------|------|--------|
 | 🖥️ Windows | `.exe` Desktop App | ✅ Available |
-| 📱 Android | `.apk` Mobile App | ✅ Available (v1.7) |
+| 📱 Android | `.apk` Mobile App | ✅ Available (v2.0) |
 
 ---
 
-## 📱 Android Version — v1.7
+## 📱 Android Version — v2.0
 
 ### ✅ Features
 - AI Chat (text-based)
@@ -30,7 +30,7 @@ Developed by **Abu Tanim (Mr. Tan)**
 - Encrypted conversation history
 
 ### 📥 Install
-Download `Shizuka-v1.7.apk` from [Releases](https://github.com/mrtan-official/Shizuka/releases)
+Download `Shizuka-v2.0.apk` from [Releases](https://github.com/mrtan-official/Shizuka/releases)
 
 > ⚠️ Allow "Install from unknown sources" in Android settings
 
@@ -39,7 +39,7 @@ Download `Shizuka-v1.7.apk` from [Releases](https://github.com/mrtan-official/Sh
 2. Enter your [OpenRouter API Key](https://openrouter.ai)
 3. Tap **Save** — done!
 
-### 📁 File Upload (New in v1.7)
+### 📁 File Upload (New in v2.0)
 - Tap **File** button in Chat
 - Android file picker opens directly
 - Select any `.txt`, `.py`, `.json`, `.md`, `.csv`, `.html` file
