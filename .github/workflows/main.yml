@@ -1,0 +1,32 @@
+name: Update README on Release
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Update version in README
+        run: |
+          VERSION="${{ github.event.release.tag_name }}"
+          # Android version table update
+          sed -i "s/Available (v[0-9.]*)/Available (${VERSION})/g" README.md
+          # APK filename update
+          sed -i "s/Shizuka-v[0-9.]*.apk/Shizuka-${VERSION}.apk/g" README.md
+          # Section heading update
+          sed -i "s/## 📱 Android Version — v[0-9.]*/## 📱 Android Version — ${VERSION}/" README.md
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add README.md
+          git diff --cached --quiet || git commit -m "📝 Update README: Android version → ${{ github.event.release.tag_name }}"
+          git push
