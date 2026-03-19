@@ -1,4 +1,4 @@
-<img width="1536" height="1024" alt="shizuka-ai" src="https://github.com/user-attachments/assets/7f476a69-8330-4240-80a2-455f7b766fa2" />
+<img width="1536" height="1024" alt="shizuka-ai" src="https://github.com/user-attachments/assets/bfaae229-dc7d-46d2-bc9f-a49b8198af90" />
 
 # Shizuka AI Assistant
 
